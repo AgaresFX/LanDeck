@@ -25,16 +25,23 @@ Un pannello di tasti sul telefono che esegue azioni sul PC Windows attraverso la
 
 ## Installazione
 
-1. Scarica `LanDeck.exe` dalla [pagina delle release](../../releases/latest) e mettilo dove preferisci (es. `C:\Programmi\LanDeck\`).
-2. Avvialo. Al primo avvio:
-   - chiede di creare una **regola del firewall di Windows** (serve l'autorizzazione di amministratore). La regola accetta solo connessioni dalla rete locale;
-   - si attiva l'**avvio automatico con Windows** (si toglie dal menu dell'icona);
+1. Scarica `LanDeck.exe` dalla [pagina delle release](../../releases/latest) e avvialo (anche direttamente dalla cartella Download).
+2. Scegli **«Installa LanDeck»**: il programma si copia in `%LOCALAPPDATA%\Programs\LanDeck`, crea il collegamento nel **menu Start**, la voce in **Impostazioni → App** e si avvia con Windows. Non servono permessi di amministratore. Il file scaricato si può poi cancellare.
+   (Con «Avvia senza installare» funziona anche come programma portatile, ma senza aggiornamenti automatici.)
+3. Al primo avvio:
+   - chiede di creare una **regola del firewall di Windows** (serve l'autorizzazione di amministratore, una volta sola). La regola accetta solo connessioni dalla rete locale;
    - si apre una finestra con **indirizzo, QR code e codice di accoppiamento**.
-3. Inquadra il QR code con la fotocamera del telefono e tocca il link: il dispositivo viene associato e mostra subito i tasti.
+4. Inquadra il QR code con la fotocamera del telefono e tocca il link: il dispositivo viene associato e mostra subito i tasti.
    In alternativa apri l'indirizzo mostrato (es. `http://192.168.1.10:8765`) e scrivi il codice a 6 cifre.
-4. **iPhone/iPad**: in Safari tocca *Condividi → Aggiungi alla schermata Home* per averla come app a tutto schermo.
+5. **iPhone/iPad**: in Safari tocca *Condividi → Aggiungi alla schermata Home* per averla come app a tutto schermo.
 
 > Windows potrebbe mostrare l'avviso SmartScreen ("PC protetto") perché l'exe non è firmato: *Ulteriori informazioni → Esegui comunque*.
+
+## Aggiornamenti automatici
+
+LanDeck installato controlla le nuove versioni su GitHub **all'avvio e ogni 6 ore**. Quando ce n'è una, compare una notifica vicino all'orologio: cliccandola (o dal menu dell'icona → *Installa aggiornamento…*) vedi le novità e scegli **«Installa e riavvia»**.
+LanDeck scarica la nuova versione, ne verifica l'integrità (SHA-256), sostituisce il programma e si riapre da solo in pochi secondi. Tasti, impostazioni, dispositivi associati e regola del firewall restano invariati.
+Puoi controllare a mano dal menu dell'icona → *Cerca aggiornamenti*.
 
 ## Uso
 
@@ -107,13 +114,13 @@ Clic destro sull'icona di LanDeck vicino all'orologio:
 - **Apri editor nel browser** – modifica i tasti dal PC
 - **Dispositivi associati** – vedi e revoca i dispositivi
 - **Avvia con Windows**, **Configura firewall**, **Cambia porta**
-- **Apri cartella dei dati**, **Plugin**, **Esci**
+- **Apri cartella dei dati**, **Plugin**
+- **Cerca aggiornamenti**, **Disinstalla LanDeck**, **Esci**
 
 ## Dati e disinstallazione
 
-- Configurazione, immagini e plugin sono in `%APPDATA%\LanDeck`.
-- **Aggiornare**: chiudi LanDeck (menu dell'icona → Esci), sostituisci l'exe con quello nuovo nella stessa cartella e riavvialo. Tasti e dispositivi associati restano.
-- **Disinstallare**: togli "Avvia con Windows", esci, cancella l'exe e la cartella `%APPDATA%\LanDeck`. La regola del firewall si chiama "LanDeck" (*Windows Defender Firewall → Impostazioni avanzate → Regole connessioni in entrata*).
+- Configurazione, immagini e plugin sono in `%APPDATA%\LanDeck`; il programma in `%LOCALAPPDATA%\Programs\LanDeck`.
+- **Disinstallare**: *Impostazioni → App → LanDeck → Disinstalla* (oppure menu dell'icona → *Disinstalla LanDeck…*). Rimuove programma, collegamento, avvio automatico e regola del firewall; puoi scegliere se eliminare anche tasti e impostazioni.
 
 ## Problemi comuni
 
