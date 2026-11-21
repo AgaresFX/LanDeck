@@ -1,6 +1,6 @@
 # LanDeck
 
-**Una "Stream Deck" personale sul tuo iPhone, iPad o qualsiasi browser.**
+**Una "Stream Deck" personale sul tuo telefono o tablet: iPhone, iPad, Android o qualsiasi browser.**
 Un pannello di tasti sul telefono che esegue azioni sul PC Windows attraverso la rete Wi-Fi di casa: scorciatoie, programmi, volume, microfono, OBS, screenshot, macro e molto altro.
 
 ➡️ **[Scarica LanDeck.exe dall'ultima release](../../releases/latest)**
@@ -10,18 +10,18 @@ Un pannello di tasti sul telefono che esegue azioni sul PC Windows attraverso la
 ## Come funziona
 
 ```
- iPhone / iPad / browser  ──Wi-Fi di casa──►  LanDeck.exe sul PC  ──►  azioni su Windows
+ iPhone / iPad / Android  ──Wi-Fi di casa──►  LanDeck.exe sul PC  ──►  azioni su Windows
       (i tasti)                                (icona vicino all'orologio)
 ```
 
 - **Sul PC** gira `LanDeck.exe`: un unico file, senza installazione e senza bisogno di .NET. Vive come icona nell'area di notifica (vicino all'orologio), esegue le azioni e serve l'interfaccia dei tasti.
-- **Sul telefono** apri la pagina indicata da LanDeck in Safari (o in qualsiasi browser) e la aggiungi alla schermata Home: diventa un'app a tutto schermo.
+- **Sul telefono** apri la pagina indicata da LanDeck in Safari, Chrome o qualsiasi altro browser e la aggiungi alla schermata Home: diventa un'app a tutto schermo.
 - Funziona **solo nella rete locale**: niente account, niente cloud, nessun dato esce da casa (tranne il meteo, se lo usi).
 
 ## Requisiti
 
 - PC con **Windows 10 o 11** (64 bit).
-- Telefono/tablet sulla **stessa rete Wi-Fi** del PC.
+- Telefono o tablet (**iPhone, iPad, Android**) sulla **stessa rete Wi-Fi** del PC.
 
 ## Installazione
 
@@ -33,7 +33,9 @@ Un pannello di tasti sul telefono che esegue azioni sul PC Windows attraverso la
    - si apre una finestra con **indirizzo, QR code e codice di accoppiamento**.
 4. Inquadra il QR code con la fotocamera del telefono e tocca il link: il dispositivo viene associato e mostra subito i tasti.
    In alternativa apri l'indirizzo mostrato (es. `http://192.168.1.10:8765`) e scrivi il codice a 6 cifre.
-5. **iPhone/iPad**: in Safari tocca *Condividi → Aggiungi alla schermata Home* per averla come app a tutto schermo.
+5. **Come app a tutto schermo**:
+   - **iPhone/iPad**: in Safari tocca *Condividi → Aggiungi alla schermata Home*.
+   - **Android (telefono o tablet)**: Chrome installa le app solo da siti HTTPS, quindi va autorizzato una volta. Dopo l'accoppiamento LanDeck mostra la guida passo passo; in breve: apri `chrome://flags/#unsafely-treat-insecure-origin-as-secure`, incolla l'indirizzo di LanDeck (es. `http://192.168.1.10:8765`), imposta *Enabled* e tocca *Relaunch*, poi menu **⋮** → *Installa app*. Se l'indirizzo del PC cambia, aggiorna quello nel flag.
 
 > Windows potrebbe mostrare l'avviso SmartScreen ("PC protetto") perché l'exe non è firmato: *Ulteriori informazioni → Esegui comunque*.
 
