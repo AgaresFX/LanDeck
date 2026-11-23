@@ -13,8 +13,6 @@
   <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Freeware
 </p>
 
-<p align="center"><sub>Formerly called LanDeck · in precedenza si chiamava LanDeck</sub></p>
-
 <p align="center">
   <a href="#english">English</a> · <a href="#italiano">Italiano</a>
 </p>
@@ -71,8 +69,6 @@ Tap a key on your phone and the PC runs the action: a keyboard shortcut, a progr
 Once installed, PadNook checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Installa aggiornamento…* (install update) from the icon menu, to read what's new, then press **«Installa e riavvia»** (install and restart).
 
 PadNook downloads the new version, checks its integrity (SHA-256) and restarts by itself in a few seconds. Keys, settings, devices and the firewall rule stay as they were.
-
-**Coming from LanDeck?** The first update to PadNook moves the program to `%LOCALAPPDATA%\Programs\PadNook` and the data to `%APPDATA%\PadNook`, by itself: keys, settings and paired devices are kept. Because the program file has a new name, Windows asks **once** for permission to update the firewall rule: accept it, otherwise phones and tablets cannot connect. If you use the Lightroom plugin, reinstall it from the Lightroom tab of the editor.
 
 ## The editor on the PC
 
@@ -273,8 +269,6 @@ Tocchi un tasto sul telefono e il PC esegue l'azione: una scorciatoia, un progra
 PadNook installato controlla le nuove versioni **all'avvio e ogni 6 ore**. Quando ce n'è una compare una notifica vicino all'orologio: aprila (o dal menu dell'icona scegli *Installa aggiornamento…*) per leggere le novità e premi **«Installa e riavvia»**.
 
 PadNook scarica la nuova versione, ne verifica l'integrità (SHA-256) e si riapre da solo in pochi secondi. Tasti, impostazioni, dispositivi e firewall restano come prima.
-
-**Avevi LanDeck?** Il primo aggiornamento a PadNook sposta da solo il programma in `%LOCALAPPDATA%\Programs\PadNook` e i dati in `%APPDATA%\PadNook`: tasti, impostazioni e dispositivi associati restano. Dato che il file del programma ha un nome nuovo, Windows chiede **una volta** l'autorizzazione per aggiornare la regola del firewall: accettala, altrimenti telefoni e tablet non si collegano. Se usi il plugin di Lightroom, reinstallalo dalla scheda Lightroom dell'editor.
 
 ## L'editor sul PC
 
