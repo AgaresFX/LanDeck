@@ -1,10 +1,10 @@
 # Third-party notices – Licenze di terze parti
 
-LanDeck includes the open source components listed below. Each one is distributed under its own license, and the copyright notices are reproduced here as those licenses require.
+PadNook includes the open source components listed below. Each one is distributed under its own license, and the copyright notices are reproduced here as those licenses require.
 
-LanDeck include i componenti open source elencati qui sotto. Ognuno è distribuito con la propria licenza; le note di copyright sono riportate qui come quelle licenze richiedono.
+PadNook include i componenti open source elencati qui sotto. Ognuno è distribuito con la propria licenza; le note di copyright sono riportate qui come quelle licenze richiedono.
 
-## Components included in LanDeck.exe – Componenti inclusi in LanDeck.exe
+## Components included in PadNook.exe – Componenti inclusi in PadNook.exe
 
 | Component | License | Copyright |
 |---|---|---|
@@ -45,9 +45,9 @@ LanDeck include i componenti open source elencati qui sotto. Ognuno è distribui
 ## Software and data not included – Software e dati non inclusi
 
 **VB-CABLE Virtual Audio Device** – by **VB-Audio Software**, [https://vb-audio.com/Cable/](https://vb-audio.com/Cable/)
-- VB-CABLE is donationware by VB-Audio Software. LanDeck does not include it.
-- When you choose «Installa VB-CABLE» in the Soundpad settings, LanDeck downloads the original driver package from the official VB-Audio website and starts its installer. VB-CABLE is subject to the VB-Audio license. If you use it, please consider supporting the author on that page.
-- VB-CABLE è donationware di VB-Audio Software e non è incluso in LanDeck. Quando scegli «Installa VB-CABLE» nelle impostazioni del Soundpad, LanDeck scarica il pacchetto originale dal sito ufficiale di VB-Audio e ne avvia l'installazione. VB-CABLE è soggetto alla licenza di VB-Audio. Se lo usi, valuta di sostenere l'autore da quella pagina.
+- VB-CABLE is donationware by VB-Audio Software. PadNook does not include it.
+- When you choose «Installa VB-CABLE» in the Soundpad settings, PadNook downloads the original driver package from the official VB-Audio website and starts its installer. VB-CABLE is subject to the VB-Audio license. If you use it, please consider supporting the author on that page.
+- VB-CABLE è donationware di VB-Audio Software e non è incluso in PadNook. Quando scegli «Installa VB-CABLE» nelle impostazioni del Soundpad, PadNook scarica il pacchetto originale dal sito ufficiale di VB-Audio e ne avvia l'installazione. VB-CABLE è soggetto alla licenza di VB-Audio. Se lo usi, valuta di sostenere l'autore da quella pagina.
 
 **Weather data – Dati meteo**: [Open-Meteo.com](https://open-meteo.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
@@ -56,6 +56,6 @@ LanDeck include i componenti open source elencati qui sotto. Ognuno è distribui
 
 ## Trademarks – Marchi
 
-Windows, OBS Studio, Streamlabs, Twitch, Adobe Lightroom Classic, Discord, Telegram, Home Assistant, Shelly, ntfy and VB-CABLE are trademarks of their respective owners. LanDeck only works with them and is not affiliated with or endorsed by any of them.
+Windows, OBS Studio, Streamlabs, Twitch, Adobe Lightroom Classic, Discord, Telegram, Home Assistant, Shelly, ntfy and VB-CABLE are trademarks of their respective owners. PadNook only works with them and is not affiliated with or endorsed by any of them.
 
-Sono marchi dei rispettivi proprietari. LanDeck si limita a collaborare con questi prodotti e non è affiliato né approvato da nessuno di loro.
+Sono marchi dei rispettivi proprietari. PadNook si limita a collaborare con questi prodotti e non è affiliato né approvato da nessuno di loro.

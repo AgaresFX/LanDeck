@@ -2,7 +2,7 @@
   <img src="docs/icon.png" alt="" width="88">
 </p>
 
-<h1 align="center">LanDeck</h1>
+<h1 align="center">PadNook</h1>
 
 <p align="center">
   A touch macro pad for your Windows PC, on the phone or tablet you already own<br>
@@ -10,31 +10,33 @@
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><b>Download LanDeck.exe</b></a> · Windows 10 and 11 · Freeware
+  <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Freeware
 </p>
+
+<p align="center"><sub>Formerly called LanDeck · in precedenza si chiamava LanDeck</sub></p>
 
 <p align="center">
   <a href="#english">English</a> · <a href="#italiano">Italiano</a>
 </p>
 
 <p align="center">
-  <img src="docs/hero.png" alt="LanDeck on a tablet (Lightroom) and a phone (live on Twitch)" width="100%">
+  <img src="docs/hero.png" alt="PadNook on a tablet (Lightroom) and a phone (live on Twitch)" width="100%">
 </p>
 
 ---
 
 # English
 
-> The LanDeck interface is in Italian. The names of buttons and menus are given below in Italian, with their meaning.
+> The PadNook interface is in Italian. The names of buttons and menus are given below in Italian, with their meaning.
 
 ## What it does
 
 Tap a key on your phone and the PC runs the action: a keyboard shortcut, a program, muting the microphone, switching scene in OBS, a Twitch clip, a Lightroom slider… Keys can also **show live information**: are you live? how many viewers are watching? what is the exposure of this photo?
 
-<p align="center"><img src="docs/come-funziona.png" alt="How it works: phone → home Wi-Fi → LanDeck.exe on the PC → programs" width="100%"></p>
+<p align="center"><img src="docs/come-funziona.png" alt="How it works: phone → home Wi-Fi → PadNook.exe on the PC → programs" width="100%"></p>
 
-- **On the PC** runs `LanDeck.exe`: a single file, no .NET install needed. It lives as an icon next to the clock.
-- **On the phone** you open the page shown by LanDeck and add it to the Home screen: it becomes a full-screen app.
+- **On the PC** runs `PadNook.exe`: a single file, no .NET install needed. It lives as an icon next to the clock.
+- **On the phone** you open the page shown by PadNook and add it to the Home screen: it becomes a full-screen app.
 - **Local network only**: no data leaves your home, except for the services you choose to use (weather, Twitch, Streamlabs, webhooks).
 
 ## Requirements
@@ -44,9 +46,9 @@ Tap a key on your phone and the PC runs the action: a keyboard shortcut, a progr
 
 ## Installation
 
-1. Download `LanDeck.exe` from the [releases page](../../releases/latest) and run it, even straight from the Downloads folder.
-2. Choose **«Installa LanDeck»** (install). The program:
-   - copies itself to `%LOCALAPPDATA%\Programs\LanDeck`;
+1. Download `PadNook.exe` from the [releases page](../../releases/latest) and run it, even straight from the Downloads folder.
+2. Choose **«Installa PadNook»** (install). The program:
+   - copies itself to `%LOCALAPPDATA%\Programs\PadNook`;
    - adds a **Start menu** shortcut and an entry in **Settings → Apps**;
    - starts with Windows.
 
@@ -57,24 +59,26 @@ Tap a key on your phone and the PC runs the action: a keyboard shortcut, a progr
 4. Scan the QR code with the phone camera and tap the link: the device is paired and shows the keys right away. Alternatively, open the address shown (e.g. `http://192.168.1.10:8765`) and type the 6-digit code.
 5. **As a full-screen app**:
    - **iPhone/iPad**: in Safari tap *Share → Add to Home Screen*.
-   - **Android**: Chrome only installs apps from HTTPS sites, so it needs a one-time permission. After pairing, LanDeck shows a step-by-step guide. In short:
+   - **Android**: Chrome only installs apps from HTTPS sites, so it needs a one-time permission. After pairing, PadNook shows a step-by-step guide. In short:
      1. open `chrome://flags/#unsafely-treat-insecure-origin-as-secure`;
-     2. paste the LanDeck address, set *Enabled* and tap *Relaunch*;
+     2. paste the PadNook address, set *Enabled* and tap *Relaunch*;
      3. choose *Install app* from the **⋮** menu.
 
 > Windows may show the SmartScreen warning ("Windows protected your PC") because the exe is not signed: *More info → Run anyway*.
 
 ## Automatic updates
 
-Once installed, LanDeck checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Installa aggiornamento…* (install update) from the icon menu, to read what's new, then press **«Installa e riavvia»** (install and restart).
+Once installed, PadNook checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Installa aggiornamento…* (install update) from the icon menu, to read what's new, then press **«Installa e riavvia»** (install and restart).
 
-LanDeck downloads the new version, checks its integrity (SHA-256) and restarts by itself in a few seconds. Keys, settings, devices and the firewall rule stay as they were.
+PadNook downloads the new version, checks its integrity (SHA-256) and restarts by itself in a few seconds. Keys, settings, devices and the firewall rule stay as they were.
+
+**Coming from LanDeck?** The first update to PadNook moves the program to `%LOCALAPPDATA%\Programs\PadNook` and the data to `%APPDATA%\PadNook`, by itself: keys, settings and paired devices are kept. Because the program file has a new name, Windows asks **once** for permission to update the firewall rule: accept it, otherwise phones and tablets cannot connect. If you use the Lightroom plugin, reinstall it from the Lightroom tab of the editor.
 
 ## The editor on the PC
 
-<p align="center"><img src="docs/editor.png" alt="The LanDeck editor on the PC" width="100%"></p>
+<p align="center"><img src="docs/editor.png" alt="The PadNook editor on the PC" width="100%"></p>
 
-Keys are **created and edited on the PC**: click the LanDeck icon next to the clock, or choose *Apri editor…* (open editor) from the icon menu. Changes reach every connected device instantly.
+Keys are **created and edited on the PC**: click the PadNook icon next to the clock, or choose *Apri editor…* (open editor) from the icon menu. Changes reach every connected device instantly.
 
 - **Create and move**: click an empty cell (+) to create a key, drag a key to move it (dropping it on another key swaps them). Ctrl+C / Ctrl+V / Ctrl+D / Del work.
 - **Organize**:
@@ -108,7 +112,7 @@ On the phone, press and hold the status dot at the top to change profile or page
 | **Type text** | Into the active window, accents and emoji included |
 | **Media and volume** | Play/pause, tracks, master volume, **volume of a single app** (Spotify, Discord…) |
 | **Microphone and audio output** | Mute the microphone; switch between headphones and speakers in one tap |
-| **Soundboard and Soundpad** | mp3/wav/m4a sounds. **Soundpad** pages also play them to others on Discord together with your voice, through VB-CABLE, which LanDeck installs for you |
+| **Soundboard and Soundpad** | mp3/wav/m4a sounds. **Soundpad** pages also play them to others on Discord together with your voice, through VB-CABLE, which PadNook installs for you |
 | **System** | Lock, sleep, shut down (with confirmation), screenshots, virtual desktops, brightness |
 | **Window management** | Bring to front, maximize, snap, move to the other screen, always on top |
 | **Command or script** | Command Prompt or PowerShell |
@@ -144,7 +148,7 @@ With **rules** they change look: purple while you are live, a crossed-out icon w
 - **Streamlabs Desktop**: connects by itself as soon as it is open. In OBS actions and keys choose «Streamlabs Desktop».
 
 ### Twitch
-- Sign in from the profile panel → Twitch with a **code to confirm on twitch.tv/activate**: LanDeck never sees your password.
+- Sign in from the profile panel → Twitch with a **code to confirm on twitch.tv/activate**: PadNook never sees your password.
 - Besides actions and dynamic keys, **live events** can flash a key or run an action or a macro, even a chat message such as "Thanks {utente}!". Events: new followers, subscriptions, raids, bits, channel point redemptions.
 - The first time, register a free app on [dev.twitch.tv/console](https://dev.twitch.tv/console) (client type "Public") and paste its Client ID in the editor.
 
@@ -170,7 +174,7 @@ Send a message to Discord, Telegram or ntfy, turn on a light with Home Assistant
 Tokens, keys and passwords (Twitch, Streamlabs, webhooks, OBS) stay **only on the PC, encrypted with Windows data protection**. They never reach the phone and never end up in exported profiles: keys use `{segreto:Name}` instead.
 
 ### Plugins
-Every folder in `%APPDATA%\LanDeck\plugins` with a `plugin.json` file adds actions and dynamic keys, in PowerShell, Python, Node or any other language, without rebuilding LanDeck.
+Every folder in `%APPDATA%\PadNook\plugins` with a `plugin.json` file adds actions and dynamic keys, in PowerShell, Python, Node or any other language, without rebuilding PadNook.
 - The guide (`PLUGIN.md`) and an example are already in that folder.
 - After a change: icon menu → *Plugin → Ricarica plugin* (reload plugins).
 
@@ -183,12 +187,12 @@ Click the icon to open the **editor**. Right click:
 - **Dispositivi associati** (paired devices): with «Revoca accesso…» (revoke access).
 - **Avvia con Windows** (start with Windows), **Configura firewall…**, **Cambia porta…** (change port)
 - **Apri cartella dei dati** (open data folder), **Plugin**.
-- **Cerca aggiornamenti** (check for updates), **Disinstalla LanDeck…** (uninstall), **Licenza e crediti…** (license and credits), **Esci** (exit).
+- **Cerca aggiornamenti** (check for updates), **Disinstalla PadNook…** (uninstall), **Licenza e crediti…** (license and credits), **Esci** (exit).
 
 ## Data and uninstalling
 
-- The data (configuration, images, plugins) is in `%APPDATA%\LanDeck`; the program in `%LOCALAPPDATA%\Programs\LanDeck`.
-- **Uninstall**: *Settings → Apps → LanDeck → Uninstall*, or icon menu → *Disinstalla LanDeck…*.
+- The data (configuration, images, plugins) is in `%APPDATA%\PadNook`; the program in `%LOCALAPPDATA%\Programs\PadNook`.
+- **Uninstall**: *Settings → Apps → PadNook → Uninstall*, or icon menu → *Disinstalla PadNook…*.
   - It removes the program, the shortcut, the autostart entry and the firewall rule.
   - You can choose whether to delete keys and settings too.
 
@@ -210,13 +214,13 @@ Click the icon to open the **editor**. Right click:
 
 ## License
 
-LanDeck is **freeware**: free for personal and commercial use, not open source. You may share the original `LanDeck.exe` unchanged and free of charge. See [LICENSE.md](LICENSE.md).
+PadNook is **freeware**: free for personal and commercial use, not open source. You may share the original `PadNook.exe` unchanged and free of charge. See [LICENSE.md](LICENSE.md).
 
 It includes open source components (MIT, ISC, BSD) listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-The Soundpad's virtual microphone uses **[VB-CABLE](https://vb-audio.com/Cable/) by VB-Audio Software**. It is donationware with its own license and is not part of LanDeck: LanDeck downloads it from the official VB-Audio website only when you ask for it. If you use it, please consider supporting its author. Weather data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
+The Soundpad's virtual microphone uses **[VB-CABLE](https://vb-audio.com/Cable/) by VB-Audio Software**. It is donationware with its own license and is not part of PadNook: PadNook downloads it from the official VB-Audio website only when you ask for it. If you use it, please consider supporting its author. Weather data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
 
-The names of other products are trademarks of their owners. LanDeck is not affiliated with them.
+The names of other products are trademarks of their owners. PadNook is not affiliated with them.
 
 ---
 
@@ -224,17 +228,17 @@ The names of other products are trademarks of their owners. LanDeck is not affil
 
 <p align="center">
   Un macro pad touch per il PC Windows, sul telefono o sul tablet che hai già<br>
-  <a href="../../releases/latest"><b>Scarica LanDeck.exe</b></a> · Windows 10 e 11 · Freeware
+  <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Freeware
 </p>
 
 ## Cosa fa
 
 Tocchi un tasto sul telefono e il PC esegue l'azione: una scorciatoia, un programma, il muto del microfono, il cambio di scena in OBS, una clip su Twitch, un cursore di Lightroom… I tasti possono anche **mostrare informazioni in tempo reale**: sei in diretta? quanti spettatori ci sono? quanto vale l'esposizione della foto?
 
-<p align="center"><img src="docs/come-funziona.png" alt="Come funziona: telefono → Wi-Fi di casa → LanDeck.exe sul PC → programmi" width="100%"></p>
+<p align="center"><img src="docs/come-funziona.png" alt="Come funziona: telefono → Wi-Fi di casa → PadNook.exe sul PC → programmi" width="100%"></p>
 
-- **Sul PC** gira `LanDeck.exe`: un unico file, senza bisogno di .NET. Vive come icona vicino all'orologio.
-- **Sul telefono** apri la pagina indicata da LanDeck e la aggiungi alla schermata Home: diventa un'app a tutto schermo.
+- **Sul PC** gira `PadNook.exe`: un unico file, senza bisogno di .NET. Vive come icona vicino all'orologio.
+- **Sul telefono** apri la pagina indicata da PadNook e la aggiungi alla schermata Home: diventa un'app a tutto schermo.
 - **Solo rete locale**: nessun dato esce da casa. Fanno eccezione solo i servizi che scegli tu (meteo, Twitch, Streamlabs, webhook).
 
 ## Requisiti
@@ -244,9 +248,9 @@ Tocchi un tasto sul telefono e il PC esegue l'azione: una scorciatoia, un progra
 
 ## Installazione
 
-1. Scarica `LanDeck.exe` dalla [pagina delle release](../../releases/latest) e avvialo, anche dalla cartella Download.
-2. Scegli **«Installa LanDeck»**. Il programma:
-   - si copia in `%LOCALAPPDATA%\Programs\LanDeck`;
+1. Scarica `PadNook.exe` dalla [pagina delle release](../../releases/latest) e avvialo, anche dalla cartella Download.
+2. Scegli **«Installa PadNook»**. Il programma:
+   - si copia in `%LOCALAPPDATA%\Programs\PadNook`;
    - crea il collegamento nel **menu Start** e la voce in **Impostazioni → App**;
    - si avvia con Windows.
 
@@ -257,24 +261,26 @@ Tocchi un tasto sul telefono e il PC esegue l'azione: una scorciatoia, un progra
 4. Inquadra il QR code con la fotocamera del telefono e tocca il link: il dispositivo viene associato e mostra subito i tasti. In alternativa apri l'indirizzo mostrato (es. `http://192.168.1.10:8765`) e scrivi il codice a 6 cifre.
 5. **Come app a tutto schermo**:
    - **iPhone/iPad**: in Safari tocca *Condividi → Aggiungi alla schermata Home*.
-   - **Android**: Chrome installa le app solo da siti HTTPS, quindi va autorizzato una volta. Dopo l'accoppiamento LanDeck mostra la guida passo passo. In breve:
+   - **Android**: Chrome installa le app solo da siti HTTPS, quindi va autorizzato una volta. Dopo l'accoppiamento PadNook mostra la guida passo passo. In breve:
      1. apri `chrome://flags/#unsafely-treat-insecure-origin-as-secure`;
-     2. incolla l'indirizzo di LanDeck, imposta *Enabled* e tocca *Relaunch*;
+     2. incolla l'indirizzo di PadNook, imposta *Enabled* e tocca *Relaunch*;
      3. dal menu **⋮** scegli *Installa app*.
 
 > Windows potrebbe mostrare l'avviso SmartScreen ("PC protetto") perché l'exe non è firmato: *Ulteriori informazioni → Esegui comunque*.
 
 ## Aggiornamenti automatici
 
-LanDeck installato controlla le nuove versioni **all'avvio e ogni 6 ore**. Quando ce n'è una compare una notifica vicino all'orologio: aprila (o dal menu dell'icona scegli *Installa aggiornamento…*) per leggere le novità e premi **«Installa e riavvia»**.
+PadNook installato controlla le nuove versioni **all'avvio e ogni 6 ore**. Quando ce n'è una compare una notifica vicino all'orologio: aprila (o dal menu dell'icona scegli *Installa aggiornamento…*) per leggere le novità e premi **«Installa e riavvia»**.
 
-LanDeck scarica la nuova versione, ne verifica l'integrità (SHA-256) e si riapre da solo in pochi secondi. Tasti, impostazioni, dispositivi e firewall restano come prima.
+PadNook scarica la nuova versione, ne verifica l'integrità (SHA-256) e si riapre da solo in pochi secondi. Tasti, impostazioni, dispositivi e firewall restano come prima.
+
+**Avevi LanDeck?** Il primo aggiornamento a PadNook sposta da solo il programma in `%LOCALAPPDATA%\Programs\PadNook` e i dati in `%APPDATA%\PadNook`: tasti, impostazioni e dispositivi associati restano. Dato che il file del programma ha un nome nuovo, Windows chiede **una volta** l'autorizzazione per aggiornare la regola del firewall: accettala, altrimenti telefoni e tablet non si collegano. Se usi il plugin di Lightroom, reinstallalo dalla scheda Lightroom dell'editor.
 
 ## L'editor sul PC
 
-<p align="center"><img src="docs/editor.png" alt="L'editor di LanDeck sul PC" width="100%"></p>
+<p align="center"><img src="docs/editor.png" alt="L'editor di PadNook sul PC" width="100%"></p>
 
-I tasti **si creano e si modificano dal PC**: clic sull'icona di LanDeck vicino all'orologio, oppure menu dell'icona → *Apri editor…*. Le modifiche arrivano subito su tutti i dispositivi collegati.
+I tasti **si creano e si modificano dal PC**: clic sull'icona di PadNook vicino all'orologio, oppure menu dell'icona → *Apri editor…*. Le modifiche arrivano subito su tutti i dispositivi collegati.
 
 - **Creare e spostare**: tocca una cella vuota (+) per creare un tasto, trascinalo per spostarlo (sopra un altro tasto li scambia). Ctrl+C / Ctrl+V / Ctrl+D / Canc funzionano.
 - **Organizzare**:
@@ -308,7 +314,7 @@ Sul telefono, tieni premuto il puntino di stato in alto per cambiare profilo o p
 | **Scrivi un testo** | Nella finestra attiva, con accenti ed emoji |
 | **Multimedia e volume** | Play/pausa, tracce, volume generale, **volume di una singola app** (Spotify, Discord…) |
 | **Microfono e uscita audio** | Muto del microfono; passa da cuffie a casse con un tocco |
-| **Soundboard e Soundpad** | Suoni mp3/wav/m4a. Le pagine **Soundpad** li fanno sentire anche agli altri su Discord, insieme alla tua voce, tramite VB-CABLE, che LanDeck installa per te |
+| **Soundboard e Soundpad** | Suoni mp3/wav/m4a. Le pagine **Soundpad** li fanno sentire anche agli altri su Discord, insieme alla tua voce, tramite VB-CABLE, che PadNook installa per te |
 | **Sistema** | Blocco, sospensione, spegnimento (con conferma), screenshot, desktop virtuali, luminosità |
 | **Gestione finestre** | Primo piano, massimizza, affianca, sposta sull'altro schermo, sempre in primo piano |
 | **Comando o script** | Prompt dei comandi o PowerShell |
@@ -344,7 +350,7 @@ Con le **regole** cambiano aspetto: viola quando sei in diretta, icona barrata c
 - **Streamlabs Desktop**: si collega da solo appena è aperto. Nelle azioni e nei tasti OBS scegli «Streamlabs Desktop».
 
 ### Twitch
-- Accedi dal pannello del profilo → Twitch con un **codice da confermare su twitch.tv/activate**: LanDeck non vede mai la password.
+- Accedi dal pannello del profilo → Twitch con un **codice da confermare su twitch.tv/activate**: PadNook non vede mai la password.
 - Oltre alle azioni e ai tasti dinamici, gli **eventi in tempo reale** possono far lampeggiare un tasto o avviare un'azione o una macro, anche con un messaggio in chat «Grazie {utente}!». Eventi: nuovi follower, abbonamenti, raid, bits, riscatti di punti canale.
 - La prima volta serve registrare un'app gratuita su [dev.twitch.tv/console](https://dev.twitch.tv/console) (tipo di client «Public») e incollare il Client ID nell'editor.
 
@@ -370,7 +376,7 @@ Manda un messaggio su Discord, Telegram o ntfy, accendi una luce con Home Assist
 Token, chiavi e password (Twitch, Streamlabs, webhook, OBS) restano **solo sul PC, cifrati con la protezione di Windows**. Non arrivano mai al telefono e non finiscono nei profili esportati: nei tasti si scrive `{segreto:Nome}`.
 
 ### Plugin
-Ogni cartella in `%APPDATA%\LanDeck\plugins` con un file `plugin.json` aggiunge azioni e tasti dinamici, in PowerShell, Python, Node o qualsiasi altro linguaggio, senza ricompilare LanDeck.
+Ogni cartella in `%APPDATA%\PadNook\plugins` con un file `plugin.json` aggiunge azioni e tasti dinamici, in PowerShell, Python, Node o qualsiasi altro linguaggio, senza ricompilare PadNook.
 - La guida (`PLUGIN.md`) e un esempio sono già in quella cartella.
 - Dopo le modifiche: menu dell'icona → *Plugin → Ricarica plugin*.
 
@@ -383,12 +389,12 @@ Clic sull'icona: si apre l'**editor**. Clic destro:
 - **Dispositivi associati**: con «Revoca accesso…».
 - **Avvia con Windows**, **Configura firewall…**, **Cambia porta…**
 - **Apri cartella dei dati**, **Plugin**.
-- **Cerca aggiornamenti**, **Disinstalla LanDeck…**, **Licenza e crediti…**, **Esci**.
+- **Cerca aggiornamenti**, **Disinstalla PadNook…**, **Licenza e crediti…**, **Esci**.
 
 ## Dati e disinstallazione
 
-- I dati (configurazione, immagini, plugin) sono in `%APPDATA%\LanDeck`; il programma in `%LOCALAPPDATA%\Programs\LanDeck`.
-- **Disinstallare**: *Impostazioni → App → LanDeck → Disinstalla*, oppure menu dell'icona → *Disinstalla LanDeck…*.
+- I dati (configurazione, immagini, plugin) sono in `%APPDATA%\PadNook`; il programma in `%LOCALAPPDATA%\Programs\PadNook`.
+- **Disinstallare**: *Impostazioni → App → PadNook → Disinstalla*, oppure menu dell'icona → *Disinstalla PadNook…*.
   - Rimuove programma, collegamento, avvio automatico e regola del firewall.
   - Puoi scegliere se eliminare anche tasti e impostazioni.
 
@@ -410,10 +416,10 @@ Clic sull'icona: si apre l'**editor**. Clic destro:
 
 ## Licenza
 
-LanDeck è **freeware**: gratuito per uso personale e commerciale, non open source. Puoi condividere il file originale `LanDeck.exe`, senza modificarlo e gratuitamente. Vedi [LICENSE.md](LICENSE.md).
+PadNook è **freeware**: gratuito per uso personale e commerciale, non open source. Puoi condividere il file originale `PadNook.exe`, senza modificarlo e gratuitamente. Vedi [LICENSE.md](LICENSE.md).
 
 Include componenti open source (MIT, ISC, BSD) elencati in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
-Il microfono virtuale del Soundpad usa **[VB-CABLE](https://vb-audio.com/Cable/) di VB-Audio Software**. È donationware con la sua licenza e non fa parte di LanDeck: LanDeck lo scarica dal sito ufficiale di VB-Audio solo quando lo richiedi tu. Se lo usi, valuta di sostenerne l'autore. Dati meteo di [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
+Il microfono virtuale del Soundpad usa **[VB-CABLE](https://vb-audio.com/Cable/) di VB-Audio Software**. È donationware con la sua licenza e non fa parte di PadNook: PadNook lo scarica dal sito ufficiale di VB-Audio solo quando lo richiedi tu. Se lo usi, valuta di sostenerne l'autore. Dati meteo di [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
 
-I nomi degli altri prodotti sono marchi dei rispettivi proprietari. LanDeck non è affiliato con loro.
+I nomi degli altri prodotti sono marchi dei rispettivi proprietari. PadNook non è affiliato con loro.
