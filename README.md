@@ -5,19 +5,227 @@
 <h1 align="center">LanDeck</h1>
 
 <p align="center">
-  Un pannello di tasti per il PC Windows, sul telefono o sul tablet che hai già<br>
-  iPhone, iPad, Android o qualsiasi browser · nella rete di casa · senza cloud e senza account
+  A touch macro pad for your Windows PC, on the phone or tablet you already own<br>
+  iPhone, iPad, Android or any browser · on your home network · no cloud, no account
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><b>Scarica LanDeck.exe</b></a> · Windows 10 e 11
+  <a href="../../releases/latest"><b>Download LanDeck.exe</b></a> · Windows 10 and 11 · Freeware
 </p>
 
 <p align="center">
-  <img src="docs/hero.png" alt="LanDeck su tablet (Lightroom) e telefono (diretta su Twitch)" width="100%">
+  <a href="#english">English</a> · <a href="#italiano">Italiano</a>
+</p>
+
+<p align="center">
+  <img src="docs/hero.png" alt="LanDeck on a tablet (Lightroom) and a phone (live on Twitch)" width="100%">
 </p>
 
 ---
+
+# English
+
+> The LanDeck interface is in Italian. The names of buttons and menus are given below in Italian, with their meaning.
+
+## What it does
+
+Tap a key on your phone and the PC runs the action: a keyboard shortcut, a program, muting the microphone, switching scene in OBS, a Twitch clip, a Lightroom slider… Keys can also **show live information**: are you live? how many viewers are watching? what is the exposure of this photo?
+
+<p align="center"><img src="docs/come-funziona.png" alt="How it works: phone → home Wi-Fi → LanDeck.exe on the PC → programs" width="100%"></p>
+
+- **On the PC** runs `LanDeck.exe`: a single file, no .NET install needed. It lives as an icon next to the clock.
+- **On the phone** you open the page shown by LanDeck and add it to the Home screen: it becomes a full-screen app.
+- **Local network only**: no data leaves your home, except for the services you choose to use (weather, Twitch, Streamlabs, webhooks).
+
+## Requirements
+
+- A PC with **Windows 10 or 11** (64-bit).
+- A phone or tablet (**iPhone, iPad, Android**) on the **same Wi-Fi network** as the PC.
+
+## Installation
+
+1. Download `LanDeck.exe` from the [releases page](../../releases/latest) and run it, even straight from the Downloads folder.
+2. Choose **«Installa LanDeck»** (install). The program:
+   - copies itself to `%LOCALAPPDATA%\Programs\LanDeck`;
+   - adds a **Start menu** shortcut and an entry in **Settings → Apps**;
+   - starts with Windows.
+
+   No administrator rights are needed, and you can delete the downloaded file afterwards. With «Avvia senza installare» (run without installing) it also works as a portable program, without automatic updates.
+3. On first start it:
+   - asks to create a **Windows Firewall rule**. This needs administrator approval once, and the rule only accepts the local network;
+   - shows the **address, a QR code and a pairing code**.
+4. Scan the QR code with the phone camera and tap the link: the device is paired and shows the keys right away. Alternatively, open the address shown (e.g. `http://192.168.1.10:8765`) and type the 6-digit code.
+5. **As a full-screen app**:
+   - **iPhone/iPad**: in Safari tap *Share → Add to Home Screen*.
+   - **Android**: Chrome only installs apps from HTTPS sites, so it needs a one-time permission. After pairing, LanDeck shows a step-by-step guide. In short:
+     1. open `chrome://flags/#unsafely-treat-insecure-origin-as-secure`;
+     2. paste the LanDeck address, set *Enabled* and tap *Relaunch*;
+     3. choose *Install app* from the **⋮** menu.
+
+> Windows may show the SmartScreen warning ("Windows protected your PC") because the exe is not signed: *More info → Run anyway*.
+
+## Automatic updates
+
+Once installed, LanDeck checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Installa aggiornamento…* (install update) from the icon menu, to read what's new, then press **«Installa e riavvia»** (install and restart).
+
+LanDeck downloads the new version, checks its integrity (SHA-256) and restarts by itself in a few seconds. Keys, settings, devices and the firewall rule stay as they were.
+
+## The editor on the PC
+
+<p align="center"><img src="docs/editor.png" alt="The LanDeck editor on the PC" width="100%"></p>
+
+Keys are **created and edited on the PC**: click the LanDeck icon next to the clock, or choose *Apri editor…* (open editor) from the icon menu. Changes reach every connected device instantly.
+
+- **Create and move**: click an empty cell (+) to create a key, drag a key to move it (dropping it on another key swaps them). Ctrl+C / Ctrl+V / Ctrl+D / Del work.
+- **Organize**:
+  - **profiles** (e.g. "Work", "Games", "Streaming"), each with **pages** and **folders**;
+  - a separate **grid** for portrait and landscape, with spacing, margins and large keys spanning several cells.
+- **Look**: text, emoji, thousands of icons, images, colors and backgrounds.
+  - **«Cerca online»** (search online) finds icons and photos without leaving the editor.
+  - With «Apri programma» (open program) the program's own icon is used automatically.
+- **Export/Import** a profile to a file, images included.
+- **Automatic profiles**: when a program (Photoshop, OBS, Lightroom, a game…) is in the foreground, devices switch to its profile by themselves.
+
+On the phone, press and hold the status dot at the top to change profile or page and to keep the screen on.
+
+## Key types
+
+| Type | What it does |
+|---|---|
+| **Action** | Runs an action on tap, and a different one on long press. |
+| **Toggle** | Switches ON/OFF at every tap, with different actions and looks for the two states. |
+| **Dynamic** | Shows live data and changes color, text or icon based on the state. |
+| **Timer** | Countdown or stopwatch on the key: tap to start or stop, long press to reset. |
+| **Slider** | Drag your finger to set volume, microphone, the volume of one app, brightness or a Lightroom slider. |
+| **Folder** | Opens a sub-grid of keys. |
+
+## Actions
+
+| Action | Examples |
+|---|---|
+| **Keyboard shortcut** | Ctrl+Shift+S, Win+D… (recorded by pressing the keys) |
+| **Open program, file, folder or URL** | If the program is already open: open another window, bring it to front or close it |
+| **Type text** | Into the active window, accents and emoji included |
+| **Media and volume** | Play/pause, tracks, master volume, **volume of a single app** (Spotify, Discord…) |
+| **Microphone and audio output** | Mute the microphone; switch between headphones and speakers in one tap |
+| **Soundboard and Soundpad** | mp3/wav/m4a sounds. **Soundpad** pages also play them to others on Discord together with your voice, through VB-CABLE, which LanDeck installs for you |
+| **System** | Lock, sleep, shut down (with confirmation), screenshots, virtual desktops, brightness |
+| **Window management** | Bring to front, maximize, snap, move to the other screen, always on top |
+| **Command or script** | Command Prompt or PowerShell |
+| **Macro** | A sequence of actions with waits |
+| **Counter and timer** | Shared by all devices |
+| **OBS Studio / Streamlabs Desktop** | Stream, recording, replay, scenes, source mute |
+| **Twitch** | Markers, clips, title and category, ads, chat, announcements, shoutouts, raids, chat modes, polls and predictions |
+| **Streamlabs** | Custom alert in the Alert Box |
+| **Lightroom Classic** | Develop sliders, presets, copy/paste settings, ratings, flags, color labels |
+| **HTTP request / webhook** | Discord, Telegram, ntfy, Home Assistant, Shelly or any API |
+| **Navigation** | Change page or profile |
+| **Plugin** | Actions added by you or by others |
+
+## Dynamic keys
+
+They show live:
+- clock, date, weather, CPU, RAM;
+- timers and counters;
+- volume, microphone, audio output;
+- OBS or Streamlabs Desktop status;
+- Twitch data (live, viewers, followers, latest follower/sub/raid, stream uptime);
+- the latest Streamlabs donation;
+- Lightroom values («Esposizione +0,35», rating, flag);
+- a value taken from any web address;
+- plugin data.
+
+With **rules** they change look: purple while you are live, a crossed-out icon when the microphone is muted, red when the CPU goes over 80%… **Ready-made templates** apply in one click.
+
+## Integrations
+
+### OBS Studio and Streamlabs Desktop
+- **OBS** (version 28 or later): in OBS enable *Tools → WebSocket Server Settings → Enable*. If you set a password, enter it in the editor (profile panel → OBS Studio).
+- **Streamlabs Desktop**: connects by itself as soon as it is open. In OBS actions and keys choose «Streamlabs Desktop».
+
+### Twitch
+- Sign in from the profile panel → Twitch with a **code to confirm on twitch.tv/activate**: LanDeck never sees your password.
+- Besides actions and dynamic keys, **live events** can flash a key or run an action or a macro, even a chat message such as "Thanks {utente}!". Events: new followers, subscriptions, raids, bits, channel point redemptions.
+- The first time, register a free app on [dev.twitch.tv/console](https://dev.twitch.tv/console) (client type "Public") and paste its Client ID in the editor.
+
+### Streamlabs (alerts and donations)
+Paste the tokens from the Streamlabs dashboard (*Settings → API Settings → API Tokens*). Works with OBS too.
+- Donations and Twitch and YouTube events can flash a key or run an action.
+- Keys with the latest donation and the total of the night.
+- «Alert personalizzato» (custom alert) action.
+
+### Lightroom Classic
+1. In the profile panel → Lightroom Classic press **«Installa plugin Lightroom»** (install the Lightroom plugin) and restart Lightroom.
+2. **«+ Lightroom»** creates a ready-made profile: sliders for exposure, contrast, highlights, shadows, temperature…, plus ratings, flags and color labels. It turns on by itself when Lightroom is in the foreground.
+
+On the phone you drag your finger and the slider moves smoothly; a tap resets it.
+
+### Webhooks and HTTP requests
+Send a message to Discord, Telegram or ntfy, turn on a light with Home Assistant or a Shelly plug, or call any API.
+- **Ready-made templates** guide the setup.
+- **Variables** insert data into the text: `{ora}` (time), `{data}` (date), `{appunti}` (clipboard), counters and timers.
+- A dynamic key can query an address every few seconds and show a value from the response.
+
+### Credentials kept safe
+Tokens, keys and passwords (Twitch, Streamlabs, webhooks, OBS) stay **only on the PC, encrypted with Windows data protection**. They never reach the phone and never end up in exported profiles: keys use `{segreto:Name}` instead.
+
+### Plugins
+Every folder in `%APPDATA%\LanDeck\plugins` with a `plugin.json` file adds actions and dynamic keys, in PowerShell, Python, Node or any other language, without rebuilding LanDeck.
+- The guide (`PLUGIN.md`) and an example are already in that folder.
+- After a change: icon menu → *Plugin → Ricarica plugin* (reload plugins).
+
+## The tray icon menu
+
+Click the icon to open the **editor**. Right click:
+
+- **Mostra indirizzo e QR code…** (show address and QR code): to pair a new device.
+- **Apri editor…** (open editor)
+- **Dispositivi associati** (paired devices): with «Revoca accesso…» (revoke access).
+- **Avvia con Windows** (start with Windows), **Configura firewall…**, **Cambia porta…** (change port)
+- **Apri cartella dei dati** (open data folder), **Plugin**.
+- **Cerca aggiornamenti** (check for updates), **Disinstalla LanDeck…** (uninstall), **Licenza e crediti…** (license and credits), **Esci** (exit).
+
+## Data and uninstalling
+
+- The data (configuration, images, plugins) is in `%APPDATA%\LanDeck`; the program in `%LOCALAPPDATA%\Programs\LanDeck`.
+- **Uninstall**: *Settings → Apps → LanDeck → Uninstall*, or icon menu → *Disinstalla LanDeck…*.
+  - It removes the program, the shortcut, the autostart entry and the firewall rule.
+  - You can choose whether to delete keys and settings too.
+
+## Troubleshooting
+
+- **The phone does not connect**: PC and phone must be on the same Wi-Fi network, not the "guest" one. Also check the firewall rule (icon menu → *Configura firewall…*).
+- **Keys do not work in a program run as administrator**: Windows blocks sending keys to programs with elevated privileges.
+- **While the PC is locked**, shortcuts and text cannot be sent.
+- **App volume**: an app appears only after it has played at least one sound.
+- **Brightness of an external monitor**: enable "DDC/CI" in the monitor menu.
+- **Twitch, Streamlabs, Lightroom**: the integration panel in the editor shows the status and the last error.
+
+## Security
+
+- It only accepts connections **from the local network**. The integrations with OBS, Streamlabs Desktop and Lightroom stay on the PC (127.0.0.1).
+- Every device must be **paired** with a temporary code and can be revoked at any time.
+- Keys are edited in the **editor on the PC**. A paired phone only sends "I pressed key X": what to run is decided by the PC, from its own configuration.
+- Tokens and keys are **encrypted on the PC** and never travel to the devices.
+
+## License
+
+LanDeck is **freeware**: free for personal and commercial use, not open source. You may share the original `LanDeck.exe` unchanged and free of charge. See [LICENSE.md](LICENSE.md).
+
+It includes open source components (MIT, ISC, BSD) listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+The Soundpad's virtual microphone uses **[VB-CABLE](https://vb-audio.com/Cable/) by VB-Audio Software**. It is donationware with its own license and is not part of LanDeck: LanDeck downloads it from the official VB-Audio website only when you ask for it. If you use it, please consider supporting its author. Weather data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
+
+The names of other products are trademarks of their owners. LanDeck is not affiliated with them.
+
+---
+
+# Italiano
+
+<p align="center">
+  Un macro pad touch per il PC Windows, sul telefono o sul tablet che hai già<br>
+  <a href="../../releases/latest"><b>Scarica LanDeck.exe</b></a> · Windows 10 e 11 · Freeware
+</p>
 
 ## Cosa fa
 
@@ -175,7 +383,7 @@ Clic sull'icona: si apre l'**editor**. Clic destro:
 - **Dispositivi associati**: con «Revoca accesso…».
 - **Avvia con Windows**, **Configura firewall…**, **Cambia porta…**
 - **Apri cartella dei dati**, **Plugin**.
-- **Cerca aggiornamenti**, **Disinstalla LanDeck…**, **Esci**.
+- **Cerca aggiornamenti**, **Disinstalla LanDeck…**, **Licenza e crediti…**, **Esci**.
 
 ## Dati e disinstallazione
 
@@ -199,3 +407,13 @@ Clic sull'icona: si apre l'**editor**. Clic destro:
 - Ogni dispositivo va **associato** con un codice temporaneo e si può revocare in qualsiasi momento.
 - I tasti si modificano dall'**editor sul PC**. Un telefono associato invia solo «ho premuto il tasto X»: cosa eseguire lo decide il PC, leggendolo dalla propria configurazione.
 - Token e chiavi sono **cifrati sul PC** e non escono mai verso i dispositivi.
+
+## Licenza
+
+LanDeck è **freeware**: gratuito per uso personale e commerciale, non open source. Puoi condividere il file originale `LanDeck.exe`, senza modificarlo e gratuitamente. Vedi [LICENSE.md](LICENSE.md).
+
+Include componenti open source (MIT, ISC, BSD) elencati in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+Il microfono virtuale del Soundpad usa **[VB-CABLE](https://vb-audio.com/Cable/) di VB-Audio Software**. È donationware con la sua licenza e non fa parte di LanDeck: LanDeck lo scarica dal sito ufficiale di VB-Audio solo quando lo richiedi tu. Se lo usi, valuta di sostenerne l'autore. Dati meteo di [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
+
+I nomi degli altri prodotti sono marchi dei rispettivi proprietari. LanDeck non è affiliato con loro.
