@@ -10,6 +10,17 @@
 </p>
 
 <p align="center">
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/AgaresFX/PadNook?label=release&color=4c566a" alt="release"></a>
+  <a href="../../releases"><img src="https://img.shields.io/github/downloads/AgaresFX/PadNook/total?label=download&color=2ea043" alt="download"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-freeware-555" alt="freeware"></a>
+  <br>
+  <img src="https://img.shields.io/badge/PC-Windows%2010%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 | 11">
+  <img src="https://img.shields.io/badge/pad-iPhone%20%7C%20iPad%20%7C%20Android%20%7C%20browser-555" alt="iPhone | iPad | Android | browser">
+  <img src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white" alt=".NET 10">
+  <img src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white" alt="React 19">
+</p>
+
+<p align="center">
   <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Freeware
 </p>
 
