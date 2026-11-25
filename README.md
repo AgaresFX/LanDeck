@@ -31,7 +31,7 @@
 
 Tap a key on your phone and the PC runs the action: a keyboard shortcut, a program, muting the microphone, switching scene in OBS, a Twitch clip, a Lightroom slider… Keys can also **show live information**: are you live? how many viewers are watching? what is the exposure of this photo?
 
-<p align="center"><img src="docs/come-funziona.png" alt="How it works: phone → home Wi-Fi → PadNook.exe on the PC → programs" width="100%"></p>
+<p align="center"><img src="docs/how-it-works.png" alt="How it works: phone → home Wi-Fi → PadNook.exe on the PC → programs" width="100%"></p>
 
 - **On the PC** runs `PadNook.exe`: a single file, no .NET install needed. It lives as an icon next to the clock.
 - **On the phone** you open the page shown by PadNook and add it to the Home screen: it becomes a full-screen app.
@@ -72,7 +72,7 @@ PadNook downloads the new version, checks its integrity (SHA-256) and restarts b
 
 ## The editor on the PC
 
-<p align="center"><img src="docs/editor.png" alt="The PadNook editor on the PC" width="100%"></p>
+<p align="center"><img src="docs/editor-en.png" alt="The PadNook editor on the PC" width="100%"></p>
 
 Keys are **created and edited on the PC**: click the PadNook icon next to the clock, or choose *Apri editor…* (open editor) from the icon menu. Changes reach every connected device instantly.
 
@@ -272,7 +272,7 @@ PadNook scarica la nuova versione, ne verifica l'integrità (SHA-256) e si riapr
 
 ## L'editor sul PC
 
-<p align="center"><img src="docs/editor.png" alt="L'editor di PadNook sul PC" width="100%"></p>
+<p align="center"><img src="docs/editor-it.png" alt="L'editor di PadNook sul PC" width="100%"></p>
 
 I tasti **si creano e si modificano dal PC**: clic sull'icona di PadNook vicino all'orologio, oppure menu dell'icona → *Apri editor…*. Le modifiche arrivano subito su tutti i dispositivi collegati.
 
