@@ -25,7 +25,7 @@
 
 # English
 
-> The PadNook interface is in Italian. The names of buttons and menus are given below in Italian, with their meaning.
+> PadNook is in English and Italian. Phones and tablets follow the device language, the PC follows the Windows display language; you can change it from the device menu, the editor's Profile tab or the icon menu (*Lingua · Language*).
 
 ## What it does
 
@@ -45,12 +45,12 @@ Tap a key on your phone and the PC runs the action: a keyboard shortcut, a progr
 ## Installation
 
 1. Download `PadNook.exe` from the [releases page](../../releases/latest) and run it, even straight from the Downloads folder.
-2. Choose **«Installa PadNook»** (install). The program:
+2. Choose **“Install PadNook”**. The program:
    - copies itself to `%LOCALAPPDATA%\Programs\PadNook`;
    - adds a **Start menu** shortcut and an entry in **Settings → Apps**;
    - starts with Windows.
 
-   No administrator rights are needed, and you can delete the downloaded file afterwards. With «Avvia senza installare» (run without installing) it also works as a portable program, without automatic updates.
+   No administrator rights are needed, and you can delete the downloaded file afterwards. With “Run without installing” it also works as a portable program, without automatic updates.
 3. On first start it:
    - asks to create a **Windows Firewall rule**. This needs administrator approval once, and the rule only accepts the local network;
    - shows the **address, a QR code and a pairing code**.
@@ -66,7 +66,7 @@ Tap a key on your phone and the PC runs the action: a keyboard shortcut, a progr
 
 ## Automatic updates
 
-Once installed, PadNook checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Installa aggiornamento…* (install update) from the icon menu, to read what's new, then press **«Installa e riavvia»** (install and restart).
+Once installed, PadNook checks for new versions **at startup and every 6 hours**. When there is one, a notification appears next to the clock. Open it, or choose *Install update…* from the icon menu, to read what's new, then press **“Install and restart”**.
 
 PadNook downloads the new version, checks its integrity (SHA-256) and restarts by itself in a few seconds. Keys, settings, devices and the firewall rule stay as they were.
 
@@ -74,15 +74,15 @@ PadNook downloads the new version, checks its integrity (SHA-256) and restarts b
 
 <p align="center"><img src="docs/editor-en.png" alt="The PadNook editor on the PC" width="100%"></p>
 
-Keys are **created and edited on the PC**: click the PadNook icon next to the clock, or choose *Apri editor…* (open editor) from the icon menu. Changes reach every connected device instantly.
+Keys are **created and edited on the PC**: click the PadNook icon next to the clock, or choose *Open editor…* from the icon menu. Changes reach every connected device instantly.
 
 - **Create and move**: click an empty cell (+) to create a key, drag a key to move it (dropping it on another key swaps them). Ctrl+C / Ctrl+V / Ctrl+D / Del work.
 - **Organize**:
   - **profiles** (e.g. "Work", "Games", "Streaming"), each with **pages** and **folders**;
   - a separate **grid** for portrait and landscape, with spacing, margins and large keys spanning several cells.
 - **Look**: text, emoji, thousands of icons, images, colors and backgrounds.
-  - **«Cerca online»** (search online) finds icons and photos without leaving the editor.
-  - With «Apri programma» (open program) the program's own icon is used automatically.
+  - **“Search online”** finds icons and photos without leaving the editor.
+  - With “Open program, file, folder or URL” the program's own icon is used automatically.
 - **Export/Import** a profile to a file, images included.
 - **Automatic profiles**: when a program (Photoshop, OBS, Lightroom, a game…) is in the foreground, devices switch to its profile by themselves.
 
@@ -131,7 +131,7 @@ They show live:
 - OBS or Streamlabs Desktop status;
 - Twitch data (live, viewers, followers, latest follower/sub/raid, stream uptime);
 - the latest Streamlabs donation;
-- Lightroom values («Esposizione +0,35», rating, flag);
+- Lightroom values (“Exposure +0.35”, rating, flag);
 - a value taken from any web address;
 - plugin data.
 
@@ -141,7 +141,7 @@ With **rules** they change look: purple while you are live, a crossed-out icon w
 
 ### OBS Studio and Streamlabs Desktop
 - **OBS** (version 28 or later): in OBS enable *Tools → WebSocket Server Settings → Enable*. If you set a password, enter it in the editor (profile panel → OBS Studio).
-- **Streamlabs Desktop**: connects by itself as soon as it is open. In OBS actions and keys choose «Streamlabs Desktop».
+- **Streamlabs Desktop**: connects by itself as soon as it is open. In OBS actions and keys choose “Streamlabs Desktop”.
 
 ### Twitch
 - Sign in from the profile panel → Twitch with a **code to confirm on twitch.tv/activate**: PadNook never sees your password.
@@ -152,11 +152,11 @@ With **rules** they change look: purple while you are live, a crossed-out icon w
 Paste the tokens from the Streamlabs dashboard (*Settings → API Settings → API Tokens*). Works with OBS too.
 - Donations and Twitch and YouTube events can flash a key or run an action.
 - Keys with the latest donation and the total of the night.
-- «Alert personalizzato» (custom alert) action.
+- “Custom alert” action.
 
 ### Lightroom Classic
-1. In the profile panel → Lightroom Classic press **«Installa plugin Lightroom»** (install the Lightroom plugin) and restart Lightroom.
-2. **«+ Lightroom»** creates a ready-made profile: sliders for exposure, contrast, highlights, shadows, temperature…, plus ratings, flags and color labels. It turns on by itself when Lightroom is in the foreground.
+1. In the profile panel → Lightroom Classic press **“Install Lightroom plugin”** and restart Lightroom.
+2. **“+ Lightroom”** creates a ready-made profile: sliders for exposure, contrast, highlights, shadows, temperature…, plus ratings, flags and color labels. It turns on by itself when Lightroom is in the foreground.
 
 On the phone you drag your finger and the slider moves smoothly; a tap resets it.
 
@@ -178,12 +178,12 @@ Every folder in `%APPDATA%\PadNook\plugins` with a `plugin.json` file adds actio
 
 Click the icon to open the **editor**. Right click:
 
-- **Mostra indirizzo e QR code…** (show address and QR code): to pair a new device.
-- **Apri editor…** (open editor)
-- **Dispositivi associati** (paired devices): with «Revoca accesso…» (revoke access).
-- **Avvia con Windows** (start with Windows), **Configura firewall…**, **Cambia porta…** (change port)
-- **Apri cartella dei dati** (open data folder), **Plugin**.
-- **Cerca aggiornamenti** (check for updates), **Disinstalla PadNook…** (uninstall), **Licenza e crediti…** (license and credits), **Esci** (exit).
+- **Show address and QR code…**: to pair a new device.
+- **Open editor…**
+- **Paired devices**: with “Revoke access…”.
+- **Start with Windows**, **Configure firewall…**, **Change port…**
+- **Open data folder**, **Plugins**.
+- **Check for updates**, **Uninstall PadNook…**, **Lingua · Language**, **License and credits…**, **Exit**.
 
 ## Data and uninstalling
 
@@ -194,7 +194,7 @@ Click the icon to open the **editor**. Right click:
 
 ## Troubleshooting
 
-- **The phone does not connect**: PC and phone must be on the same Wi-Fi network, not the "guest" one. Also check the firewall rule (icon menu → *Configura firewall…*).
+- **The phone does not connect**: PC and phone must be on the same Wi-Fi network, not the "guest" one. Also check the firewall rule (icon menu → *Configure firewall…*).
 - **Keys do not work in a program run as administrator**: Windows blocks sending keys to programs with elevated privileges.
 - **While the PC is locked**, shortcuts and text cannot be sent.
 - **App volume**: an app appears only after it has played at least one sound.
@@ -226,6 +226,8 @@ The names of other products are trademarks of their owners. PadNook is not affil
   Un macro pad touch per il PC Windows, sul telefono o sul tablet che hai già<br>
   <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Freeware
 </p>
+
+> PadNook è in italiano e in inglese. Telefoni e tablet seguono la lingua del dispositivo, il PC quella di Windows; puoi cambiarla dal menu del dispositivo, dalla scheda Profilo dell'editor o dal menu dell'icona (*Lingua · Language*).
 
 ## Cosa fa
 
