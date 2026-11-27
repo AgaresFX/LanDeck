@@ -12,7 +12,7 @@
 <p align="center">
   <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/AgaresFX/PadNook?label=release&color=4c566a" alt="release"></a>
   <a href="../../releases"><img src="https://img.shields.io/github/downloads/AgaresFX/PadNook/total?label=download&color=2ea043" alt="download"></a>
-  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-freeware-555" alt="freeware"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea043" alt="MIT license"></a>
   <br>
   <img src="https://img.shields.io/badge/PC-Windows%2010%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 | 11">
   <img src="https://img.shields.io/badge/pad-iPhone%20%7C%20iPad%20%7C%20Android%20%7C%20browser-555" alt="iPhone | iPad | Android | browser">
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Freeware
+  <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Free and open source
 </p>
 
 <p align="center">
@@ -219,9 +219,26 @@ Click the icon to open the **editor**. Right click:
 - Keys are edited in the **editor on the PC**. A paired phone only sends "I pressed key X": what to run is decided by the PC, from its own configuration.
 - Tokens and keys are **encrypted on the PC** and never travel to the devices.
 
+## Build from source
+
+Requirements: [.NET 10 SDK](https://dot.net) and [Node.js LTS](https://nodejs.org), on Windows.
+
+```powershell
+git clone https://github.com/AgaresFX/PadNook.git
+cd PadNook
+.\build.ps1        # builds the webapp, embeds it and writes dist\PadNook.exe
+```
+
+- `server/` – the Windows tray app (C#, .NET 10, ASP.NET Core Kestrel + WebSocket, WinForms, WebView2, NAudio).
+- `webapp/` – the pad and the editor (React 19 + TypeScript + Vite). `npm run dev` serves it with hot reload and proxies `/ws` to a running server.
+- `plugins/` – an example script plugin.
+- Developer notes (Italian): [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) – dev mode (`PADNOOK_DEV=1`), project layout, WebSocket protocol, how to add an action.
+
+Issues and pull requests are welcome. New UI strings must be wrapped in `tr()` (webapp) or `L.T()` (server) and added to the English dictionaries (`webapp/src/i18n.en.ts`, `server/Core/L.En.cs`).
+
 ## License
 
-PadNook is **freeware**: free for personal and commercial use, not open source. You may share the original `PadNook.exe` unchanged and free of charge. See [LICENSE.md](LICENSE.md).
+PadNook is free and open source under the **[MIT License](LICENSE)**.
 
 It includes open source components (MIT, ISC, BSD) listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
@@ -235,7 +252,7 @@ The names of other products are trademarks of their owners. PadNook is not affil
 
 <p align="center">
   Un macro pad touch per il PC Windows, sul telefono o sul tablet che hai già<br>
-  <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Freeware
+  <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Gratuito e open source
 </p>
 
 > PadNook è in italiano e in inglese. Telefoni e tablet seguono la lingua del dispositivo, il PC quella di Windows; puoi cambiarla dal menu del dispositivo, dalla scheda Profilo dell'editor o dal menu dell'icona (*Lingua · Language*).
@@ -421,9 +438,21 @@ Clic sull'icona: si apre l'**editor**. Clic destro:
 - I tasti si modificano dall'**editor sul PC**. Un telefono associato invia solo «ho premuto il tasto X»: cosa eseguire lo decide il PC, leggendolo dalla propria configurazione.
 - Token e chiavi sono **cifrati sul PC** e non escono mai verso i dispositivi.
 
+## Compilare dal sorgente
+
+Servono [.NET 10 SDK](https://dot.net) e [Node.js LTS](https://nodejs.org), su Windows.
+
+```powershell
+git clone https://github.com/AgaresFX/PadNook.git
+cd PadNook
+.\build.ps1        # compila la webapp, la incorpora e crea dist\PadNook.exe
+```
+
+`server/` è l'app Windows (C#, .NET 10), `webapp/` il pannello e l'editor (React 19 + TypeScript + Vite), `plugins/` un plugin di esempio. Note per sviluppatori: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Issue e pull request sono benvenute.
+
 ## Licenza
 
-PadNook è **freeware**: gratuito per uso personale e commerciale, non open source. Puoi condividere il file originale `PadNook.exe`, senza modificarlo e gratuitamente. Vedi [LICENSE.md](LICENSE.md).
+PadNook è gratuito e open source con **[licenza MIT](LICENSE)**.
 
 Include componenti open source (MIT, ISC, BSD) elencati in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 

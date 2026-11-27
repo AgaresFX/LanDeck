@@ -1,0 +1,20 @@
+{
+  "id": "cpu",
+  "name": "Uso CPU",
+  "version": "1.0.0",
+  "author": "AgaresFX",
+  "description": "Mostra l'uso della CPU del PC su un tasto dinamico.",
+  "sources": [
+    {
+      "id": "uso",
+      "name": "Uso CPU (%)",
+      "description": "Percentuale di uso totale della CPU. «state» è attivo sopra l'80%.",
+      "intervalSec": 3,
+      "run": {
+        "file": "powershell.exe",
+        "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "cpu.ps1"],
+        "timeoutSec": 20
+      }
+    }
+  ]
+}

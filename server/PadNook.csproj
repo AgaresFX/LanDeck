@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PadNook</RootNamespace>
+    <AssemblyName>PadNook</AssemblyName>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <Version>1.18.0</Version>
+    <Product>PadNook</Product>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <SatelliteResourceLanguages>it;en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The webapp build output (webapp -> server/wwwroot) is embedded in the exe -->
+    <EmbeddedResource Include="wwwroot\**\*" />
+    <!-- Lightroom Classic plugin, copied to the Lightroom Modules folder by the editor -->
+    <EmbeddedResource Include="Lightroom\plugin\*.lua" />
+    <!-- License and third-party notices, shown from the tray menu -->
+    <EmbeddedResource Include="Legal\*.md" />
+  </ItemGroup>
+
+</Project>
