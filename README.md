@@ -21,7 +21,8 @@
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Free and open source
+  <a href="../../releases/latest"><b>Download PadNook.exe</b></a> · Windows 10 and 11 · Free and open source<br>
+  <a href="https://agaresfx.github.io/PadNook/"><b>Try the interactive demo</b></a> · see how it works right in your browser
 </p>
 
 <p align="center">
@@ -252,7 +253,8 @@ The names of other products are trademarks of their owners. PadNook is not affil
 
 <p align="center">
   Un macro pad touch per il PC Windows, sul telefono o sul tablet che hai già<br>
-  <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Gratuito e open source
+  <a href="../../releases/latest"><b>Scarica PadNook.exe</b></a> · Windows 10 e 11 · Gratuito e open source<br>
+  <a href="https://agaresfx.github.io/PadNook/?lang=it"><b>Prova la demo interattiva</b></a> · guarda come funziona direttamente nel browser
 </p>
 
 > PadNook è in italiano e in inglese. Telefoni e tablet seguono la lingua del dispositivo, il PC quella di Windows; puoi cambiarla dal menu del dispositivo, dalla scheda Profilo dell'editor o dal menu dell'icona (*Lingua · Language*).
