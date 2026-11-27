@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PadNook · a touch macro pad on the phone you already own</title>
+<meta name="description" content="PadNook turns your iPhone, iPad or Android into a touch macro pad for your Windows PC. Local network only, no cloud, no account. Free and open source (MIT).">
+<meta property="og:title" content="PadNook">
+<meta property="og:description" content="A touch macro pad for your Windows PC, on the phone or tablet you already own.">
+<meta property="og:image" content="hero.png">
+<meta name="theme-color" content="#0f1012">
+<link rel="icon" href="icon.png">
+<style>
+:root {
+  --bg: #0f1012;
+  --surface: #16171a;
+  --surface-2: #1e1f23;
+  --surface-3: #27282d;
+  --key: #2a2c33;
+  --border: rgb(236 237 240 / 0.08);
+  --border-strong: rgb(236 237 240 / 0.14);
+  --text: #ecedf0;
+  --text-2: #a9abb2;
+  --muted: #7d7f87;
+  --accent: #4a7dff;
+  --danger: #e5585c;
+  --ok: #3fbf72;
+  --warn: #e0a23a;
+  --purple: #7b3ff0;
+  --green: #1f7a45;
+  --red: #b8383c;
+  --blue: #2f5591;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --mono: 'Cascadia Mono', Consolas, ui-monospace, monospace;
+  --sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+svg.i { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+code, .mono { font-family: var(--mono); font-size: 0.88em; }
+code { background: var(--surface-3); padding: 1px 6px; border-radius: 5px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* top bar */
+.top { position: sticky; top: 0; z-index: 20; background: rgb(15 16 18 / 0.86); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.top .wrap { display: flex; align-items: center; gap: 20px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; font-size: 16px; }
+.brand img { width: 24px; height: 24px; }
+.nav { display: flex; gap: 2px; margin-left: 8px; }
+.nav a { text-decoration: none; color: var(--text-2); padding: 6px 10px; border-radius: 7px; font-size: 14px; transition: color .15s, background .15s; }
+.nav a:hover { color: var(--text); background: var(--surface-2); }
+.spacer { flex: 1; }
+.seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 2px; }
+.seg button { all: unset; cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 13px; color: var(--text-2); transition: background .15s, color .15s; }
+.seg button[aria-pressed="true"] { background: var(--surface-3); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.seg button:focus-visible { outline: 2px solid var(--accent); }
+.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 9px 16px; border-radius: 9px; font-weight: 600; font-size: 14px; border: 1px solid var(--border-strong); color: var(--text); background: var(--surface-2); cursor: pointer; transition: background .15s, transform .15s var(--ease); }
+.btn:hover { background: var(--surface-3); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: #ecedf0; color: #121316; border-color: transparent; }
+.btn.primary:hover { background: #fff; }
+.btn.sm { padding: 6px 12px; font-size: 13px; }
+
+/* sections */
+section { padding: 88px 0; border-top: 1px solid var(--border); }
+section.hero { border-top: 0; padding: 48px 0 40px; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.08; font-weight: 650; max-width: 16ch; }
+h2 { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.15; font-weight: 650; }
+h3 { font-size: 17px; font-weight: 600; }
+.lead { color: var(--text-2); font-size: 18px; max-width: 58ch; margin: 18px 0 0; }
+.sec-head { margin-bottom: 36px; }
+.sec-head p { color: var(--text-2); max-width: 62ch; margin: 10px 0 0; }
+.kicker { color: var(--muted); font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.kicker .n { font-family: var(--mono); color: var(--text-2); }
+.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; align-items: center; }
+.hero-meta { color: var(--muted); font-size: 13px; margin-top: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 34px; color: var(--text-2); font-size: 14px; }
+.facts span { display: inline-flex; align-items: center; gap: 8px; }
+.facts svg { color: var(--muted); }
+
+/* demo */
+.demo { display: grid; grid-template-columns: 340px 1fr; gap: 28px; margin-top: 40px; align-items: start; }
+.phone { background: #0b0c0e; border: 1px solid var(--border-strong); border-radius: 44px; padding: 16px; box-shadow: 0 30px 80px rgb(0 0 0 / 0.45); position: relative; }
+.phone::before { content: ''; display: block; width: 92px; height: 24px; background: #000; border-radius: 14px; margin: 2px auto 14px; }
+.phone .status { position: absolute; top: 24px; right: 30px; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.screen { min-height: 448px; position: relative; }
+.pagechip { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); padding: 0 2px 10px; }
+.pagechip b { color: var(--text-2); font-weight: 600; }
+
+.key { aspect-ratio: 1; border-radius: 14px; background: var(--key); position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; font-size: 11.5px; font-weight: 600; line-height: 1.2; color: #fff; cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: none; overflow: hidden; transition: background .18s var(--ease), transform .12s var(--ease), box-shadow .18s; border: 0; padding: 6px; font-family: inherit; }
+.key svg.i { width: 30px; height: 30px; stroke-width: 1.8; }
+.key .big { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.key .sub { font-size: 11px; opacity: .92; font-variant-numeric: tabular-nums; }
+.key:hover { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12); }
+.key:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+.key.down { transform: scale(0.94); }
+.key.flash { animation: flash .6s var(--ease); }
+@keyframes flash { 0% { box-shadow: inset 0 0 0 3px #fff; } 100% { box-shadow: inset 0 0 0 0 transparent; } }
+.key.empty { background: transparent; box-shadow: inset 0 0 0 1px var(--border); cursor: default; }
+.key.slider .fill { position: absolute; left: 0; right: 0; bottom: 0; background: var(--blue); transition: height .08s linear; }
+.key.slider > *:not(.fill) { position: relative; }
+.key .hold { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: rgb(255 255 255 / 0.7); }
+.key.holding .hold { width: 100%; transition: width .5s linear; }
+.k-purple { background: var(--purple); } .k-green { background: var(--green); } .k-red { background: var(--red); } .k-blue { background: var(--blue); } .k-orange { background: #8a3a1c; } .k-indigo { background: #4d58d6; } .k-amber { background: #8a6414; }
+
+.pc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.flow { display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.node { display: flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; }
+.node .ic { width: 34px; height: 34px; border-radius: 9px; background: var(--surface-3); display: grid; place-items: center; color: var(--text-2); }
+.node small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.wire { position: relative; height: 2px; background: var(--border-strong); border-radius: 2px; }
+.wire .lbl { position: absolute; left: 50%; top: -22px; transform: translateX(-50%); font-size: 11.5px; color: var(--muted); white-space: nowrap; display: flex; gap: 5px; align-items: center; }
+.packet { position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgb(74 125 255 / 0.18); }
+.packet.back { background: var(--ok); box-shadow: 0 0 0 4px rgb(63 191 114 / 0.18); }
+.pc-body { display: grid; grid-template-columns: 1fr 1fr; }
+.pc-state { padding: 18px 20px; border-right: 1px solid var(--border); }
+.pc-state h3, .pc-log h3 { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 12px; font-family: var(--sans); letter-spacing: 0; }
+.rows { display: grid; gap: 2px; }
+.row { display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; border-radius: 8px; font-size: 13.5px; transition: background .4s; }
+.row span:first-child { color: var(--text-2); display: flex; align-items: center; gap: 8px; }
+.row b { font-weight: 600; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.row.changed { background: rgb(74 125 255 / 0.14); transition: none; }
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--muted); }
+.dot.on { background: var(--ok); } .dot.off { background: var(--danger); } .dot.live { background: #a77bff; }
+.bar { width: 80px; height: 5px; background: var(--surface-3); border-radius: 4px; overflow: hidden; display: inline-block; }
+.bar i { display: block; height: 100%; background: var(--text-2); }
+.pc-log { padding: 18px 20px; display: flex; flex-direction: column; min-width: 0; }
+.log { font-family: var(--mono); font-size: 12px; line-height: 1.75; color: var(--text-2); flex: 1; min-height: 200px; overflow: hidden; }
+.log div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: in .3s var(--ease); }
+.log .out { color: #8fb0ff; } .log .in { color: #7fd6a2; } .log .sys { color: var(--muted); }
+@keyframes in { from { opacity: 0; transform: translateY(4px); } }
+.note { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.toast { position: absolute; right: 16px; bottom: 16px; background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 10px; padding: 9px 14px; font-size: 13px; display: flex; gap: 8px; align-items: center; box-shadow: 0 10px 30px rgb(0 0 0 / .4); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s var(--ease); pointer-events: none; }
+.toast.show { opacity: 1; transform: none; }
+.pc { position: relative; }
+.hint { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 14px; }
+.hint span { display: inline-flex; gap: 6px; align-items: center; }
+.kbd { font-family: var(--mono); font-size: 11.5px; border: 1px solid var(--border-strong); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; color: var(--text-2); }
+
+/* steps (how it works) */
+.three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.card .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--surface-3); display: grid; place-items: center; margin-bottom: 16px; color: var(--text-2); font-size: 20px; }
+.card p { color: var(--text-2); margin: 8px 0 0; font-size: 14.5px; }
+
+/* key types */
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 20px; }
+.tabs button { all: unset; cursor: pointer; padding: 7px 14px; border-radius: 8px; font-size: 14px; color: var(--text-2); border: 1px solid transparent; transition: background .15s, color .15s; }
+.tabs button:hover { color: var(--text); background: var(--surface-2); }
+.tabs button[aria-selected="true"] { color: var(--text); background: var(--surface-2); border-color: var(--border-strong); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); }
+.kt { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; min-height: 330px; }
+.kt-text { padding: 30px; border-right: 1px solid var(--border); }
+.kt-text p { color: var(--text-2); margin: 10px 0 0; }
+.kt-text ul { color: var(--text-2); margin: 14px 0 0; padding-left: 18px; font-size: 14.5px; }
+.kt-text li { margin: 4px 0; }
+.kt-stage { padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: repeating-linear-gradient(0deg, transparent 0 23px, rgb(255 255 255 / 0.025) 23px 24px), repeating-linear-gradient(90deg, transparent 0 23px, rgb(255 255 255 / 0.025) 23px 24px); }
+.kt-stage .key { width: 124px; font-size: 13px; border-radius: 20px; }
+.kt-stage .key svg.i { width: 40px; height: 40px; }
+.kt-stage .key .big { font-size: 26px; }
+.kt-stage .grid.mini { width: 300px; }
+.kt-stage .grid.mini .key { width: auto; font-size: 11.5px; border-radius: 14px; }
+.kt-stage .grid.mini .key svg.i { width: 28px; height: 28px; }
+.result { font-size: 13.5px; color: var(--text-2); min-height: 22px; text-align: center; font-family: var(--mono); }
+.result b { color: var(--text); font-weight: 500; }
+.rule { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 320px; font-size: 13px; color: var(--text-2); }
+.rule .rline { font-family: var(--mono); font-size: 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+input[type=range] { width: 100%; accent-color: var(--text-2); }
+
+/* auto profiles */
+.ap { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: center; }
+.desk { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.desk-win { height: 230px; display: grid; place-items: center; color: var(--muted); font-size: 14px; position: relative; transition: background .3s; }
+.desk-win .wt { position: absolute; top: 0; left: 0; right: 0; height: 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; font-size: 12.5px; color: var(--text-2); gap: 8px; background: var(--surface-2); }
+.desk-win .wt i { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-3); display: inline-block; }
+.desk-win .wt i:first-child { margin-left: auto; }
+.desk-win .big-ic { font-size: 56px; color: var(--text-2); opacity: .5; }
+.taskbar { display: flex; gap: 6px; padding: 10px; border-top: 1px solid var(--border); background: #121315; justify-content: center; flex-wrap: wrap; }
+.taskbar button { all: unset; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-2); position: relative; transition: background .15s, color .15s; }
+.taskbar button:hover { background: var(--surface-2); color: var(--text); }
+.taskbar button[aria-pressed="true"] { background: var(--surface-3); color: var(--text); }
+.taskbar button[aria-pressed="true"]::after { content: ''; position: absolute; bottom: 2px; left: 50%; width: 16px; margin-left: -8px; height: 3px; border-radius: 2px; background: var(--accent); }
+.taskbar button:focus-visible { outline: 2px solid var(--accent); }
+.phone.small { border-radius: 36px; padding: 14px; }
+.phone.small .screen { min-height: 0; }
+.swap { animation: swap .35s var(--ease); }
+@keyframes swap { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+
+/* editor */
+.editor-img { width: 100%; border-radius: 14px; border: 1px solid var(--border); display: block; margin-top: 8px; }
+.ed-points { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+.ed-points div { font-size: 14px; color: var(--text-2); }
+.ed-points b { color: var(--text); display: block; margin-bottom: 4px; font-weight: 600; }
+
+/* setup */
+.setup { display: grid; grid-template-columns: 280px 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.steps { list-style: none; margin: 0; padding: 10px; border-right: 1px solid var(--border); }
+.steps button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; padding: 12px; border-radius: 10px; transition: background .15s; }
+.steps button:hover { background: var(--surface-2); }
+.steps button[aria-selected="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.steps button:focus-visible { outline: 2px solid var(--accent); }
+.steps .num { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border-strong); display: grid; place-items: center; font-size: 12px; font-family: var(--mono); color: var(--text-2); flex: none; margin-top: 1px; }
+.steps button[aria-selected="true"] .num { background: var(--text); color: var(--bg); border-color: transparent; }
+.steps .st { font-weight: 600; font-size: 14.5px; }
+.steps .sd { color: var(--muted); font-size: 13px; display: block; font-weight: 400; }
+.step-body { padding: 30px; min-height: 360px; }
+.step-body p { color: var(--text-2); margin: 10px 0 0; }
+.step-body ol, .step-body ul { color: var(--text-2); padding-left: 20px; margin: 14px 0 0; }
+.step-body li { margin: 6px 0; }
+.step-foot { display: flex; gap: 10px; margin-top: 26px; }
+.callout { margin-top: 18px; border: 1px solid var(--border); background: var(--surface-2); border-radius: 10px; padding: 12px 14px; font-size: 13.5px; color: var(--text-2); }
+.pair { display: flex; gap: 26px; align-items: center; margin-top: 18px; flex-wrap: wrap; }
+.qr { background: #fff; padding: 10px; border-radius: 12px; width: 150px; height: 150px; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.pin { font-family: var(--mono); font-size: 28px; letter-spacing: 0.2em; }
+.pair small { display: block; color: var(--muted); font-size: 12.5px; }
+.win { margin-top: 18px; max-width: 420px; background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 10px; overflow: hidden; }
+.win .wt { padding: 8px 12px; font-size: 12.5px; color: var(--text-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.win .wb { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.win .opt { padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 14px; }
+.win .opt.sel { border-color: var(--border-strong); background: var(--surface-3); }
+.win .opt small { display: block; color: var(--muted); font-size: 12.5px; }
+
+/* integrations */
+.ints { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.ints button { all: unset; box-sizing: border-box; cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: background .15s, border-color .15s; }
+.ints button:hover { background: var(--surface-2); }
+.ints button[aria-selected="true"] { border-color: var(--border-strong); background: var(--surface-2); }
+.ints button:focus-visible { outline: 2px solid var(--accent); }
+.ints svg.i { width: 22px; height: 22px; color: var(--text-2); }
+.ints span { font-weight: 600; font-size: 14px; }
+.int-detail { margin-top: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.int-detail p { color: var(--text-2); margin: 8px 0 0; }
+.int-detail ul { margin: 0; padding-left: 18px; color: var(--text-2); font-size: 14.5px; }
+.int-detail li { margin: 5px 0; }
+.int-detail h4 { margin: 0 0 8px; font-size: 13px; color: var(--muted); font-weight: 500; }
+
+/* security */
+.sec { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch; }
+.sec .card ul { margin: 12px 0 0; padding-left: 18px; color: var(--text-2); font-size: 14.5px; }
+.sec .card li { margin: 6px 0; }
+.wiremsg { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; min-width: 210px; }
+.wiremsg pre { margin: 0; font-family: var(--mono); font-size: 12px; background: var(--surface-2); border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; color: #8fb0ff; }
+.wiremsg small { color: var(--muted); font-size: 12px; text-align: center; max-width: 200px; }
+
+/* faq */
+details { border-bottom: 1px solid var(--border); }
+details summary { cursor: pointer; list-style: none; padding: 16px 0; font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+details summary::-webkit-details-marker { display: none; }
+details summary svg { transition: transform .2s var(--ease); color: var(--muted); }
+details[open] summary svg { transform: rotate(180deg); }
+details p { margin: 0 0 18px; color: var(--text-2); max-width: 72ch; }
+.faq { max-width: 820px; border-top: 1px solid var(--border); }
+
+footer { border-top: 1px solid var(--border); padding: 40px 0 56px; color: var(--muted); font-size: 13px; }
+footer .wrap { display: grid; gap: 10px; }
+footer a { color: var(--text-2); }
+.cta-end { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .demo, .ap, .setup, .kt, .sec { grid-template-columns: 1fr; }
+  .demo .phone { max-width: 340px; margin: 0 auto; width: 100%; }
+  .ap .phone { max-width: 360px; margin: 0 auto; width: 100%; }
+  .kt-text, .pc-state, .steps { border-right: 0; border-bottom: 1px solid var(--border); }
+  .three, .ed-points { grid-template-columns: 1fr 1fr; }
+  .ints { grid-template-columns: repeat(3, 1fr); }
+  .int-detail { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .wrap { padding: 0 16px; }
+  .top .btn.primary span { display: none; }
+  .pc-body, .three, .ed-points { grid-template-columns: 1fr; }
+  .ints { grid-template-columns: 1fr 1fr; }
+  .flow { grid-template-columns: auto 1fr auto 1fr auto; gap: 8px; padding: 16px 12px; }
+  .node small, .node .t { display: none; }
+  .kt-stage .grid.mini { width: 100%; }
+  section { padding: 64px 0; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="icon.png" alt="">PadNook</a>
+    <nav class="nav">
+      <a href="#demo" data-i="nav.demo">Try it</a>
+      <a href="#how" data-i="nav.how">How it works</a>
+      <a href="#keys" data-i="nav.keys">Keys</a>
+      <a href="#setup" data-i="nav.setup">Setup</a>
+      <a href="#integrations" data-i="nav.int">Integrations</a>
+      <a href="#security" data-i="nav.sec">Security</a>
+    </nav>
+    <div class="spacer"></div>
+    <div class="seg" role="group" aria-label="Language">
+      <button data-lang="en" aria-pressed="true">EN</button>
+      <button data-lang="it" aria-pressed="false">IT</button>
+    </div>
+    <a class="btn sm" href="https://github.com/AgaresFX/PadNook">GitHub</a>
+    <a class="btn sm primary" href="https://github.com/AgaresFX/PadNook/releases/latest"><svg class="i" data-ic="download"></svg><span data-i="dl.short">Download</span></a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="demo">
+  <div class="wrap">
+    <h1 data-i="hero.title">A macro pad on the phone you already own.</h1>
+    <p class="lead" data-i="hero.lead">PadNook turns your iPhone, iPad or Android into a touch keypad for your Windows PC. Tap a key and the PC runs the action. Keys can also show what's happening, live.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="https://github.com/AgaresFX/PadNook/releases/latest"><svg class="i" data-ic="download"></svg><span data-i="dl.long">Download PadNook.exe</span></a>
+      <a class="btn" href="#setup" data-i="hero.setup">How to set it up</a>
+    </div>
+    <div class="hero-meta" data-i="hero.meta">Windows 10 and 11 · free and open source (MIT)</div>
+    <div class="facts">
+      <span><svg class="i" data-ic="wifi"></svg><span data-i="fact.lan">Home network only, no cloud</span></span>
+      <span><svg class="i" data-ic="user"></svg><span data-i="fact.acc">No account</span></span>
+      <span><svg class="i" data-ic="box"></svg><span data-i="fact.one">One .exe, nothing else to install</span></span>
+      <span><svg class="i" data-ic="phone"></svg><span data-i="fact.dev">iPhone, iPad, Android, any browser</span></span>
+    </div>
+
+    <div class="demo">
+      <div>
+        <div class="phone">
+          <span class="status"></span>
+          <div class="screen">
+            <div class="pagechip"><b id="d-page">Streaming</b><span id="d-pagesub" data-i="demo.page1">page 1 of 1</span></div>
+            <div class="grid" id="d-grid"></div>
+          </div>
+        </div>
+        <div class="hint">
+          <span><span class="kbd" data-i="kb.tap">tap</span><span data-i="hint.tap">run</span></span>
+          <span><span class="kbd" data-i="kb.hold">hold</span><span data-i="hint.hold">second action</span></span>
+          <span><span class="kbd" data-i="kb.drag">drag</span><span data-i="hint.drag">sliders</span></span>
+        </div>
+      </div>
+      <div class="pc" id="pc">
+        <div class="flow">
+          <div class="node"><div class="ic"><svg class="i" data-ic="phone"></svg></div><div class="t"><span data-i="flow.phone">Phone</span><small data-i="flow.phone.s">web app</small></div></div>
+          <div class="wire" id="wire1"><span class="lbl"><svg class="i" data-ic="wifi"></svg><span data-i="flow.wifi">home Wi-Fi</span></span></div>
+          <div class="node"><div class="ic"><img src="icon.png" alt="" width="20" height="20"></div><div class="t">PadNook.exe<small data-i="flow.pc.s">on your PC</small></div></div>
+          <div class="wire" id="wire2"></div>
+          <div class="node"><div class="ic"><svg class="i" data-ic="monitor"></svg></div><div class="t"><span data-i="flow.apps">Programs</span><small data-i="flow.apps.s">OBS, Twitch…</small></div></div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-state">
+            <h3 data-i="pc.state">What the PC is doing</h3>
+            <div class="rows" id="d-rows"></div>
+          </div>
+          <div class="pc-log">
+            <h3 data-i="pc.log">Messages on the network</h3>
+            <div class="log" id="d-log"></div>
+            <div class="note" data-i="pc.note">Simplified. The phone only says which key was pressed; the PC decides what to run.</div>
+          </div>
+        </div>
+        <div class="toast" id="d-toast"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">01</span><span data-i="how.k">How it works</span></div>
+      <h2 data-i="how.t">Three pieces, all in your home.</h2>
+    </div>
+    <div class="three">
+      <div class="card"><div class="ic"><svg class="i" data-ic="phone"></svg></div><h3 data-i="how.1t">The phone shows the keys</h3><p data-i="how.1p">You open the page PadNook shows on the PC and add it to the Home screen. It becomes a full-screen app, with no store and nothing to install on the phone.</p></div>
+      <div class="card"><div class="ic"><svg class="i" data-ic="wifi"></svg></div><h3 data-i="how.2t">Your Wi-Fi carries the taps</h3><p data-i="how.2p">Phone and PC talk directly on the local network. Nothing goes through the internet, except the services you choose to connect (weather, Twitch, webhooks…).</p></div>
+      <div class="card"><div class="ic"><img src="icon.png" alt="" width="22" height="22"></div><h3 data-i="how.3t">The PC runs the action</h3><p data-i="how.3p"><code>PadNook.exe</code> lives as an icon next to the clock. It runs shortcuts, programs, audio, OBS, Twitch, Lightroom… and sends live state back to the keys.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="keys">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">02</span><span data-i="keys.k">Key types</span></div>
+      <h2 data-i="keys.t">Six kinds of key. Try each one.</h2>
+      <p data-i="keys.p">Every key is a type plus one or more actions. Pick a type and play with the key on the right.</p>
+    </div>
+    <div class="tabs" role="tablist" id="kt-tabs"></div>
+    <div class="kt">
+      <div class="kt-text" id="kt-text"></div>
+      <div class="kt-stage" id="kt-stage"></div>
+    </div>
+  </div>
+</section>
+
+<section id="profiles">
+  <div class="wrap">
+    <div class="ap">
+      <div>
+        <div class="sec-head" style="margin-bottom:24px">
+          <div class="kicker"><span class="n">03</span><span data-i="ap.k">Automatic profiles</span></div>
+          <h2 data-i="ap.t">The keys follow the program you're using.</h2>
+          <p data-i="ap.p">Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Click a program on the taskbar:</p>
+        </div>
+        <div class="desk">
+          <div class="desk-win" id="ap-win"></div>
+          <div class="taskbar" id="ap-bar"></div>
+        </div>
+      </div>
+      <div class="phone small">
+        <span class="status"></span>
+        <div class="screen">
+          <div class="pagechip"><b id="ap-name"></b><span id="ap-auto"></span></div>
+          <div class="grid" id="ap-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="editor">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">04</span><span data-i="ed.k">The editor</span></div>
+      <h2 data-i="ed.t">Build the keys on the PC, see them on the phone instantly.</h2>
+      <p data-i="ed.p">Click the PadNook icon next to the clock. Every change reaches all connected devices right away.</p>
+    </div>
+    <img class="editor-img" id="ed-img" src="editor-en.png" alt="The PadNook editor on the PC">
+    <div class="ed-points">
+      <div><b data-i="ed.1t">Drag and drop</b><span data-i="ed.1p">Click an empty cell to create a key, drag to move. Ctrl+C, Ctrl+V, Ctrl+D and Del work.</span></div>
+      <div><b data-i="ed.2t">Profiles, pages, folders</b><span data-i="ed.2p">Separate grids for portrait and landscape, large keys spanning several cells.</span></div>
+      <div><b data-i="ed.3t">Icons and images</b><span data-i="ed.3p">Thousands of icons, your images, or search online without leaving the editor.</span></div>
+      <div><b data-i="ed.4t">Export and share</b><span data-i="ed.4p">Save a profile to a file, images included, and import it on another PC.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">05</span><span data-i="su.k">Setup</span></div>
+      <h2 data-i="su.t">From download to first tap in about two minutes.</h2>
+    </div>
+    <div class="setup">
+      <ol class="steps" role="tablist" id="su-steps"></ol>
+      <div class="step-body" id="su-body"></div>
+    </div>
+  </div>
+</section>
+
+<section id="integrations">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">06</span><span data-i="in.k">Integrations</span></div>
+      <h2 data-i="in.t">Works with the tools you already use.</h2>
+      <p data-i="in.p">Plus everything a keyboard can do: shortcuts, programs, text, media, windows, system. Pick one to see what it does.</p>
+    </div>
+    <div class="ints" role="tablist" id="in-grid"></div>
+    <div class="int-detail" id="in-detail"></div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">07</span><span data-i="se.k">Security</span></div>
+      <h2 data-i="se.t">The phone is a remote, not a key to your PC.</h2>
+      <p data-i="se.p">A paired phone can only say "I pressed key X". What that key does is decided by the PC, from its own configuration.</p>
+    </div>
+    <div class="sec">
+      <div class="card">
+        <div class="ic"><svg class="i" data-ic="phone"></svg></div>
+        <h3 data-i="se.1t">On the phone</h3>
+        <ul>
+          <li data-i="se.1a">Must be paired with a temporary code</li>
+          <li data-i="se.1b">Can be revoked from the PC at any time</li>
+          <li data-i="se.1c">Shows the keys, can't edit them</li>
+          <li data-i="se.1d">Never receives passwords or tokens</li>
+        </ul>
+      </div>
+      <div class="wiremsg">
+        <pre id="se-msg">{ "t": "press", "keyId": "k12",
+  "gesture": "tap" }</pre>
+        <small data-i="se.msg">All a phone ever sends: which key, and which gesture.</small>
+      </div>
+      <div class="card">
+        <div class="ic"><svg class="i" data-ic="lock"></svg></div>
+        <h3 data-i="se.2t">On the PC</h3>
+        <ul>
+          <li data-i="se.2a">Accepts connections from the local network only</li>
+          <li data-i="se.2b">Keys and actions are edited only here</li>
+          <li data-i="se.2c">Tokens and passwords encrypted with Windows data protection</li>
+          <li data-i="se.2d">OBS, Streamlabs Desktop and Lightroom stay on 127.0.0.1</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker"><span class="n">08</span><span data-i="fq.k">Troubleshooting</span></div>
+      <h2 data-i="fq.t">If something doesn't work</h2>
+    </div>
+    <div class="faq" id="faq-list"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cta-end">
+      <div style="display:flex;gap:12px;align-items:center"><img src="icon.png" alt="" width="28" height="28"><b style="color:var(--text);font-size:15px">PadNook</b></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn sm" href="https://github.com/AgaresFX/PadNook" data-i="ft.src">Source code</a>
+        <a class="btn sm primary" href="https://github.com/AgaresFX/PadNook/releases/latest"><svg class="i" data-ic="download"></svg><span data-i="dl.long">Download PadNook.exe</span></a>
+      </div>
+    </div>
+    <div data-i="ft.lic" style="margin-top:18px">Free and open source under the <a href="https://github.com/AgaresFX/PadNook/blob/main/LICENSE">MIT License</a>.</div>
+    <div data-i="ft.cable">The Soundpad's virtual microphone uses <a href="https://vb-audio.com/Cable/">VB-CABLE</a> by VB-Audio Software, donationware with its own license. Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0).</div>
+    <div data-i="ft.tm">The names of other products are trademarks of their owners. PadNook is not affiliated with them.</div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+/* ---------- icons (Lucide, ISC) ---------- */
+const IC = {
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+  wifi: '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  box: '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+  phone: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+  monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  mic: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>',
+  micoff: '<line x1="2" x2="22" y1="2" y2="22"/><path d="M18.89 13.23A7.12 7.12 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><line x1="12" x2="12" y1="19" y2="22"/>',
+  radio: '<path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>',
+  eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  scissors: '<circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/>',
+  bookmark: '<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>',
+  clapper: '<path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9"/><path d="m12.4 3.4 3.1 4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>',
+  hourglass: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
+  folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+  camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+  volume: '<path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>',
+  bulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  back: '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  play: '<polygon points="6 3 20 12 6 21 6 3"/>',
+  pause: '<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>',
+  next: '<polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/>',
+  cpu: '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>',
+  keyboard: '<path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
+  moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>',
+  star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>',
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  puzzle: '<path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>',
+  aperture: '<circle cx="12" cy="12" r="10"/><path d="m14.31 8 5.74 9.94"/><path d="M9.69 8h11.48"/><path d="m7.38 12 5.74-9.94"/><path d="M9.69 16 3.95 6.06"/><path d="M14.31 16H2.83"/><path d="m16.62 12-5.74 9.94"/>',
+  wave: '<path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>',
+  gamepad: '<line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/>',
+  layout: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+  calc: '<rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>',
+  speaker: '<rect width="16" height="20" x="4" y="2" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M12 6h.01"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  hash: '<line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/>',
+};
+const icon = (n) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || ''}</svg>`;
+function paintIcons(root = document) {
+  root.querySelectorAll('svg[data-ic]').forEach((s) => { s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true'); s.innerHTML = IC[s.dataset.ic] || ''; });
+}
+
+/* ---------- i18n ---------- */
+const S = {
+  en: {
+    'nav.demo': 'Try it', 'nav.how': 'How it works', 'nav.keys': 'Keys', 'nav.setup': 'Setup', 'nav.int': 'Integrations', 'nav.sec': 'Security',
+    'dl.short': 'Download', 'dl.long': 'Download PadNook.exe',
+    'hero.title': 'A macro pad on the phone you already own.',
+    'hero.lead': 'PadNook turns your iPhone, iPad or Android into a touch keypad for your Windows PC. Tap a key and the PC runs the action. Keys can also show what\'s happening, live. Try the one below.',
+    'hero.setup': 'How to set it up', 'hero.meta': 'Windows 10 and 11 · free and open source (MIT)',
+    'fact.lan': 'Home network only, no cloud', 'fact.acc': 'No account', 'fact.one': 'One .exe, nothing else to install', 'fact.dev': 'iPhone, iPad, Android, any browser',
+    'demo.page1': 'live demo', 'kb.tap': 'tap', 'kb.hold': 'hold', 'kb.drag': 'drag', 'hint.tap': 'run', 'hint.hold': 'second action', 'hint.drag': 'sliders',
+    'flow.phone': 'Phone', 'flow.phone.s': 'web app', 'flow.wifi': 'home Wi-Fi', 'flow.pc.s': 'on your PC', 'flow.apps': 'Programs', 'flow.apps.s': 'OBS, Twitch…',
+    'pc.state': 'What the PC is doing', 'pc.log': 'Messages on the network',
+    'pc.note': 'Simplified. The phone only says which key was pressed; the PC decides what to run.',
+    'how.k': 'How it works', 'how.t': 'Three pieces, all in your home.',
+    'how.1t': 'The phone shows the keys', 'how.1p': 'You open the page PadNook shows on the PC and add it to the Home screen. It becomes a full-screen app, with no store and nothing to install on the phone.',
+    'how.2t': 'Your Wi-Fi carries the taps', 'how.2p': 'Phone and PC talk directly on the local network. Nothing goes through the internet, except the services you choose to connect (weather, Twitch, webhooks…).',
+    'how.3t': 'The PC runs the action', 'how.3p': '<code>PadNook.exe</code> lives as an icon next to the clock. It runs shortcuts, programs, audio, OBS, Twitch, Lightroom… and sends live state back to the keys.',
+    'keys.k': 'Key types', 'keys.t': 'Six kinds of key. Try each one.', 'keys.p': 'Every key is a type plus one or more actions. Pick a type and play with the key on the right.',
+    'ap.k': 'Automatic profiles', 'ap.t': 'The keys follow the program you\'re using.',
+    'ap.p': 'Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Click a program on the taskbar:',
+    'ed.k': 'The editor', 'ed.t': 'Build the keys on the PC, see them on the phone instantly.', 'ed.p': 'Click the PadNook icon next to the clock. Every change reaches all connected devices right away.',
+    'ed.1t': 'Drag and drop', 'ed.1p': 'Click an empty cell to create a key, drag to move. Ctrl+C, Ctrl+V, Ctrl+D and Del work.',
+    'ed.2t': 'Profiles, pages, folders', 'ed.2p': 'Separate grids for portrait and landscape, large keys spanning several cells.',
+    'ed.3t': 'Icons and images', 'ed.3p': 'Thousands of icons, your own images, or search online without leaving the editor.',
+    'ed.4t': 'Export and share', 'ed.4p': 'Save a profile to a file, images included, and import it on another PC.',
+    'su.k': 'Setup', 'su.t': 'From download to first tap in about two minutes.',
+    'in.k': 'Integrations', 'in.t': 'Works with the tools you already use.', 'in.p': 'Plus everything a keyboard can do: shortcuts, programs, text, media, windows, system. Pick one to see what it does.',
+    'se.k': 'Security', 'se.t': 'The phone is a remote, not a key to your PC.', 'se.p': 'A paired phone can only say "I pressed key X". What that key does is decided by the PC, from its own configuration.',
+    'se.1t': 'On the phone', 'se.1a': 'Must be paired with a temporary code', 'se.1b': 'Can be revoked from the PC at any time', 'se.1c': 'Shows the keys, can\'t edit them', 'se.1d': 'Never receives passwords or tokens',
+    'se.msg': 'All a phone ever sends: which key, and which gesture.',
+    'se.2t': 'On the PC', 'se.2a': 'Accepts connections from the local network only', 'se.2b': 'Keys and actions are edited only here', 'se.2c': 'Tokens and passwords encrypted with Windows data protection', 'se.2d': 'OBS, Streamlabs Desktop and Lightroom stay on 127.0.0.1',
+    'fq.k': 'Troubleshooting', 'fq.t': 'If something doesn\'t work',
+    'ft.src': 'Source code',
+    'ft.lic': 'Free and open source under the <a href="https://github.com/AgaresFX/PadNook/blob/main/LICENSE">MIT License</a>.',
+    'ft.cable': 'The Soundpad\'s virtual microphone uses <a href="https://vb-audio.com/Cable/">VB-CABLE</a> by VB-Audio Software, donationware with its own license. Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0).',
+    'ft.tm': 'The names of other products are trademarks of their owners. PadNook is not affiliated with them.',
+    // demo
+    'k.live': 'LIVE', 'k.offline': 'Go live', 'k.viewers': 'viewers', 'k.mic': 'Microphone', 'k.muted': 'Muted', 'k.scene': 'Scene', 'k.clip': 'Clip', 'k.marker': 'Marker',
+    'k.shot': 'Screenshot', 'k.cpu': 'CPU', 'k.timer': 'Timer', 'k.vol': 'Volume', 'k.lights': 'Lights', 'k.back': 'Back', 'k.desk': 'Desk lamp', 'k.ceiling': 'Ceiling', 'k.movie': 'Movie mode', 'k.play': 'Play', 'k.pause': 'Pause',
+    'r.stream': 'Stream', 'r.mic': 'Microphone', 'r.scene': 'OBS scene', 'r.clips': 'Clips / markers', 'r.vol': 'Master volume', 'r.media': 'Music', 'r.lights': 'Lights', 'r.timer': 'Timer',
+    'v.on': 'on', 'v.off': 'off', 'v.active': 'on', 'v.live': 'live', 'v.offline': 'offline', 'v.muted': 'muted', 'v.playing': 'playing', 'v.paused': 'paused', 'v.running': 'running', 'v.stopped': 'stopped',
+    'sc.Gameplay': 'Gameplay', 'sc.Chatting': 'Just chatting', 'sc.BRB': 'Be right back',
+    't.shot': 'Screenshot saved to Pictures', 't.clip': 'Twitch clip created', 't.marker': 'Stream marker added', 't.light': 'Home Assistant: light toggled',
+    'l.folder': 'open folder', 'l.lights': 'Lights', 'l.main': 'Streaming',
+    // key types
+    'kt.action': 'Action', 'kt.toggle': 'Toggle', 'kt.dynamic': 'Dynamic', 'kt.timer': 'Timer', 'kt.slider': 'Slider', 'kt.folder': 'Folder',
+    'kt.action.t': 'Action', 'kt.action.p': 'Runs an action on tap, and a different one on long press.',
+    'kt.action.l': ['Keyboard shortcuts, recorded by pressing the keys', 'Open a program, file, folder or URL', 'Type text, accents and emoji included', 'Macros: a sequence of actions with waits'],
+    'kt.toggle.t': 'Toggle', 'kt.toggle.p': 'Switches ON/OFF at every tap, with a different action and a different look for each state.',
+    'kt.toggle.l': ['Mute and unmute the microphone', 'Start and stop recording', 'A light on and off with Home Assistant', 'Follows the real state, even if you change it on the PC'],
+    'kt.dynamic.t': 'Dynamic', 'kt.dynamic.p': 'Shows live data and changes color, text or icon based on rules.',
+    'kt.dynamic.l': ['Clock, date, weather, CPU, RAM', 'Volume, microphone, OBS status', 'Twitch viewers, followers, latest sub', 'Lightroom values, any web address, plugins'],
+    'kt.dynamic.sim': 'Simulate CPU load', 'kt.dynamic.rule': 'if CPU > 80% → red background',
+    'kt.timer.t': 'Timer', 'kt.timer.p': 'Countdown or stopwatch right on the key.',
+    'kt.timer.l': ['Tap to start or stop', 'Long press to reset', 'Shared by every device: start on the phone, check on the tablet'],
+    'kt.slider.t': 'Slider', 'kt.slider.p': 'Drag your finger on the key to set a value.',
+    'kt.slider.l': ['Master volume or the volume of a single app', 'Microphone level', 'Screen brightness', 'Any Lightroom Develop slider'],
+    'kt.folder.t': 'Folder', 'kt.folder.p': 'Opens a sub-grid of keys, with a key to go back.',
+    'kt.folder.l': ['Keep the main page tidy', 'Group by app, game or room', 'Pages and profiles for bigger changes'],
+    'kt.r.tap': 'tap', 'kt.r.hold': 'long press', 'kt.r.hint': 'Tap the key, or hold it.', 'kt.r.drag': 'Drag up and down on the key.',
+    'kt.r.shot': 'Ctrl+Shift+S', 'kt.r.folder': 'open Screenshots folder',
+    // auto profiles
+    'ap.auto': 'automatic', 'ap.desktop': 'Desktop', 'ap.lr': 'Lightroom Classic', 'ap.obs': 'OBS Studio', 'ap.game': 'A game',
+    'ap.win.desktop': 'No program linked: the default profile', 'ap.win.lr': 'Editing photos', 'ap.win.obs': 'Getting ready to stream', 'ap.win.game': 'Playing',
+    'p.Default': 'Default', 'p.Photo': 'Photo', 'p.Stream': 'Streaming', 'p.Game': 'Game',
+    'a.lock': 'Lock', 'a.calc': 'Calculator', 'a.sleep': 'Sleep', 'a.weather': 'Weather', 'a.exposure': 'Exposure', 'a.contrast': 'Contrast', 'a.shadows': 'Shadows', 'a.temp': 'Temp', 'a.undo': 'Undo', 'a.prev': 'Prev', 'a.nextp': 'Next', 'a.rate': 'Rating', 'a.pick': 'Pick',
+    'a.deaths': 'Deaths', 'a.discord': 'Discord', 'a.sound': 'Airhorn',
+    // setup
+    'su.1t': 'Download', 'su.1d': 'One file, no installer to hunt for',
+    'su.1p': 'Download <code>PadNook.exe</code> from the releases page and run it, even straight from the Downloads folder.',
+    'su.1c': 'Windows may show "Windows protected your PC" because the exe is not signed: click <b>More info → Run anyway</b>.',
+    'su.2t': 'Install', 'su.2d': 'No admin rights needed',
+    'su.2p': 'Choose <b>Install PadNook</b>. It copies itself to your user folder, adds a Start menu entry and starts with Windows. Updates arrive by themselves.',
+    'su.2w': 'PadNook', 'su.2a': 'Install PadNook', 'su.2as': 'Start menu, autostart, automatic updates', 'su.2b': 'Run without installing', 'su.2bs': 'Portable, no automatic updates',
+    'su.3t': 'Pair the phone', 'su.3d': 'Scan the QR code',
+    'su.3p': 'PadNook asks once to create a Windows Firewall rule for the local network, then shows an address, a QR code and a pairing code.',
+    'su.3a': 'Scan with the phone camera and tap the link', 'su.3b': 'or open the address and type the code', 'su.3x': 'Example only, the real code is on your PC.',
+    'su.4t': 'Add to Home screen', 'su.4d': 'Full screen, like an app',
+    'su.4p': 'Keep the keys one tap away, without the browser bars.',
+    'su.4i': ['In Safari tap <b>Share</b>', 'Choose <b>Add to Home Screen</b>', 'Open PadNook from the new icon'],
+    'su.4n': ['Open <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code>', 'Paste the PadNook address, set <b>Enabled</b>, tap <b>Relaunch</b>', 'From the <b>⋮</b> menu choose <b>Install app</b>'],
+    'su.4nc': 'Chrome only installs apps from HTTPS sites, so Android needs this one-time permission. PadNook shows the same guide after pairing.',
+    'su.next': 'Next', 'su.prev': 'Back', 'su.done': 'Download now',
+    // integrations
+    'in.l.does': 'What it can do', 'in.l.how': 'How to connect',
+    // faq
+    'fq': [
+      ['The phone does not connect', 'PC and phone must be on the same Wi-Fi network, not the "guest" one. Also check the firewall rule from the icon menu → Configure firewall….'],
+      ['Keys do nothing in a program run as administrator', 'Windows blocks sending keys to programs with elevated privileges. Run that program normally, or run PadNook as administrator too.'],
+      ['Nothing happens while the PC is locked', 'Windows does not accept shortcuts or typed text on the lock screen. Unlock the PC and try again.'],
+      ['An app is missing from the volume list', 'An app appears only after it has played at least one sound.'],
+      ['The brightness of my external monitor does not change', 'Enable "DDC/CI" in the monitor\'s own menu.'],
+      ['Twitch, Streamlabs or Lightroom say "not connected"', 'The integration panel in the editor shows the status and the last error, step by step.'],
+      ['How do I uninstall it?', 'Settings → Apps → PadNook → Uninstall, or from the icon menu. It removes the program, the shortcut, the autostart entry and the firewall rule; you choose whether to keep your keys.'],
+    ],
+  },
+  it: {
+    'nav.demo': 'Provalo', 'nav.how': 'Come funziona', 'nav.keys': 'Tasti', 'nav.setup': 'Installazione', 'nav.int': 'Integrazioni', 'nav.sec': 'Sicurezza',
+    'dl.short': 'Scarica', 'dl.long': 'Scarica PadNook.exe',
+    'hero.title': 'Una pulsantiera sul telefono che hai già.',
+    'hero.lead': 'PadNook trasforma iPhone, iPad o Android in una tastiera touch per il tuo PC Windows. Tocchi un tasto e il PC esegue l\'azione. I tasti mostrano anche cosa sta succedendo, in diretta. Prova quella qui sotto.',
+    'hero.setup': 'Come installarlo', 'hero.meta': 'Windows 10 e 11 · gratuito e open source (MIT)',
+    'fact.lan': 'Solo rete di casa, niente cloud', 'fact.acc': 'Nessun account', 'fact.one': 'Un solo .exe, nient\'altro da installare', 'fact.dev': 'iPhone, iPad, Android, qualsiasi browser',
+    'demo.page1': 'demo dal vivo', 'kb.tap': 'tocca', 'kb.hold': 'tieni', 'kb.drag': 'trascina', 'hint.tap': 'esegue', 'hint.hold': 'seconda azione', 'hint.drag': 'cursori',
+    'flow.phone': 'Telefono', 'flow.phone.s': 'web app', 'flow.wifi': 'Wi-Fi di casa', 'flow.pc.s': 'sul tuo PC', 'flow.apps': 'Programmi', 'flow.apps.s': 'OBS, Twitch…',
+    'pc.state': 'Cosa sta facendo il PC', 'pc.log': 'Messaggi sulla rete',
+    'pc.note': 'Semplificato. Il telefono dice solo quale tasto è stato premuto; cosa eseguire lo decide il PC.',
+    'how.k': 'Come funziona', 'how.t': 'Tre pezzi, tutti dentro casa.',
+    'how.1t': 'Il telefono mostra i tasti', 'how.1p': 'Apri la pagina che PadNook mostra sul PC e la aggiungi alla schermata Home. Diventa un\'app a schermo intero, senza store e senza installare nulla sul telefono.',
+    'how.2t': 'Il Wi-Fi porta i tocchi', 'how.2p': 'Telefono e PC si parlano direttamente sulla rete locale. Niente passa da internet, tranne i servizi che scegli di collegare (meteo, Twitch, webhook…).',
+    'how.3t': 'Il PC esegue l\'azione', 'how.3p': '<code>PadNook.exe</code> vive come icona vicino all\'orologio. Esegue scorciatoie, programmi, audio, OBS, Twitch, Lightroom… e rimanda lo stato in diretta ai tasti.',
+    'keys.k': 'Tipi di tasto', 'keys.t': 'Sei tipi di tasto. Provali tutti.', 'keys.p': 'Ogni tasto è un tipo più una o più azioni. Scegli un tipo e gioca con il tasto a destra.',
+    'ap.k': 'Profili automatici', 'ap.t': 'I tasti seguono il programma che stai usando.',
+    'ap.p': 'Collega un profilo a un programma. Quando quel programma passa in primo piano, telefoni e tablet passano ai suoi tasti da soli. Clicca un programma sulla barra:',
+    'ed.k': 'L\'editor', 'ed.t': 'Crei i tasti sul PC, li vedi subito sul telefono.', 'ed.p': 'Clicca l\'icona di PadNook vicino all\'orologio. Ogni modifica arriva subito a tutti i dispositivi collegati.',
+    'ed.1t': 'Trascina e rilascia', 'ed.1p': 'Clicca una cella vuota per creare un tasto, trascina per spostarlo. Funzionano Ctrl+C, Ctrl+V, Ctrl+D e Canc.',
+    'ed.2t': 'Profili, pagine, cartelle', 'ed.2p': 'Griglie separate per verticale e orizzontale, tasti grandi su più celle.',
+    'ed.3t': 'Icone e immagini', 'ed.3p': 'Migliaia di icone, le tue immagini, o la ricerca online senza uscire dall\'editor.',
+    'ed.4t': 'Esporta e condividi', 'ed.4p': 'Salva un profilo su file, immagini comprese, e importalo su un altro PC.',
+    'su.k': 'Installazione', 'su.t': 'Dal download al primo tocco in circa due minuti.',
+    'in.k': 'Integrazioni', 'in.t': 'Funziona con gli strumenti che usi già.', 'in.p': 'Più tutto quello che fa una tastiera: scorciatoie, programmi, testo, multimedia, finestre, sistema. Scegline una per vedere cosa fa.',
+    'se.k': 'Sicurezza', 'se.t': 'Il telefono è un telecomando, non una chiave del PC.', 'se.p': 'Un telefono associato può dire solo "ho premuto il tasto X". Cosa fa quel tasto lo decide il PC, dalla sua configurazione.',
+    'se.1t': 'Sul telefono', 'se.1a': 'Va associato con un codice temporaneo', 'se.1b': 'Si può revocare dal PC in qualsiasi momento', 'se.1c': 'Mostra i tasti, non può modificarli', 'se.1d': 'Non riceve mai password o token',
+    'se.msg': 'Tutto quello che un telefono invia: quale tasto e quale gesto.',
+    'se.2t': 'Sul PC', 'se.2a': 'Accetta connessioni solo dalla rete locale', 'se.2b': 'Tasti e azioni si modificano solo qui', 'se.2c': 'Token e password cifrati con la protezione dati di Windows', 'se.2d': 'OBS, Streamlabs Desktop e Lightroom restano su 127.0.0.1',
+    'fq.k': 'Problemi', 'fq.t': 'Se qualcosa non funziona',
+    'ft.src': 'Codice sorgente',
+    'ft.lic': 'Gratuito e open source con <a href="https://github.com/AgaresFX/PadNook/blob/main/LICENSE">licenza MIT</a>.',
+    'ft.cable': 'Il microfono virtuale del Soundpad usa <a href="https://vb-audio.com/Cable/">VB-CABLE</a> di VB-Audio Software, donationware con licenza propria. Dati meteo di <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0).',
+    'ft.tm': 'I nomi di altri prodotti sono marchi dei rispettivi proprietari. PadNook non è affiliato con loro.',
+    'k.live': 'LIVE', 'k.offline': 'Vai in live', 'k.viewers': 'spettatori', 'k.mic': 'Microfono', 'k.muted': 'Muto', 'k.scene': 'Scena', 'k.clip': 'Clip', 'k.marker': 'Marker',
+    'k.shot': 'Screenshot', 'k.cpu': 'CPU', 'k.timer': 'Timer', 'k.vol': 'Volume', 'k.lights': 'Luci', 'k.back': 'Indietro', 'k.desk': 'Lampada', 'k.ceiling': 'Soffitto', 'k.movie': 'Modalità film', 'k.play': 'Play', 'k.pause': 'Pausa',
+    'r.stream': 'Diretta', 'r.mic': 'Microfono', 'r.scene': 'Scena OBS', 'r.clips': 'Clip / marker', 'r.vol': 'Volume generale', 'r.media': 'Musica', 'r.lights': 'Luci', 'r.timer': 'Timer',
+    'v.on': 'accese', 'v.off': 'spente', 'v.active': 'attivo', 'v.live': 'in onda', 'v.offline': 'offline', 'v.muted': 'muto', 'v.playing': 'in riproduzione', 'v.paused': 'in pausa', 'v.running': 'in corso', 'v.stopped': 'fermo',
+    'sc.Gameplay': 'Gameplay', 'sc.Chatting': 'Chiacchiere', 'sc.BRB': 'Torno subito',
+    't.shot': 'Screenshot salvato in Immagini', 't.clip': 'Clip Twitch creata', 't.marker': 'Marker aggiunto alla diretta', 't.light': 'Home Assistant: luce cambiata',
+    'l.folder': 'apri cartella', 'l.lights': 'Luci', 'l.main': 'Streaming',
+    'kt.action': 'Azione', 'kt.toggle': 'Interruttore', 'kt.dynamic': 'Dinamico', 'kt.timer': 'Timer', 'kt.slider': 'Cursore', 'kt.folder': 'Cartella',
+    'kt.action.t': 'Azione', 'kt.action.p': 'Esegue un\'azione al tocco, e un\'altra se tieni premuto.',
+    'kt.action.l': ['Scorciatoie da tastiera, registrate premendo i tasti', 'Apri un programma, file, cartella o URL', 'Scrivi testo, accenti ed emoji compresi', 'Macro: una sequenza di azioni con attese'],
+    'kt.toggle.t': 'Interruttore', 'kt.toggle.p': 'Passa da ON a OFF a ogni tocco, con un\'azione e un aspetto diversi per ogni stato.',
+    'kt.toggle.l': ['Disattiva e riattiva il microfono', 'Avvia e ferma la registrazione', 'Accendi e spegni una luce con Home Assistant', 'Segue lo stato reale, anche se lo cambi dal PC'],
+    'kt.dynamic.t': 'Dinamico', 'kt.dynamic.p': 'Mostra dati in diretta e cambia colore, testo o icona in base a regole.',
+    'kt.dynamic.l': ['Orologio, data, meteo, CPU, RAM', 'Volume, microfono, stato di OBS', 'Spettatori, follower e ultimo sub di Twitch', 'Valori di Lightroom, qualsiasi indirizzo web, plugin'],
+    'kt.dynamic.sim': 'Simula il carico della CPU', 'kt.dynamic.rule': 'se CPU > 80% → sfondo rosso',
+    'kt.timer.t': 'Timer', 'kt.timer.p': 'Conto alla rovescia o cronometro direttamente sul tasto.',
+    'kt.timer.l': ['Tocca per avviare o fermare', 'Tieni premuto per azzerare', 'Condiviso fra tutti i dispositivi: avvii dal telefono, controlli dal tablet'],
+    'kt.slider.t': 'Cursore', 'kt.slider.p': 'Trascina il dito sul tasto per regolare un valore.',
+    'kt.slider.l': ['Volume generale o di una singola app', 'Livello del microfono', 'Luminosità dello schermo', 'Qualsiasi cursore di Sviluppo di Lightroom'],
+    'kt.folder.t': 'Cartella', 'kt.folder.p': 'Apre una sotto-griglia di tasti, con un tasto per tornare indietro.',
+    'kt.folder.l': ['Tiene in ordine la pagina principale', 'Raggruppa per app, gioco o stanza', 'Pagine e profili per cambi più grandi'],
+    'kt.r.tap': 'tocco', 'kt.r.hold': 'tieni premuto', 'kt.r.hint': 'Tocca il tasto, oppure tienilo premuto.', 'kt.r.drag': 'Trascina su e giù sul tasto.',
+    'kt.r.shot': 'Ctrl+Maiusc+S', 'kt.r.folder': 'apri la cartella Screenshot',
+    'ap.auto': 'automatico', 'ap.desktop': 'Desktop', 'ap.lr': 'Lightroom Classic', 'ap.obs': 'OBS Studio', 'ap.game': 'Un gioco',
+    'ap.win.desktop': 'Nessun programma collegato: profilo predefinito', 'ap.win.lr': 'Ritocco foto', 'ap.win.obs': 'Preparazione della diretta', 'ap.win.game': 'In gioco',
+    'p.Default': 'Predefinito', 'p.Photo': 'Foto', 'p.Stream': 'Streaming', 'p.Game': 'Gioco',
+    'a.lock': 'Blocca', 'a.calc': 'Calcolatrice', 'a.sleep': 'Sospendi', 'a.weather': 'Meteo', 'a.exposure': 'Esposizione', 'a.contrast': 'Contrasto', 'a.shadows': 'Ombre', 'a.temp': 'Temp', 'a.undo': 'Annulla', 'a.prev': 'Prec.', 'a.nextp': 'Succ.', 'a.rate': 'Stelle', 'a.pick': 'Scelta',
+    'a.deaths': 'Morti', 'a.discord': 'Discord', 'a.sound': 'Trombetta',
+    'su.1t': 'Scarica', 'su.1d': 'Un solo file, niente installer',
+    'su.1p': 'Scarica <code>PadNook.exe</code> dalla pagina delle release e avvialo, anche direttamente dalla cartella Download.',
+    'su.1c': 'Windows potrebbe mostrare "PC protetto da Windows" perché l\'exe non è firmato: clicca <b>Ulteriori informazioni → Esegui comunque</b>.',
+    'su.2t': 'Installa', 'su.2d': 'Senza diritti di amministratore',
+    'su.2p': 'Scegli <b>Installa PadNook</b>. Si copia nella tua cartella utente, aggiunge la voce nel menu Start e parte con Windows. Gli aggiornamenti arrivano da soli.',
+    'su.2w': 'PadNook', 'su.2a': 'Installa PadNook', 'su.2as': 'Menu Start, avvio automatico, aggiornamenti automatici', 'su.2b': 'Avvia senza installare', 'su.2bs': 'Portatile, niente aggiornamenti automatici',
+    'su.3t': 'Associa il telefono', 'su.3d': 'Inquadra il QR code',
+    'su.3p': 'PadNook chiede una volta di creare una regola del Firewall di Windows per la rete locale, poi mostra un indirizzo, un QR code e un codice di associazione.',
+    'su.3a': 'Inquadra con la fotocamera e tocca il link', 'su.3b': 'oppure apri l\'indirizzo e scrivi il codice', 'su.3x': 'Solo un esempio, il codice vero è sul tuo PC.',
+    'su.4t': 'Aggiungi alla Home', 'su.4d': 'A schermo intero, come un\'app',
+    'su.4p': 'I tasti sempre a un tocco, senza le barre del browser.',
+    'su.4i': ['In Safari tocca <b>Condividi</b>', 'Scegli <b>Aggiungi alla schermata Home</b>', 'Apri PadNook dalla nuova icona'],
+    'su.4n': ['Apri <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code>', 'Incolla l\'indirizzo di PadNook, imposta <b>Enabled</b>, tocca <b>Relaunch</b>', 'Dal menu <b>⋮</b> scegli <b>Installa app</b>'],
+    'su.4nc': 'Chrome installa app solo da siti HTTPS, quindi su Android serve questo permesso una volta sola. PadNook mostra la stessa guida dopo l\'associazione.',
+    'su.next': 'Avanti', 'su.prev': 'Indietro', 'su.done': 'Scarica ora',
+    'in.l.does': 'Cosa può fare', 'in.l.how': 'Come collegarlo',
+    'fq': [
+      ['Il telefono non si collega', 'PC e telefono devono essere sulla stessa rete Wi-Fi, non quella "ospiti". Controlla anche la regola del firewall dal menu dell\'icona → Configura firewall….'],
+      ['I tasti non fanno nulla in un programma avviato come amministratore', 'Windows blocca l\'invio di tasti ai programmi con privilegi elevati. Avvia quel programma normalmente, oppure avvia anche PadNook come amministratore.'],
+      ['Non succede nulla mentre il PC è bloccato', 'Windows non accetta scorciatoie o testo nella schermata di blocco. Sblocca il PC e riprova.'],
+      ['Un\'app non compare nella lista del volume', 'Un\'app compare solo dopo aver riprodotto almeno un suono.'],
+      ['La luminosità del monitor esterno non cambia', 'Attiva "DDC/CI" nel menu del monitor.'],
+      ['Twitch, Streamlabs o Lightroom dicono "non connesso"', 'Il pannello dell\'integrazione nell\'editor mostra lo stato e l\'ultimo errore, passo per passo.'],
+      ['Come si disinstalla?', 'Impostazioni → App → PadNook → Disinstalla, oppure dal menu dell\'icona. Rimuove il programma, il collegamento, l\'avvio automatico e la regola del firewall; scegli tu se tenere i tuoi tasti.'],
+    ],
+  },
+};
+const INTS = {
+  en: [
+    ['obs', 'clapper', 'OBS Studio', ['Start and stop stream, recording, replay buffer', 'Switch scene, mute sources', 'Keys that show if you are live or recording'], 'In OBS 28 or later: Tools → WebSocket Server Settings → Enable. Add the password in the editor if you set one.'],
+    ['slobs', 'clapper', 'Streamlabs Desktop', ['Same actions as OBS: stream, recording, scenes, sources', 'Live status on the keys'], 'Nothing to set up: it connects by itself as soon as Streamlabs Desktop is open.'],
+    ['twitch', 'radio', 'Twitch', ['Markers, clips, title and category, ads', 'Chat messages, announcements, shoutouts, raids, polls and predictions', 'Live viewers, followers, latest follower/sub/raid', 'Events (follow, sub, raid, bits, channel points) can flash a key or run an action'], 'Sign in from the editor with a code you confirm on twitch.tv/activate: PadNook never sees your password. Register a free app on dev.twitch.tv the first time.'],
+    ['sl', 'wave', 'Streamlabs', ['Custom alert in the Alert Box', 'Latest donation and total of the night on a key', 'Donations and events can flash a key or run an action'], 'Paste the tokens from the Streamlabs dashboard (Settings → API Settings → API Tokens). Works with OBS too.'],
+    ['discord', 'chat', 'Discord', ['Mute and deafen, push to talk', 'Input and output volume', 'Join or leave a voice channel', 'Keys that show mute and deafen state'], 'Uses Discord\'s local connection on the PC with your own free app from the Discord Developer Portal. The editor walks you through it step by step.'],
+    ['lr', 'aperture', 'Lightroom Classic', ['Develop sliders you drag with your finger', 'Presets, copy and paste settings', 'Ratings, flags, color labels', 'Keys that show the current value, like "Exposure +0.35"'], 'In the editor press "Install Lightroom plugin" and restart Lightroom. "+ Lightroom" creates a ready-made profile that turns on by itself.'],
+    ['http', 'link', 'Webhooks', ['Send a message to Discord, Telegram or ntfy', 'Call any web API', 'A key that shows a value from any web address', 'Variables like {time}, {date}, clipboard, counters'], 'Ready-made templates guide the setup. Secrets stay encrypted on the PC and are referenced as {segreto:Name}.'],
+    ['ha', 'home', 'Home Assistant', ['Turn lights and plugs on and off', 'Run scenes and scripts', 'Shelly devices too'], 'Use an HTTP request key with the Home Assistant template and a long-lived access token.'],
+    ['sound', 'speaker', 'Soundboard', ['Play mp3, wav, m4a sounds from a key', 'Soundpad pages play sounds to others on Discord together with your voice'], 'For Soundpad, PadNook can install VB-CABLE for you; then pick "CABLE Output" as microphone in Discord.'],
+    ['plugins', 'puzzle', 'Plugins', ['Your own actions and dynamic keys', 'In PowerShell, Python, Node or any language', 'No need to rebuild PadNook'], 'Add a folder with a plugin.json in %APPDATA%\\PadNook\\plugins. A guide and an example are already there.'],
+  ],
+  it: [
+    ['obs', 'clapper', 'OBS Studio', ['Avvia e ferma diretta, registrazione, replay buffer', 'Cambia scena, silenzia le sorgenti', 'Tasti che mostrano se sei in diretta o in registrazione'], 'In OBS 28 o successivo: Strumenti → Impostazioni server WebSocket → Abilita. Inserisci la password nell\'editor se l\'hai impostata.'],
+    ['slobs', 'clapper', 'Streamlabs Desktop', ['Le stesse azioni di OBS: diretta, registrazione, scene, sorgenti', 'Stato in diretta sui tasti'], 'Niente da configurare: si collega da solo appena Streamlabs Desktop è aperto.'],
+    ['twitch', 'radio', 'Twitch', ['Marker, clip, titolo e categoria, pubblicità', 'Messaggi in chat, annunci, shoutout, raid, sondaggi e pronostici', 'Spettatori, follower, ultimo follower/sub/raid in diretta', 'Gli eventi (follow, sub, raid, bits, punti canale) possono far lampeggiare un tasto o eseguire un\'azione'], 'Accedi dall\'editor con un codice da confermare su twitch.tv/activate: PadNook non vede mai la tua password. La prima volta registra un\'app gratuita su dev.twitch.tv.'],
+    ['sl', 'wave', 'Streamlabs', ['Alert personalizzato nell\'Alert Box', 'Ultima donazione e totale della serata su un tasto', 'Donazioni ed eventi possono far lampeggiare un tasto o eseguire un\'azione'], 'Incolla i token dalla dashboard di Streamlabs (Settings → API Settings → API Tokens). Funziona anche con OBS.'],
+    ['discord', 'chat', 'Discord', ['Muto e silenzia audio, push to talk', 'Volume di ingresso e uscita', 'Entra o esci da un canale vocale', 'Tasti che mostrano lo stato di muto e audio'], 'Usa la connessione locale di Discord sul PC con una tua app gratuita dal Discord Developer Portal. L\'editor ti guida passo per passo.'],
+    ['lr', 'aperture', 'Lightroom Classic', ['Cursori di Sviluppo da trascinare con il dito', 'Predefiniti, copia e incolla impostazioni', 'Stelle, bandierine, etichette colore', 'Tasti che mostrano il valore attuale, tipo "Esposizione +0,35"'], 'Nell\'editor premi "Installa plugin Lightroom" e riavvia Lightroom. "+ Lightroom" crea un profilo pronto che si attiva da solo.'],
+    ['http', 'link', 'Webhook', ['Invia un messaggio su Discord, Telegram o ntfy', 'Chiama qualsiasi API web', 'Un tasto che mostra un valore da qualsiasi indirizzo web', 'Variabili come {ora}, {data}, appunti, contatori'], 'Modelli pronti guidano la configurazione. I segreti restano cifrati sul PC e si richiamano con {segreto:Nome}.'],
+    ['ha', 'home', 'Home Assistant', ['Accendi e spegni luci e prese', 'Avvia scene e script', 'Anche dispositivi Shelly'], 'Usa un tasto Richiesta HTTP con il modello Home Assistant e un token di accesso a lunga durata.'],
+    ['sound', 'speaker', 'Soundboard', ['Riproduci suoni mp3, wav, m4a da un tasto', 'Le pagine Soundpad fanno sentire i suoni agli altri su Discord insieme alla tua voce'], 'Per il Soundpad PadNook può installare VB-CABLE per te; poi in Discord scegli "CABLE Output" come microfono.'],
+    ['plugins', 'puzzle', 'Plugin', ['Azioni e tasti dinamici tuoi', 'In PowerShell, Python, Node o qualsiasi linguaggio', 'Senza ricompilare PadNook'], 'Aggiungi una cartella con un plugin.json in %APPDATA%\\PadNook\\plugins. Una guida e un esempio sono già lì.'],
+  ],
+};
+
+let lang = (() => {
+  const q = new URLSearchParams(location.search).get('lang');
+  if (q === 'it' || q === 'en') return q;
+  try { const s = localStorage.getItem('padnook.site.lang'); if (s === 'it' || s === 'en') return s; } catch {}
+  return (navigator.language || '').toLowerCase().startsWith('it') ? 'it' : 'en';
+})();
+const t = (k) => (S[lang][k] ?? S.en[k] ?? k);
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i]').forEach((el) => { el.innerHTML = t(el.dataset.i); });
+  document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  document.getElementById('ed-img').src = lang === 'it' ? 'editor-it.png' : 'editor-en.png';
+  paintIcons();
+  renderDemo(); renderRows(); renderKT(); renderAP(); renderSetup(); renderInts(); renderFAQ();
+}
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => {
+  lang = b.dataset.lang;
+  try { localStorage.setItem('padnook.site.lang', lang); } catch {}
+  applyLang();
+}));
+
+/* ---------- key helper: tap / hold / drag ---------- */
+function bindKey(el, { tap, hold, drag }) {
+  let timer = null, held = false, startY = 0, startVal = 0;
+  el.addEventListener('pointerdown', (e) => {
+    el.setPointerCapture(e.pointerId);
+    el.classList.add('down'); held = false;
+    if (drag) { startY = e.clientY; startVal = drag.get(); setDrag(e); return; }
+    if (hold) { el.classList.add('holding'); timer = setTimeout(() => { held = true; el.classList.remove('holding', 'down'); hold(); }, 500); }
+  });
+  function setDrag(e) {
+    const r = el.getBoundingClientRect();
+    drag.set(Math.max(0, Math.min(100, Math.round(((r.bottom - e.clientY) / r.height) * 100))));
+  }
+  el.addEventListener('pointermove', (e) => { if (drag && el.classList.contains('down')) setDrag(e); });
+  const end = (fire) => () => {
+    clearTimeout(timer); el.classList.remove('holding');
+    if (!el.classList.contains('down')) return;
+    el.classList.remove('down');
+    if (drag) { drag.end && drag.end(); return; }
+    if (fire && !held && tap) tap();
+  };
+  el.addEventListener('pointerup', end(true));
+  el.addEventListener('pointercancel', end(false));
+  el.addEventListener('keydown', (e) => {
+    if (drag && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); drag.set(Math.max(0, Math.min(100, drag.get() + (e.key === 'ArrowUp' ? 5 : -5)))); drag.end && drag.end(); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.shiftKey && hold ? hold() : tap && tap(); }
+  });
+}
+function keyEl(cls, html, label) {
+  const b = document.createElement('button');
+  b.className = 'key ' + (cls || '');
+  b.innerHTML = html + '<span class="hold"></span>';
+  if (label) b.setAttribute('aria-label', label);
+  return b;
+}
+const pad = (n) => String(n).padStart(2, '0');
+const fmtTime = (ms) => { const s = Math.floor(ms / 1000); return s >= 3600 ? `${Math.floor(s / 3600)}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}` : `${pad(Math.floor(s / 60))}:${pad(s % 60)}`; };
+
+/* ---------- live demo ---------- */
+const SCENES = ['Gameplay', 'Chatting', 'BRB'];
+const D = { live: false, viewers: 0, mic: true, scene: 0, clips: 0, markers: 0, vol: 64, playing: false, lights: { desk: true, ceiling: false }, folder: false, tRun: false, tAcc: 0, tStart: 0, cpu: 18 };
+const tElapsed = () => D.tAcc + (D.tRun ? Date.now() - D.tStart : 0);
+
+function send(keyName, gesture, stateMsg, changedRow) {
+  log('out', `→ ${gesture.padEnd(5)} ${keyName}`);
+  packet('wire1', false, () => { packet('wire2', false); });
+  setTimeout(() => {
+    if (stateMsg) { packet('wire1', true); log('in', `← state ${stateMsg}`); }
+    renderRows(changedRow); renderDemo();
+  }, 380);
+}
+function packet(id, back, done) {
+  const w = document.getElementById(id); if (!w) return;
+  const p = document.createElement('span'); p.className = 'packet' + (back ? ' back' : '');
+  w.appendChild(p);
+  const a = p.animate([{ left: back ? 'calc(100% - 8px)' : '0px' }, { left: back ? '0px' : 'calc(100% - 8px)' }], { duration: 340, easing: 'cubic-bezier(0.2,0,0,1)' });
+  a.onfinish = () => { p.remove(); done && done(); };
+}
+function log(cls, txt) {
+  const l = document.getElementById('d-log');
+  const d = document.createElement('div'); d.className = cls; d.textContent = txt;
+  l.appendChild(d);
+  while (l.children.length > 9) l.firstChild.remove();
+}
+function toast(msg) {
+  const el = document.getElementById('d-toast');
+  el.innerHTML = icon('check') + '<span></span>'; el.querySelector('span').textContent = msg;
+  el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+function renderRows(changed) {
+  const rows = [
+    ['stream', icon('radio'), t('r.stream'), `<span class="dot ${D.live ? 'live' : ''}"></span> ${D.live ? t('v.live') + ' · ' + D.viewers + ' ' + t('k.viewers') : t('v.offline')}`],
+    ['mic', icon(D.mic ? 'mic' : 'micoff'), t('r.mic'), `<span class="dot ${D.mic ? 'on' : 'off'}"></span> ${D.mic ? t('v.active') : t('v.muted')}`],
+    ['scene', icon('clapper'), t('r.scene'), t('sc.' + SCENES[D.scene])],
+    ['clips', icon('scissors'), t('r.clips'), `${D.clips} / ${D.markers}`],
+    ['vol', icon('volume'), t('r.vol'), `<span class="bar"><i style="width:${D.vol}%"></i></span>${D.vol}%`],
+    ['media', icon(D.playing ? 'play' : 'pause'), t('r.media'), D.playing ? t('v.playing') : t('v.paused')],
+    ['lights', icon('bulb'), t('r.lights'), `${D.lights.desk ? '●' : '○'} ${D.lights.ceiling ? '●' : '○'}`],
+    ['timer', icon('hourglass'), t('r.timer'), `${fmtTime(tElapsed())} · ${D.tRun ? t('v.running') : t('v.stopped')}`],
+  ];
+  const box = document.getElementById('d-rows');
+  box.innerHTML = rows.map(([id, ic, k, v]) => `<div class="row" data-r="${id}"><span>${ic}${k}</span><b>${v}</b></div>`).join('');
+  if (changed) {
+    const r = box.querySelector(`[data-r="${changed}"]`);
+    if (r) { r.classList.add('changed'); requestAnimationFrame(() => requestAnimationFrame(() => r.classList.remove('changed'))); }
+  }
+}
+
+function renderDemo() {
+  const g = document.getElementById('d-grid'); if (!g) return;
+  g.innerHTML = '';
+  document.getElementById('d-page').textContent = D.folder ? t('l.lights') : t('l.main');
+  const add = (el, opts) => { bindKey(el, opts); g.appendChild(el); return el; };
+  if (D.folder) {
+    add(keyEl('', icon('back') + `<span>${t('k.back')}</span>`), { tap: () => { D.folder = false; log('out', '→ tap   folder.back'); renderDemo(); } });
+    add(keyEl(D.lights.desk ? 'k-amber' : '', icon('bulb') + `<span>${t('k.desk')}</span>`), { tap: () => { D.lights.desk = !D.lights.desk; toast(t('t.light')); send('light.desk', 'tap', `light.desk=${D.lights.desk ? 'on' : 'off'}`, 'lights'); } });
+    add(keyEl(D.lights.ceiling ? 'k-amber' : '', icon('bulb') + `<span>${t('k.ceiling')}</span>`), { tap: () => { D.lights.ceiling = !D.lights.ceiling; toast(t('t.light')); send('light.ceiling', 'tap', `light.ceiling=${D.lights.ceiling ? 'on' : 'off'}`, 'lights'); } });
+    add(keyEl('', icon('moon') + `<span>${t('k.movie')}</span>`), { tap: () => { D.lights.desk = false; D.lights.ceiling = false; D.playing = false; toast(t('t.light')); send('macro.movie', 'tap', 'lights=off media=paused', 'lights'); } });
+    for (let i = 0; i < 8; i++) { const e = document.createElement('div'); e.className = 'key empty'; g.appendChild(e); }
+    return;
+  }
+  add(keyEl(D.live ? 'k-purple' : '', icon('radio') + `<span>${D.live ? t('k.live') : t('k.offline')}</span>`), {
+    tap: () => { D.live = !D.live; D.viewers = D.live ? 3 : 0; send('obs.stream', 'tap', `obs.streaming=${D.live}`, 'stream'); },
+  });
+  add(keyEl('', icon('eye') + `<span class="sub">${D.viewers}</span>`, t('k.viewers')), {});
+  add(keyEl(D.mic ? 'k-green' : 'k-red', icon(D.mic ? 'mic' : 'micoff') + `<span>${D.mic ? t('k.mic') : t('k.muted')}</span>`), {
+    tap: () => { D.mic = !D.mic; send('mic.mute', 'tap', `mic.muted=${!D.mic}`, 'mic'); },
+  });
+  add(keyEl('', icon('clapper') + `<span>${t('sc.' + SCENES[D.scene])}</span>`), {
+    tap: () => { D.scene = (D.scene + 1) % SCENES.length; send('obs.scene', 'tap', `obs.scene="${SCENES[D.scene]}"`, 'scene'); },
+  });
+  add(keyEl('', icon('scissors') + `<span>${t('k.clip')}</span>`), {
+    tap: () => { D.clips++; toast(t('t.clip')); send('twitch.clip', 'tap', `twitch.clips=${D.clips}`, 'clips'); },
+    hold: () => { D.markers++; toast(t('t.marker')); send('twitch.marker', 'hold', `twitch.markers=${D.markers}`, 'clips'); },
+  });
+  add(keyEl('', icon('camera') + `<span>${t('k.shot')}</span>`), {
+    tap: () => { toast(t('t.shot')); send('keys Ctrl+Shift+S', 'tap', null); },
+  });
+  const now = new Date();
+  add(keyEl('', `<span class="big">${pad(now.getHours())}:${pad(now.getMinutes())}</span>`), {});
+  add(keyEl(D.cpu > 80 ? 'k-red' : '', `<span>${t('k.cpu')}</span><span class="big" style="font-size:17px">${D.cpu}%</span>`), {});
+  const tk = add(keyEl(D.tRun ? 'k-green' : '', icon('hourglass') + `<span class="sub" data-timer>${fmtTime(tElapsed())}</span>`), {
+    tap: () => { if (D.tRun) { D.tAcc += Date.now() - D.tStart; D.tRun = false; } else { D.tStart = Date.now(); D.tRun = true; } send('timer', 'tap', `timer.running=${D.tRun}`, 'timer'); },
+    hold: () => { D.tRun = false; D.tAcc = 0; send('timer', 'hold', 'timer.reset', 'timer'); },
+  });
+  const vk = keyEl('slider', `<span class="fill" style="height:${D.vol}%"></span>${icon('volume')}<span class="sub">${D.vol}%</span>`, t('k.vol'));
+  add(vk, { drag: { get: () => D.vol, set: (v) => { D.vol = v; vk.querySelector('.fill').style.height = v + '%'; vk.querySelector('.sub').textContent = v + '%'; renderRows(); }, end: () => send('slider.volume', 'drag', `audio.master=${D.vol}`, 'vol') } });
+  add(keyEl('k-blue', icon('folder') + `<span>${t('k.lights')}</span>`), { tap: () => { D.folder = true; log('out', '→ tap   folder.lights'); renderDemo(); } });
+  add(keyEl(D.playing ? 'k-indigo' : '', icon(D.playing ? 'pause' : 'play') + `<span>${D.playing ? t('k.pause') : t('k.play')}</span>`), {
+    tap: () => { D.playing = !D.playing; send('media.playpause', 'tap', `media.playing=${D.playing}`, 'media'); },
+  });
+}
+
+setInterval(() => {
+  D.cpu = Math.max(3, Math.min(97, D.cpu + Math.round((Math.random() - 0.45) * 14)));
+  if (D.live) D.viewers = Math.max(1, D.viewers + Math.round(Math.random() * 3 - 0.6));
+  if (!D.folder) renderDemo();
+  renderRows();
+}, 1500);
+setInterval(() => { const el = document.querySelector('#d-grid [data-timer]'); if (el && D.tRun) el.textContent = fmtTime(tElapsed()); }, 250);
+
+/* ---------- key types ---------- */
+const KT = ['action', 'toggle', 'dynamic', 'timer', 'slider', 'folder'];
+let ktSel = 'action';
+const KS = { mic: true, cpu: 42, run: false, acc: 0, start: 0, vol: 55, open: false, res: '' };
+function renderKT() {
+  const tabs = document.getElementById('kt-tabs');
+  tabs.innerHTML = KT.map((k) => `<button role="tab" aria-selected="${k === ktSel}" data-k="${k}">${t('kt.' + k)}</button>`).join('');
+  tabs.querySelectorAll('button').forEach((b) => b.onclick = () => { ktSel = b.dataset.k; KS.res = ''; renderKT(); });
+  document.getElementById('kt-text').innerHTML = `<h3>${t(`kt.${ktSel}.t`)}</h3><p>${t(`kt.${ktSel}.p`)}</p><ul>${t(`kt.${ktSel}.l`).map((x) => `<li>${x}</li>`).join('')}</ul>`;
+  const st = document.getElementById('kt-stage'); st.innerHTML = '';
+  const res = document.createElement('div'); res.className = 'result';
+  const setRes = (h) => { KS.res = h; res.innerHTML = h; };
+  res.innerHTML = KS.res || t(ktSel === 'slider' ? 'kt.r.drag' : 'kt.r.hint');
+  let k;
+  if (ktSel === 'action') {
+    k = keyEl('', icon('camera') + `<span>${t('k.shot')}</span>`);
+    bindKey(k, { tap: () => { k.classList.add('flash'); setTimeout(() => k.classList.remove('flash'), 600); setRes(`${t('kt.r.tap')} → <b>${t('kt.r.shot')}</b>`); }, hold: () => setRes(`${t('kt.r.hold')} → <b>${t('kt.r.folder')}</b>`) });
+  } else if (ktSel === 'toggle') {
+    const draw = () => { k.className = 'key ' + (KS.mic ? 'k-green' : 'k-red'); k.innerHTML = icon(KS.mic ? 'mic' : 'micoff') + `<span>${KS.mic ? t('k.mic') : t('k.muted')}</span><span class="hold"></span>`; };
+    k = keyEl('', ''); draw();
+    bindKey(k, { tap: () => { KS.mic = !KS.mic; draw(); setRes(`${KS.mic ? 'OFF → ON' : 'ON → OFF'} · <b>${KS.mic ? 'unmute' : 'mute'}</b>`); } });
+  } else if (ktSel === 'dynamic') {
+    k = keyEl('', '');
+    const draw = () => { k.className = 'key ' + (KS.cpu > 80 ? 'k-red' : ''); k.innerHTML = icon('cpu') + `<span class="big">${KS.cpu}%</span><span class="hold"></span>`; };
+    draw();
+    st.appendChild(k);
+    const r = document.createElement('div'); r.className = 'rule';
+    r.innerHTML = `<label for="cpu-r">${t('kt.dynamic.sim')}</label><input id="cpu-r" type="range" min="0" max="100" value="${KS.cpu}"><div class="rline">${t('kt.dynamic.rule')}</div>`;
+    r.querySelector('input').oninput = (e) => { KS.cpu = +e.target.value; draw(); };
+    st.appendChild(r);
+    return;
+  } else if (ktSel === 'timer') {
+    k = keyEl('', '');
+    const el = () => KS.acc + (KS.run ? Date.now() - KS.start : 0);
+    const draw = () => { k.className = 'key ' + (KS.run ? 'k-green' : ''); k.innerHTML = icon('hourglass') + `<span class="big" style="font-size:20px">${fmtTime(el())}</span><span class="hold"></span>`; };
+    draw();
+    clearInterval(renderKT.ti); renderKT.ti = setInterval(() => { if (ktSel === 'timer' && KS.run) k.querySelector('.big').textContent = fmtTime(el()); }, 250);
+    bindKey(k, {
+      tap: () => { if (KS.run) { KS.acc += Date.now() - KS.start; KS.run = false; } else { KS.start = Date.now(); KS.run = true; } draw(); setRes(`${t('kt.r.tap')} → <b>${KS.run ? 'start' : 'stop'}</b>`); },
+      hold: () => { KS.run = false; KS.acc = 0; draw(); setRes(`${t('kt.r.hold')} → <b>reset</b>`); },
+    });
+  } else if (ktSel === 'slider') {
+    k = keyEl('slider', `<span class="fill" style="height:${KS.vol}%"></span>${icon('volume')}<span class="big">${KS.vol}%</span>`);
+    bindKey(k, { drag: { get: () => KS.vol, set: (v) => { KS.vol = v; k.querySelector('.fill').style.height = v + '%'; k.querySelector('.big').textContent = v + '%'; setRes(`${t('k.vol')} → <b>${v}%</b>`); } } });
+  } else if (ktSel === 'folder') {
+    const g = document.createElement('div'); g.className = 'grid mini';
+    const draw = () => {
+      g.innerHTML = '';
+      const items = KS.open
+        ? [['', 'back', t('k.back'), () => { KS.open = false; draw(); }], ['k-amber', 'bulb', t('k.desk')], ['', 'bulb', t('k.ceiling')], ['', 'moon', t('k.movie')], ['', 'sun', '70%'], ['', 'home', 'Home']]
+        : [['k-blue', 'folder', t('k.lights'), () => { KS.open = true; draw(); }], ['', 'mic', t('k.mic')], ['', 'clapper', t('k.scene')], ['', 'camera', t('k.shot')], ['', 'play', t('k.play')], ['', 'volume', t('k.vol')]];
+      items.forEach(([c, ic, l, fn]) => { const e = keyEl(c, icon(ic) + `<span>${l}</span>`); bindKey(e, { tap: fn || (() => { e.classList.add('flash'); setTimeout(() => e.classList.remove('flash'), 600); }) }); g.appendChild(e); });
+      res.innerHTML = KS.open ? `<b>${t('k.lights')}</b> / ${t('k.back')} ←` : `${t('kt.r.tap')} → <b>${t('k.lights')}</b>`;
+    };
+    draw(); st.appendChild(g); st.appendChild(res); return;
+  }
+  st.appendChild(k); st.appendChild(res);
+}
+
+/* ---------- auto profiles ---------- */
+const APPS = [
+  ['desktop', 'layout', 'Default'],
+  ['lr', 'aperture', 'Photo'],
+  ['obs', 'clapper', 'Stream'],
+  ['game', 'gamepad', 'Game'],
+];
+let apSel = 'desktop', deaths = 6;
+function apKeys(p) {
+  const s = (c, ic, l) => ({ c, ic, l });
+  const v = (c, txt, l, id) => ({ c, txt, l, id });
+  if (p === 'Photo') return [v('slider-lr', '+0.35', t('a.exposure')), v('slider-lr', '+12', t('a.contrast')), v('slider-lr', '+27', t('a.shadows')), v('slider-lr', '5650 K', t('a.temp')), s('', 'undo', t('a.undo')), s('', 'star', t('a.rate')), s('', 'back', t('a.prev')), s('', 'next', t('a.nextp')), s('', 'flag', t('a.pick'))];
+  if (p === 'Stream') return [s('k-purple', 'radio', 'LIVE'), s('', 'eye', '42'), s('k-green', 'mic', t('k.mic')), s('', 'scissors', t('k.clip')), s('', 'bookmark', t('k.marker')), s('', 'clapper', t('k.scene')), s('k-indigo', 'chat', 'Discord'), v('', '08:22', ''), v('', 'CPU 12%', '')];
+  if (p === 'Game') return [v('k-orange', `${t('a.deaths')}\n${deaths}`, '', 'deaths'), s('k-green', 'mic', 'Discord'), s('', 'scissors', t('k.clip')), s('', 'speaker', t('a.sound')), s('', 'camera', t('k.shot')), v('', 'CPU 64%', ''), s('', 'volume', t('k.vol')), v('', '22:41', ''), s('', 'pause', t('k.pause'))];
+  return [s('', 'play', t('k.play')), s('', 'next', 'Next'), s('', 'volume', t('k.vol')), s('', 'lock', t('a.lock')), s('', 'calc', t('a.calc')), s('', 'moon', t('a.sleep')), v('', '14°', t('a.weather')), v('', '08:22', ''), s('k-blue', 'folder', t('k.lights'))];
+}
+function renderAP(animate) {
+  const bar = document.getElementById('ap-bar');
+  bar.innerHTML = APPS.map(([id, ic]) => `<button aria-pressed="${id === apSel}" data-a="${id}">${icon(ic)}<span>${t('ap.' + id)}</span></button>`).join('');
+  bar.querySelectorAll('button').forEach((b) => b.onclick = () => { if (apSel !== b.dataset.a) { apSel = b.dataset.a; renderAP(true); } });
+  const app = APPS.find((a) => a[0] === apSel);
+  document.getElementById('ap-win').innerHTML = `<div class="wt">${icon(app[1])}<span>${t('ap.' + apSel)}</span><i></i><i></i><i></i></div><div style="text-align:center"><div class="big-ic">${icon(app[1])}</div><div>${t('ap.win.' + apSel)}</div></div>`;
+  document.getElementById('ap-name').textContent = t('p.' + app[2]);
+  document.getElementById('ap-auto').textContent = apSel === 'desktop' ? '' : t('ap.auto');
+  const g = document.getElementById('ap-grid');
+  g.innerHTML = '';
+  apKeys(app[2]).forEach((k) => {
+    let el;
+    if (k.c === 'slider-lr') {
+      const pct = 30 + Math.round(Math.random() * 40);
+      el = keyEl('slider', `<span class="fill" style="height:100%;width:${pct}%;right:auto;top:0"></span><span>${k.l}</span><span class="sub">${k.txt}</span>`);
+    } else if (k.txt !== undefined) {
+      el = keyEl(k.c, `<span class="${k.l ? 'sub' : 'big'}" style="${k.l ? '' : 'font-size:15px'};white-space:pre-line">${k.txt}</span>${k.l ? `<span>${k.l}</span>` : ''}`);
+    } else el = keyEl(k.c, icon(k.ic) + `<span>${k.l}</span>`);
+    bindKey(el, { tap: () => { if (k.id === 'deaths') { deaths++; renderAP(); return; } el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 600); } });
+    g.appendChild(el);
+  });
+  if (animate) { g.classList.remove('swap'); void g.offsetWidth; g.classList.add('swap'); }
+}
+
+/* ---------- setup ---------- */
+let suSel = 0, suOS = /android/i.test(navigator.userAgent) ? 'android' : 'ios';
+function qrSvg() {
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const n = 25; let r = '';
+  const finder = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const inF = (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+    if (!inF && rnd() > 0.52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  }
+  return `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" fill="#111">${r}${finder(0, 0)}${finder(n - 7, 0)}${finder(0, n - 7)}</svg>`;
+}
+function renderSetup() {
+  const steps = document.getElementById('su-steps');
+  steps.innerHTML = [1, 2, 3, 4].map((n, i) => `<li><button role="tab" aria-selected="${i === suSel}" data-s="${i}"><span class="num">${n}</span><span class="st">${t(`su.${n}t`)}<span class="sd">${t(`su.${n}d`)}</span></span></button></li>`).join('');
+  steps.querySelectorAll('button').forEach((b) => b.onclick = () => { suSel = +b.dataset.s; renderSetup(); });
+  const n = suSel + 1; let h = `<h3>${t(`su.${n}t`)}</h3><p>${t(`su.${n}p`)}</p>`;
+  if (n === 1) h += `<div class="step-foot"><a class="btn primary" href="https://github.com/AgaresFX/PadNook/releases/latest">${icon('download')}${t('dl.long')}</a></div><div class="callout">${t('su.1c')}</div>`;
+  if (n === 2) h += `<div class="win"><div class="wt"><img src="icon.png" width="14" height="14" alt="">${t('su.2w')}</div><div class="wb"><div class="opt sel">${t('su.2a')}<small>${t('su.2as')}</small></div><div class="opt">${t('su.2b')}<small>${t('su.2bs')}</small></div></div></div>`;
+  if (n === 3) h += `<div class="pair"><div class="qr">${qrSvg()}</div><div><small>${t('su.3a')}</small><div style="margin:4px 0 14px" class="mono">http://192.168.1.10:8765</div><small>${t('su.3b')}</small><div class="pin">482 913</div></div></div><p style="font-size:12.5px;color:var(--muted)">${t('su.3x')}</p>`;
+  if (n === 4) {
+    h += `<div class="seg" style="margin-top:16px" role="group"><button data-os="ios" aria-pressed="${suOS === 'ios'}">iPhone / iPad</button><button data-os="android" aria-pressed="${suOS === 'android'}">Android</button></div>`;
+    h += `<ol>${t(suOS === 'ios' ? 'su.4i' : 'su.4n').map((x) => `<li>${x}</li>`).join('')}</ol>`;
+    if (suOS === 'android') h += `<div class="callout">${t('su.4nc')}</div>`;
+  }
+  h += `<div class="step-foot">${suSel > 0 ? `<button class="btn sm" data-nav="-1">${t('su.prev')}</button>` : ''}${suSel < 3 ? `<button class="btn sm" data-nav="1">${t('su.next')}</button>` : ''}</div>`;
+  const body = document.getElementById('su-body'); body.innerHTML = h;
+  body.querySelectorAll('[data-nav]').forEach((b) => b.onclick = () => { suSel += +b.dataset.nav; renderSetup(); });
+  body.querySelectorAll('[data-os]').forEach((b) => b.onclick = () => { suOS = b.dataset.os; renderSetup(); });
+}
+
+/* ---------- integrations ---------- */
+let inSel = 'obs';
+function renderInts() {
+  const list = INTS[lang];
+  const g = document.getElementById('in-grid');
+  g.innerHTML = list.map(([id, ic, name]) => `<button role="tab" aria-selected="${id === inSel}" data-n="${id}">${icon(ic)}<span>${name}</span></button>`).join('');
+  g.querySelectorAll('button').forEach((b) => b.onclick = () => { inSel = b.dataset.n; renderInts(); });
+  const [, ic, name, does, how] = list.find((x) => x[0] === inSel);
+  document.getElementById('in-detail').innerHTML = `<div><h4>${t('in.l.does')}</h4><h3 style="margin-bottom:10px">${name}</h3><ul>${does.map((x) => `<li>${x}</li>`).join('')}</ul></div><div><h4>${t('in.l.how')}</h4><p style="margin-top:0">${how}</p></div>`;
+}
+
+/* ---------- faq ---------- */
+function renderFAQ() {
+  document.getElementById('faq-list').innerHTML = t('fq').map(([q, a]) => `<details><summary>${q}${icon('chevron')}</summary><p>${a}</p></details>`).join('');
+}
+
+/* security message cycles through gestures */
+const MSGS = ['{ "t": "press", "keyId": "k12",\n  "gesture": "tap" }', '{ "t": "press", "keyId": "k05",\n  "gesture": "long" }', '{ "t": "press", "keyId": "k03",\n  "gesture": "double" }'];
+let mi = 0; setInterval(() => { mi = (mi + 1) % MSGS.length; const el = document.getElementById('se-msg'); if (el) el.textContent = MSGS[mi]; }, 2200);
+
+log('sys', '# paired: iPhone · 192.168.1.23');
+applyLang();
+</script>
+</body>
+</html>
