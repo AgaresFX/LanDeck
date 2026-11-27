@@ -37,7 +37,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+body { margin: 0; overflow-x: clip; background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 svg.i { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 code, .mono { font-family: var(--mono); font-size: 0.88em; }
@@ -175,11 +175,116 @@ input[type=range] { width: 100%; accent-color: var(--text-2); }
 /* auto profiles */
 .ap { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: center; }
 .desk { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-.desk-win { height: 230px; display: grid; place-items: center; color: var(--muted); font-size: 14px; position: relative; transition: background .3s; }
-.desk-win .wt { position: absolute; top: 0; left: 0; right: 0; height: 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; font-size: 12.5px; color: var(--text-2); gap: 8px; background: var(--surface-2); }
+.desk-win { height: 340px; position: relative; color: var(--text-2); font-size: 13px; overflow: hidden; }
+.desk-win .wt { position: absolute; top: 0; left: 0; right: 0; height: 32px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 12px; font-size: 12.5px; color: var(--text-2); gap: 8px; background: var(--surface-2); z-index: 3; }
 .desk-win .wt i { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-3); display: inline-block; }
 .desk-win .wt i:first-child { margin-left: auto; }
-.desk-win .big-ic { font-size: 56px; color: var(--text-2); opacity: .5; }
+.aw { position: absolute; inset: 32px 0 0 0; }
+.lr-h { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; }
+.meter { flex: 1; height: 5px; background: var(--surface-3); border-radius: 4px; overflow: hidden; position: relative; }
+.meter i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ok); border-radius: 4px; }
+.aw-toast { position: absolute; left: 50%; top: 14px; transform: translate(-50%, -6px); background: rgb(20 21 24 / .92); border: 1px solid var(--border-strong); padding: 6px 12px; border-radius: 8px; font-size: 12.5px; color: var(--text); opacity: 0; transition: opacity .2s, transform .2s var(--ease); pointer-events: none; z-index: 5; white-space: nowrap; }
+.aw-toast.show { opacity: 1; transform: translate(-50%, 0); }
+/* lightroom-like */
+.aw-lr { display: grid; grid-template-columns: 1fr 190px; background: #1a1b1e; }
+.lr-main { display: flex; flex-direction: column; padding: 14px; gap: 10px; min-width: 0; }
+.lr-photo { position: relative; flex: 1; border-radius: 4px; overflow: hidden; background: #000; }
+#lr-img, #lr-img svg, .lr-ov { position: absolute; inset: 0; width: 100%; height: 100%; }
+.lr-ov { mix-blend-mode: soft-light; pointer-events: none; }
+#lr-temp { mix-blend-mode: overlay; }
+.lr-meta { display: flex; align-items: center; gap: 14px; height: 30px; font-size: 12px; }
+#lr-stars span { color: #4a4c52; font-size: 14px; } #lr-stars span.on { color: #e9e9ea; }
+#lr-flag { display: inline-flex; gap: 5px; align-items: center; color: #e9e9ea; }
+.lr-strip { margin-left: auto; display: flex; gap: 6px; }
+.lr-strip i { width: 44px; height: 29px; border-radius: 3px; overflow: hidden; opacity: .45; outline: 1px solid transparent; display: block; }
+.lr-strip i.sel { opacity: 1; outline-color: #e9e9ea; }
+.lr-strip svg { width: 100%; height: 100%; display: block; }
+.lr-panel { border-left: 1px solid var(--border); padding: 14px; background: #202125; }
+.lr-row { margin-bottom: 14px; font-size: 12px; }
+.lr-row > div:first-child { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.lr-row b { color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; }
+.lr-track { height: 4px; background: #34363c; border-radius: 3px; position: relative; }
+.lr-track::after { content: ''; position: absolute; left: 50%; top: -3px; width: 1px; height: 10px; background: #5d6068; }
+.lr-track i { position: absolute; top: 0; bottom: 0; background: #c9cbd1; border-radius: 3px; }
+/* obs-like */
+.aw-obs { display: grid; grid-template-columns: 1fr 170px; grid-template-rows: 1fr auto; background: #18191c; }
+.obs-left { padding: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.obs-prev { position: relative; flex: 1; background: #000; border-radius: 4px; overflow: hidden; }
+.obs-bot { display: flex; gap: 12px; align-items: center; }
+.obs-scenes { display: flex; gap: 4px; flex-wrap: wrap; }
+.obs-scenes span { padding: 3px 9px; border-radius: 5px; font-size: 11.5px; background: var(--surface-2); }
+.obs-scenes span.sel { background: var(--surface-3); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.obs-mix { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 90px; }
+.obs-mix .meter i { animation: lvl 0.9s steps(6) infinite alternate; }
+.obs-mix .meter.muted i { animation: none; width: 100% !important; background: var(--danger); opacity: .5; }
+@keyframes lvl { 0% { width: 20%; } 30% { width: 55%; } 60% { width: 35%; } 100% { width: 70%; } }
+.obs-chat { border-left: 1px solid var(--border); padding: 12px; font-size: 12px; overflow: hidden; grid-row: 1 / 3; grid-column: 2; display: flex; flex-direction: column; }
+#obs-chat { display: flex; flex-direction: column; gap: 6px; justify-content: flex-end; flex: 1; }
+#obs-chat div { animation: in .3s var(--ease); line-height: 1.35; }
+#obs-chat b { color: #a77bff; font-weight: 600; }
+#obs-chat .muted { color: var(--muted); }
+.obs-status { grid-column: 1; padding: 6px 12px; border-top: 1px solid var(--border); font-size: 11.5px; display: flex; justify-content: space-between; gap: 10px; }
+.obs-status > span { display: inline-flex; align-items: center; gap: 6px; }
+.obs-cam { position: absolute; right: 8px; bottom: 8px; width: 26%; aspect-ratio: 4/3; background: linear-gradient(#3a4150, #262a33); border-radius: 4px; overflow: hidden; border: 1px solid rgb(255 255 255 / .15); }
+.obs-cam.big { inset: 0; width: auto; border: 0; border-radius: 0; }
+.cam-p { position: absolute; left: 50%; bottom: -10%; width: 46%; height: 70%; transform: translateX(-50%); background: #9aa3b5; border-radius: 50% 50% 10% 10%; }
+.cam-p::before { content: ''; position: absolute; left: 50%; top: -48%; width: 52%; aspect-ratio: 1; transform: translateX(-50%); background: #b7bfce; border-radius: 50%; }
+.obs-cam.big .cam-p { width: 30%; height: 55%; }
+.obs-lower { position: absolute; left: 12px; bottom: 12px; background: var(--purple); color: #fff; padding: 4px 10px; font-size: 12px; font-weight: 600; border-radius: 3px; }
+.obs-brb { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #fff; font-size: 22px; font-weight: 650; background: radial-gradient(circle at 50% 40%, #2b2346, #0f0d18); }
+.obs-brb small { font-size: 12px; font-weight: 400; color: #b9b3d6; }
+/* game */
+.aw-game { overflow: hidden; }
+.aw-game.mini { position: absolute; inset: 0; }
+.gm-sky { position: absolute; inset: 0; background: linear-gradient(#1d2b5a, #4a3f87 60%, #8a5aa3); }
+.gm-hills { position: absolute; left: -10%; right: -10%; bottom: 12%; height: 40%; background: radial-gradient(ellipse at 25% 100%, #2c2960 55%, transparent 56%), radial-gradient(ellipse at 75% 100%, #332d6b 50%, transparent 51%); }
+.gm-ground { position: absolute; left: 0; right: 0; bottom: 0; height: 14%; background: #3a8a4a; border-top: 4px solid #5fcf6f; }
+.gm-plat { position: absolute; height: 12px; background: #c58b4a; border-top: 4px solid #e8b36d; border-radius: 3px; }
+.gm-coin { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #f5c542; box-shadow: inset -2px -2px 0 #c99a1e; animation: coin 1.2s ease-in-out infinite; }
+@keyframes coin { 50% { transform: translateY(-5px); } }
+.gm-hero { position: absolute; bottom: 14%; left: 8%; width: 28px; height: 28px; background: #ff7a59; border-radius: 6px; animation: run 5s linear infinite, hop .5s ease-in-out infinite alternate; display: flex; gap: 5px; justify-content: center; padding-top: 7px; }
+.gm-hero i { width: 5px; height: 7px; background: #1b1b1b; border-radius: 2px; }
+@keyframes run { 0% { left: 6%; } 50% { left: 85%; } 100% { left: 6%; } }
+@keyframes hop { to { transform: translateY(-16px); } }
+.aw-game.paused .gm-hero, .aw-game.paused .gm-coin { animation-play-state: paused; }
+.gm-hud { position: absolute; top: 10px; left: 12px; right: 12px; display: flex; justify-content: space-between; color: #fff; font-weight: 700; font-size: 13px; text-shadow: 0 1px 2px rgb(0 0 0 / .6); z-index: 2; }
+.gm-vol { display: flex; align-items: center; gap: 6px; width: 120px; }
+.gm-vol .meter { background: rgb(255 255 255 / .25); } .gm-vol .meter i { background: #fff; }
+.gm-mic { position: absolute; left: 12px; bottom: 18%; width: 30px; height: 30px; border-radius: 50%; background: #3fa363; display: grid; place-items: center; color: #fff; z-index: 2; }
+.gm-mic.off { background: var(--danger); }
+.gm-mic svg { width: 16px; height: 16px; }
+.gm-flash { position: absolute; inset: 0; background: #e5383b; opacity: 0; pointer-events: none; z-index: 4; }
+.gm-flash.white { background: #fff; }
+.gm-flash.on { animation: gflash .5s ease-out; }
+@keyframes gflash { 0% { opacity: .65; } 100% { opacity: 0; } }
+.gm-rings { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; border: 3px solid #fff; opacity: 0; pointer-events: none; z-index: 3; }
+.gm-rings.on { animation: rings .8s ease-out; }
+@keyframes rings { 0% { opacity: .9; transform: scale(.5); } 100% { opacity: 0; transform: scale(6); } }
+.gm-pause { position: absolute; inset: 0; display: none; place-items: center; background: rgb(0 0 0 / .45); color: #fff; font-size: 26px; font-weight: 800; letter-spacing: .05em; z-index: 3; }
+.aw-game.paused .gm-pause { display: grid; }
+/* desktop */
+.aw-desk { background: radial-gradient(circle at 20% 20%, #2a3550, transparent 55%), radial-gradient(circle at 85% 80%, #3b2a4a, transparent 55%), #15171c; }
+.dk-lamp { position: absolute; inset: 0; background: radial-gradient(circle at 15% 0%, rgb(255 190 110 / .45), transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
+.dk-lamp.show { opacity: 1; }
+.dk-weather { position: absolute; top: 16px; right: 16px; display: flex; gap: 10px; align-items: center; background: rgb(255 255 255 / .06); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; }
+.dk-weather svg { width: 26px; height: 26px; color: #f5c542; }
+.dk-weather b { font-size: 18px; color: var(--text); display: block; line-height: 1.1; } .dk-weather small { color: var(--muted); }
+.dk-music { position: absolute; left: 16px; bottom: 16px; width: 270px; display: flex; gap: 12px; align-items: center; background: rgb(255 255 255 / .06); border: 1px solid var(--border); border-radius: 12px; padding: 10px; }
+.dk-art { width: 44px; height: 44px; border-radius: 8px; background: linear-gradient(135deg, #4a7dff, #a77bff); flex: none; }
+.dk-info { flex: 1; min-width: 0; } .dk-info b { display: block; color: var(--text); font-size: 13px; } .dk-info small { color: var(--muted); font-size: 11.5px; }
+.dk-prog { height: 3px; background: var(--surface-3); border-radius: 2px; margin-top: 6px; overflow: hidden; } .dk-prog i { display: block; height: 100%; background: var(--text-2); transition: width 1s linear; }
+#dk-pp svg { width: 20px; height: 20px; color: var(--text); }
+.dk-osd { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; width: 200px; background: rgb(30 31 35 / .95); border: 1px solid var(--border-strong); border-radius: 10px; padding: 8px 12px; opacity: 0; transition: opacity .2s; }
+.dk-osd.show { opacity: 1; } .dk-osd .meter i { background: var(--text); } .dk-osd span { width: 22px; text-align: right; color: var(--text); font-variant-numeric: tabular-nums; }
+.dk-calc { position: absolute; left: 50%; top: 18px; width: 170px; margin-left: -85px; background: #202125; border: 1px solid var(--border-strong); border-radius: 10px; padding: 10px; box-shadow: 0 16px 40px rgb(0 0 0 / .5); transform: scale(.9); opacity: 0; transition: opacity .2s, transform .2s var(--ease); pointer-events: none; }
+.dk-calc.show { opacity: 1; transform: none; }
+.dk-calc-d { text-align: right; font-size: 22px; color: var(--text); padding: 4px 4px 8px; }
+.dk-calc-k { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; } .dk-calc-k i { font-style: normal; text-align: center; background: var(--surface-3); border-radius: 5px; padding: 4px 0; font-size: 12px; color: var(--text); }
+.dk-lock { position: absolute; inset: 0; background: linear-gradient(#1c2333, #0d1017); display: none; place-content: center; text-align: center; cursor: pointer; z-index: 4; }
+.dk-lock.show { display: grid; } .dk-lock b { font-size: 52px; font-weight: 300; color: #fff; line-height: 1; } .dk-lock small { color: var(--text-2); margin-top: 8px; }
+.dk-sleep { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .6s; z-index: 5; cursor: pointer; }
+.dk-sleep.show { opacity: 1; pointer-events: auto; }
+.key.slider.hz .fill { top: 0; bottom: 0; right: auto; height: auto; transition: width .08s linear; }
 .taskbar { display: flex; gap: 6px; padding: 10px; border-top: 1px solid var(--border); background: #121315; justify-content: center; flex-wrap: wrap; }
 .taskbar button { all: unset; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-2); position: relative; transition: background .15s, color .15s; }
 .taskbar button:hover { background: var(--surface-2); color: var(--text); }
@@ -281,6 +386,10 @@ footer a { color: var(--text-2); }
   .node small, .node .t { display: none; }
   .kt-stage .grid.mini { width: 100%; }
   section { padding: 64px 0; }
+  .desk-win { height: 270px; }
+  .aw-lr, .aw-obs { grid-template-columns: 1fr; }
+  .lr-panel, .obs-chat, .lr-strip, .dk-weather { display: none; }
+  .dk-music { width: auto; right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
 </style>
@@ -401,7 +510,7 @@ footer a { color: var(--text-2); }
         <div class="sec-head" style="margin-bottom:24px">
           <div class="kicker"><span class="n">03</span><span data-i="ap.k">Automatic profiles</span></div>
           <h2 data-i="ap.t">The keys follow the program you're using.</h2>
-          <p data-i="ap.p">Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Click a program on the taskbar:</p>
+          <p data-i="ap.p">Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Pick a program on the taskbar, then use the keys on the phone: they really drive the program.</p>
         </div>
         <div class="desk">
           <div class="desk-win" id="ap-win"></div>
@@ -597,7 +706,7 @@ const S = {
     'how.3t': 'The PC runs the action', 'how.3p': '<code>PadNook.exe</code> lives as an icon next to the clock. It runs shortcuts, programs, audio, OBS, Twitch, Lightroom… and sends live state back to the keys.',
     'keys.k': 'Key types', 'keys.t': 'Six kinds of key. Try each one.', 'keys.p': 'Every key is a type plus one or more actions. Pick a type and play with the key on the right.',
     'ap.k': 'Automatic profiles', 'ap.t': 'The keys follow the program you\'re using.',
-    'ap.p': 'Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Click a program on the taskbar:',
+    'ap.p': 'Link a profile to a program. When that program comes to the front, every phone and tablet switches to its keys by themselves. Pick a program on the taskbar, then use the keys on the phone: they really drive the program.',
     'ed.k': 'The editor', 'ed.t': 'Build the keys on the PC, see them on the phone instantly.', 'ed.p': 'Click the PadNook icon next to the clock. Every change reaches all connected devices right away.',
     'ed.1t': 'Drag and drop', 'ed.1p': 'Click an empty cell to create a key, drag to move. Ctrl+C, Ctrl+V, Ctrl+D and Del work.',
     'ed.2t': 'Profiles, pages, folders', 'ed.2p': 'Separate grids for portrait and landscape, large keys spanning several cells.',
@@ -641,6 +750,7 @@ const S = {
     'kt.r.shot': 'Ctrl+Shift+S', 'kt.r.folder': 'open Screenshots folder',
     // auto profiles
     'ap.auto': 'automatic', 'ap.desktop': 'Desktop', 'ap.lr': 'Lightroom Classic', 'ap.obs': 'OBS Studio', 'ap.game': 'A game',
+    'aw.basic': 'Basic', 'aw.chat': 'Chat', 'aw.paused': 'PAUSED', 'aw.weather': 'Sunny', 'aw.locked': 'Click to unlock', 'aw.streamer': 'Just chatting with you', 'aw.brb': 'Grabbing a coffee', 'aw.nochat': 'Go live to see the chat', 'aw.uptime': 'uptime', 'aw.clipsaved': 'Clip of the last 30 s saved', 'aw.lamp': 'Lamp',
     'ap.win.desktop': 'No program linked: the default profile', 'ap.win.lr': 'Editing photos', 'ap.win.obs': 'Getting ready to stream', 'ap.win.game': 'Playing',
     'p.Default': 'Default', 'p.Photo': 'Photo', 'p.Stream': 'Streaming', 'p.Game': 'Game',
     'a.lock': 'Lock', 'a.calc': 'Calculator', 'a.sleep': 'Sleep', 'a.weather': 'Weather', 'a.exposure': 'Exposure', 'a.contrast': 'Contrast', 'a.shadows': 'Shadows', 'a.temp': 'Temp', 'a.undo': 'Undo', 'a.prev': 'Prev', 'a.nextp': 'Next', 'a.rate': 'Rating', 'a.pick': 'Pick',
@@ -691,7 +801,7 @@ const S = {
     'how.3t': 'Il PC esegue l\'azione', 'how.3p': '<code>PadNook.exe</code> vive come icona vicino all\'orologio. Esegue scorciatoie, programmi, audio, OBS, Twitch, Lightroom… e rimanda lo stato in diretta ai tasti.',
     'keys.k': 'Tipi di tasto', 'keys.t': 'Un tipo di tasto per ogni esigenza. Provali tutti.', 'keys.p': 'Ogni tasto è un tipo più una o più azioni. Scegli un tipo e gioca con il tasto a destra.',
     'ap.k': 'Profili automatici', 'ap.t': 'I tasti seguono il programma che stai usando.',
-    'ap.p': 'Collega un profilo a un programma. Quando quel programma passa in primo piano, telefoni e tablet passano ai suoi tasti da soli. Clicca un programma sulla barra:',
+    'ap.p': 'Collega un profilo a un programma. Quando quel programma passa in primo piano, telefoni e tablet passano ai suoi tasti da soli. Scegli un programma sulla barra, poi usa i tasti sul telefono: comandano davvero il programma.',
     'ed.k': 'L\'editor', 'ed.t': 'Crei i tasti sul PC, li vedi subito sul telefono.', 'ed.p': 'Clicca l\'icona di PadNook vicino all\'orologio. Ogni modifica arriva subito a tutti i dispositivi collegati.',
     'ed.1t': 'Trascina e rilascia', 'ed.1p': 'Clicca una cella vuota per creare un tasto, trascina per spostarlo. Funzionano Ctrl+C, Ctrl+V, Ctrl+D e Canc.',
     'ed.2t': 'Profili, pagine, cartelle', 'ed.2p': 'Griglie separate per verticale e orizzontale, tasti grandi su più celle.',
@@ -732,6 +842,7 @@ const S = {
     'kt.r.tap': 'tocco', 'kt.r.hold': 'tieni premuto', 'kt.r.hint': 'Tocca il tasto, oppure tienilo premuto.', 'kt.r.drag': 'Trascina su e giù sul tasto.',
     'kt.r.shot': 'Ctrl+Maiusc+S', 'kt.r.folder': 'apri la cartella Screenshot',
     'ap.auto': 'automatico', 'ap.desktop': 'Desktop', 'ap.lr': 'Lightroom Classic', 'ap.obs': 'OBS Studio', 'ap.game': 'Un gioco',
+    'aw.basic': 'Base', 'aw.chat': 'Chat', 'aw.paused': 'PAUSA', 'aw.weather': 'Sereno', 'aw.locked': 'Clicca per sbloccare', 'aw.streamer': 'Due chiacchiere con voi', 'aw.brb': 'Vado a prendere un caffè', 'aw.nochat': 'Vai in live per vedere la chat', 'aw.uptime': 'in onda da', 'aw.clipsaved': 'Clip degli ultimi 30 s salvata', 'aw.lamp': 'Lampada',
     'ap.win.desktop': 'Nessun programma collegato: profilo predefinito', 'ap.win.lr': 'Ritocco foto', 'ap.win.obs': 'Preparazione della diretta', 'ap.win.game': 'In gioco',
     'p.Default': 'Predefinito', 'p.Photo': 'Foto', 'p.Stream': 'Streaming', 'p.Game': 'Gioco',
     'a.lock': 'Blocca', 'a.calc': 'Calcolatrice', 'a.sleep': 'Sospendi', 'a.weather': 'Meteo', 'a.exposure': 'Esposizione', 'a.contrast': 'Contrasto', 'a.shadows': 'Ombre', 'a.temp': 'Temp', 'a.undo': 'Annulla', 'a.prev': 'Prec.', 'a.nextp': 'Succ.', 'a.rate': 'Stelle', 'a.pick': 'Scelta',
@@ -814,16 +925,17 @@ document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('clic
 
 /* ---------- key helper: tap / hold / drag ---------- */
 function bindKey(el, { tap, hold, drag }) {
-  let timer = null, held = false, startY = 0, startVal = 0;
+  let timer = null, held = false;
   el.addEventListener('pointerdown', (e) => {
-    el.setPointerCapture(e.pointerId);
+    try { el.setPointerCapture(e.pointerId); } catch {}
     el.classList.add('down'); held = false;
-    if (drag) { startY = e.clientY; startVal = drag.get(); setDrag(e); return; }
+    if (drag) { drag.start && drag.start(); setDrag(e); return; }
     if (hold) { el.classList.add('holding'); timer = setTimeout(() => { held = true; el.classList.remove('holding', 'down'); hold(); }, 500); }
   });
   function setDrag(e) {
     const r = el.getBoundingClientRect();
-    drag.set(Math.max(0, Math.min(100, Math.round(((r.bottom - e.clientY) / r.height) * 100))));
+    const f = drag.axis === 'x' ? (e.clientX - r.left) / r.width : (r.bottom - e.clientY) / r.height;
+    drag.set(Math.max(0, Math.min(100, Math.round(f * 100))));
   }
   el.addEventListener('pointermove', (e) => { if (drag && el.classList.contains('down')) setDrag(e); });
   const end = (fire) => () => {
@@ -836,7 +948,7 @@ function bindKey(el, { tap, hold, drag }) {
   el.addEventListener('pointerup', end(true));
   el.addEventListener('pointercancel', end(false));
   el.addEventListener('keydown', (e) => {
-    if (drag && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); drag.set(Math.max(0, Math.min(100, drag.get() + (e.key === 'ArrowUp' ? 5 : -5)))); drag.end && drag.end(); }
+    if (drag && /^Arrow/.test(e.key)) { e.preventDefault(); drag.start && drag.start(); drag.set(Math.max(0, Math.min(100, drag.get() + (e.key === 'ArrowUp' || e.key === 'ArrowRight' ? 5 : -5)))); drag.end && drag.end(); }
     else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.shiftKey && hold ? hold() : tap && tap(); }
   });
 }
@@ -1020,38 +1132,238 @@ const APPS = [
   ['obs', 'clapper', 'Stream'],
   ['game', 'gamepad', 'Game'],
 ];
-let apSel = 'desktop', deaths = 6;
-function apKeys(p) {
-  const s = (c, ic, l) => ({ c, ic, l });
-  const v = (c, txt, l, id) => ({ c, txt, l, id });
-  if (p === 'Photo') return [v('slider-lr', '+0.35', t('a.exposure')), v('slider-lr', '+12', t('a.contrast')), v('slider-lr', '+27', t('a.shadows')), v('slider-lr', '5650 K', t('a.temp')), s('', 'undo', t('a.undo')), s('', 'star', t('a.rate')), s('', 'back', t('a.prev')), s('', 'next', t('a.nextp')), s('', 'flag', t('a.pick'))];
-  if (p === 'Stream') return [s('k-purple', 'radio', 'LIVE'), s('', 'eye', '42'), s('k-green', 'mic', t('k.mic')), s('', 'scissors', t('k.clip')), s('', 'bookmark', t('k.marker')), s('', 'clapper', t('k.scene')), s('k-indigo', 'chat', 'Discord'), v('', '08:22', ''), v('', 'CPU 12%', '')];
-  if (p === 'Game') return [v('k-orange', `${t('a.deaths')}\n${deaths}`, '', 'deaths'), s('k-green', 'mic', 'Discord'), s('', 'scissors', t('k.clip')), s('', 'speaker', t('a.sound')), s('', 'camera', t('k.shot')), v('', 'CPU 64%', ''), s('', 'volume', t('k.vol')), v('', '22:41', ''), s('', 'pause', t('k.pause'))];
-  return [s('', 'play', t('k.play')), s('', 'next', 'Next'), s('', 'volume', t('k.vol')), s('', 'lock', t('a.lock')), s('', 'calc', t('a.calc')), s('', 'moon', t('a.sleep')), v('', '14°', t('a.weather')), v('', '08:22', ''), s('k-blue', 'folder', t('k.lights'))];
+let apSel = 'lr';
+const $ = (s) => document.querySelector(s);
+const sgn = (n) => (n > 0 ? '+' : '') + n;
+const dec = (s) => (lang === 'it' ? s.replace('.', ',') : s);
+const AP = {
+  lr: { photo: 0, exp: 59, con: 56, sha: 63, tmp: 52, rate: 3, pick: false, hist: [] },
+  obs: { live: false, start: 0, scene: 0, mic: true, discord: true, viewers: 0, chat: [], clips: 0, markers: 0 },
+  game: { deaths: 6, mic: true, paused: false, vol: 70 },
+  desk: { playing: false, track: 0, pos: 0, vol: 40, locked: false, sleep: false, calc: false, lamp: false },
+};
+const LRF = {
+  exp: ['a.exposure', (p) => dec(sgn(((p - 50) / 25).toFixed(2)).replace('+-', '-'))],
+  con: ['a.contrast', (p) => sgn(Math.round((p - 50) * 2))],
+  sha: ['a.shadows', (p) => sgn(Math.round((p - 50) * 2))],
+  tmp: ['a.temp', (p) => Math.round(5500 + (p - 50) * 80) + ' K'],
+};
+const TRACKS = [['Night Drive', 'Lumen'], ['Paper Boats', 'The Quiet Hours'], ['Signal Fires', 'Northbound']];
+const CHAT = [['mara_92', 'hi!'], ['pixelfox', 'gg'], ['nightowl', 'that was clean'], ['tomtom', 'first time here 👋'], ['luca_dev', 'what keys are those?'], ['ketchup', 'LOL'], ['frida', 'clip it!'], ['b0b', 'hype']];
+
+function photoSvg(i) {
+  const head = '<svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">';
+  if (i === 1) return head + `<defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa6e6"/><stop offset="1" stop-color="#d9efff"/></linearGradient></defs>
+    <rect width="400" height="260" fill="url(#s1)"/><circle cx="320" cy="55" r="22" fill="#fff8de"/>
+    <path d="M0 170 L70 80 L110 120 L170 40 L240 130 L290 85 L400 170 Z" fill="#8c9bb0"/>
+    <path d="M150 62 L170 40 L192 70 L180 66 L170 74 L160 64 Z M57 96 L70 80 L82 96 L70 92 Z M280 96 L290 85 L302 100 L290 96 Z" fill="#fff"/>
+    <path d="M0 200 Q100 150 200 185 T400 175 L400 260 L0 260 Z" fill="#4f8a3c"/><path d="M0 230 Q120 195 250 225 T400 215 L400 260 L0 260 Z" fill="#2f6b2a"/>
+    ${[30, 55, 330, 360, 380].map((x, k) => `<path d="M${x} ${225 - k * 3} l12 -38 l12 38 Z" fill="#1d4a1c"/>`).join('')}</svg>`;
+  if (i === 2) return head + `<defs><linearGradient id="s2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ad0ec"/><stop offset="1" stop-color="#ffe2b8"/></linearGradient><linearGradient id="w2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f8cc4"/><stop offset="1" stop-color="#1b5d88"/></linearGradient></defs>
+    <rect width="400" height="260" fill="url(#s2)"/><rect y="150" width="400" height="70" fill="url(#w2)"/>
+    <path d="M0 215 Q120 200 220 212 T400 205 L400 260 L0 260 Z" fill="#e8cf9b"/>
+    <path d="M270 150 L300 110 L330 120 L360 150 Z" fill="#5b5048"/><rect x="306" y="62" width="12" height="52" fill="#f2f2f2"/><rect x="306" y="74" width="12" height="8" fill="#d94b3d"/><rect x="306" y="94" width="12" height="8" fill="#d94b3d"/><rect x="303" y="56" width="18" height="8" fill="#333"/>
+    <path d="M40 60 q10 -6 20 0 q10 -6 20 0" stroke="#41535f" stroke-width="2" fill="none"/><path d="M110 40 q7 -4 14 0 q7 -4 14 0" stroke="#41535f" stroke-width="2" fill="none"/>
+    <path d="M0 165 q20 -4 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#bfe6ff" stroke-width="1.5" fill="none" opacity=".6"/></svg>`;
+  return head + `<defs><linearGradient id="s0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d2c5e"/><stop offset=".55" stop-color="#e06666"/><stop offset="1" stop-color="#f6b26b"/></linearGradient><linearGradient id="w0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c0566a"/><stop offset="1" stop-color="#2b2140"/></linearGradient></defs>
+    <rect width="400" height="260" fill="url(#s0)"/><circle cx="200" cy="150" r="34" fill="#ffd39a"/>
+    <path d="M0 160 L60 105 L120 140 L190 90 L260 145 L330 100 L400 150 L400 170 L0 170 Z" fill="#4a3b5c"/>
+    <path d="M0 170 L80 130 L150 160 L230 120 L300 158 L360 135 L400 160 L400 172 L0 172 Z" fill="#2e2440"/>
+    <rect y="170" width="400" height="90" fill="url(#w0)"/><rect x="180" y="176" width="40" height="3" fill="#ffd39a" opacity=".8"/><rect x="170" y="186" width="60" height="2" fill="#ffd39a" opacity=".5"/><rect x="186" y="196" width="28" height="2" fill="#ffd39a" opacity=".4"/></svg>`;
+}
+
+/* --- window contents (built once per app switch, then updated in place) --- */
+function buildWin() {
+  const app = APPS.find((a) => a[0] === apSel);
+  let body = '';
+  if (apSel === 'lr') {
+    body = `<div class="aw aw-lr"><div class="lr-main"><div class="lr-photo"><div id="lr-img"></div><div class="lr-ov" id="lr-lift"></div><div class="lr-ov" id="lr-temp"></div></div>
+      <div class="lr-meta"><span id="lr-stars"></span><span id="lr-flag"></span><span class="lr-strip" id="lr-strip"></span></div></div>
+      <div class="lr-panel"><div class="lr-h">${t('aw.basic')}</div>${Object.keys(LRF).map((k) => `<div class="lr-row"><div><span>${t(LRF[k][0])}</span><b id="lrv-${k}"></b></div><div class="lr-track"><i id="lrb-${k}"></i></div></div>`).join('')}</div></div>`;
+  } else if (apSel === 'obs') {
+    body = `<div class="aw aw-obs"><div class="obs-left"><div class="obs-prev" id="obs-prev"></div>
+      <div class="obs-bot"><div class="obs-scenes" id="obs-scenes"></div><div class="obs-mix"><span>${icon('mic')}</span><div class="meter"><i id="obs-meter"></i></div></div></div></div>
+      <div class="obs-chat"><div class="lr-h">${t('aw.chat')}</div><div id="obs-chat"></div></div>
+      <div class="obs-status"><span id="obs-live"></span><span id="obs-dc"></span></div><div class="aw-toast" id="aw-toast"></div></div>`;
+  } else if (apSel === 'game') {
+    body = `<div class="aw aw-game" id="gm"><div class="gm-sky"></div><div class="gm-hills"></div><div class="gm-plat" style="left:18%;bottom:34%;width:22%"></div><div class="gm-plat" style="left:58%;bottom:50%;width:18%"></div>
+      <div class="gm-coin" style="left:26%;bottom:46%"></div><div class="gm-coin" style="left:64%;bottom:62%"></div><div class="gm-ground"></div><div class="gm-hero" id="gm-hero"><i></i><i></i></div>
+      <div class="gm-hud"><span id="gm-deaths"></span><span class="gm-vol"><span>${icon('volume')}</span><span class="meter"><i id="gm-vol"></i></span></span></div>
+      <div class="gm-mic" id="gm-mic"></div><div class="gm-rings" id="gm-rings"></div><div class="gm-flash" id="gm-flash"></div><div class="gm-pause" id="gm-pause">${t('aw.paused')}</div><div class="aw-toast" id="aw-toast"></div></div>`;
+  } else {
+    body = `<div class="aw aw-desk"><div class="dk-lamp" id="dk-lamp"></div>
+      <div class="dk-weather">${icon('sun')}<div><b>14°</b><small>${t('aw.weather')}</small></div></div>
+      <div class="dk-music"><div class="dk-art"></div><div class="dk-info"><b id="dk-title"></b><small id="dk-artist"></small><div class="dk-prog"><i id="dk-prog"></i></div></div><span id="dk-pp"></span></div>
+      <div class="dk-osd" id="dk-osd">${icon('volume')}<div class="meter"><i id="dk-vol"></i></div><span id="dk-voln"></span></div>
+      <div class="dk-calc" id="dk-calc"><div class="dk-calc-d">1,234</div><div class="dk-calc-k">${['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '−', '0', ',', '=', '+'].map((x) => `<i>${x}</i>`).join('')}</div></div>
+      <div class="dk-lock" id="dk-lock"><b id="dk-lockt"></b><small>${t('aw.locked')}</small></div><div class="dk-sleep" id="dk-sleep"></div></div>`;
+  }
+  $('#ap-win').innerHTML = `<div class="wt">${icon(app[1])}<span>${t('ap.' + apSel)}</span><i></i><i></i><i></i></div>${body}`;
+  const lock = $('#dk-lock'); if (lock) lock.onclick = () => { AP.desk.locked = false; updWin(); };
+  const sl = $('#dk-sleep'); if (sl) sl.onclick = () => { AP.desk.sleep = false; updWin(); };
+  updWin();
+}
+function awToast(msg) {
+  const el = $('#aw-toast'); if (!el) return;
+  el.textContent = msg; el.classList.add('show'); clearTimeout(awToast.t); awToast.t = setTimeout(() => el.classList.remove('show'), 1500);
+}
+function updWin() {
+  if (apSel === 'lr') {
+    const L = AP.lr, img = $('#lr-img'); if (!img) return;
+    if (img.dataset.p !== String(L.photo)) { img.innerHTML = photoSvg(L.photo); img.dataset.p = L.photo; }
+    const e = (L.exp - 50) / 25, c = (L.con - 50) / 50, s = (L.sha - 50) / 50, tt = (L.tmp - 50) / 50;
+    img.style.filter = `brightness(${(1 + e * 0.3).toFixed(3)}) contrast(${(1 + c * 0.55).toFixed(3)})`;
+    const lift = $('#lr-lift'); lift.style.background = s >= 0 ? '#fff' : '#000'; lift.style.opacity = (Math.abs(s) * 0.5).toFixed(2);
+    const tp = $('#lr-temp'); tp.style.background = tt >= 0 ? '#ff8a2a' : '#2a7dff'; tp.style.opacity = (Math.abs(tt) * 0.5).toFixed(2);
+    for (const k of Object.keys(LRF)) {
+      $('#lrv-' + k).textContent = LRF[k][1](L[k]);
+      const b = $('#lrb-' + k), v = L[k] - 50;
+      b.style.left = (v >= 0 ? 50 : 50 + v) + '%'; b.style.width = Math.abs(v) + '%';
+    }
+    $('#lr-stars').innerHTML = [1, 2, 3, 4, 5].map((n) => `<span class="${n <= L.rate ? 'on' : ''}">★</span>`).join('');
+    $('#lr-flag').innerHTML = L.pick ? `${icon('flag')}<span>${t('a.pick')}</span>` : '';
+    $('#lr-strip').innerHTML = [0, 1, 2].map((n) => `<i class="${n === L.photo ? 'sel' : ''}">${photoSvg(n)}</i>`).join('');
+  } else if (apSel === 'obs') {
+    const O = AP.obs, prev = $('#obs-prev'); if (!prev) return;
+    const sc = SCENES[O.scene];
+    if (prev.dataset.s !== sc) {
+      prev.dataset.s = sc;
+      prev.innerHTML = sc === 'Gameplay'
+        ? `<div class="aw-game mini"><div class="gm-sky"></div><div class="gm-hills"></div><div class="gm-plat" style="left:18%;bottom:34%;width:22%"></div><div class="gm-ground"></div><div class="gm-hero"><i></i><i></i></div></div><div class="obs-cam"><div class="cam-p"></div></div>`
+        : sc === 'Chatting'
+          ? `<div class="obs-cam big"><div class="cam-p"></div></div><div class="obs-lower">${t('aw.streamer')}</div>`
+          : `<div class="obs-brb">${t('sc.BRB')}<small>${t('aw.brb')}</small></div>`;
+    }
+    $('#obs-scenes').innerHTML = SCENES.map((s, i) => `<span class="${i === O.scene ? 'sel' : ''}">${t('sc.' + s)}</span>`).join('');
+    $('#obs-meter').parentElement.classList.toggle('muted', !O.mic);
+    const up = O.live ? fmtTime(Date.now() - O.start) : '';
+    $('#obs-live').innerHTML = O.live ? `<span class="dot live"></span>LIVE ${up} · ${O.viewers} ${t('k.viewers')}` : `<span class="dot"></span>${t('v.offline')}`;
+    $('#obs-dc').innerHTML = `Discord: ${O.discord ? t('v.active') : t('v.muted')}`;
+    $('#obs-chat').innerHTML = O.chat.slice(-7).map(([u, m]) => `<div><b>${u}</b> ${m}</div>`).join('') || `<div class="muted">${t('aw.nochat')}</div>`;
+  } else if (apSel === 'game') {
+    const G = AP.game; if (!$('#gm')) return;
+    $('#gm-deaths').textContent = `${t('a.deaths')}: ${G.deaths}`;
+    $('#gm-vol').style.width = G.vol + '%';
+    $('#gm-mic').innerHTML = icon(G.mic ? 'mic' : 'micoff'); $('#gm-mic').classList.toggle('off', !G.mic);
+    $('#gm').classList.toggle('paused', G.paused);
+  } else {
+    const K = AP.desk; if (!$('#dk-title')) return;
+    $('#dk-title').textContent = TRACKS[K.track][0]; $('#dk-artist').textContent = TRACKS[K.track][1];
+    $('#dk-prog').style.width = K.pos + '%'; $('#dk-pp').innerHTML = icon(K.playing ? 'pause' : 'play');
+    $('#dk-vol').style.width = K.vol + '%'; $('#dk-voln').textContent = K.vol;
+    $('#dk-calc').classList.toggle('show', K.calc);
+    $('#dk-lamp').classList.toggle('show', K.lamp);
+    $('#dk-lock').classList.toggle('show', K.locked);
+    const n = new Date(); $('#dk-lockt').textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}`;
+    $('#dk-sleep').classList.toggle('show', K.sleep);
+  }
+}
+function flashKey(el) { el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 600); }
+
+/* --- phone keys --- */
+function apKeys() {
+  const now = new Date(), clock = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const re = () => { renderAPKeys(); updWin(); };
+  if (apSel === 'lr') {
+    const L = AP.lr, snap = () => { L.hist.push({ exp: L.exp, con: L.con, sha: L.sha, tmp: L.tmp }); if (L.hist.length > 50) L.hist.shift(); };
+    const sliders = Object.keys(LRF).map((k) => ({ hz: k }));
+    return [...sliders,
+      { ic: 'undo', l: t('a.undo'), tap: () => { const h = L.hist.pop(); if (h) Object.assign(L, h); re(); } },
+      { ic: 'star', l: t('a.rate'), tap: () => { L.rate = (L.rate + 1) % 6; re(); } },
+      { ic: 'back', l: t('a.prev'), tap: () => { L.photo = (L.photo + 2) % 3; re(); } },
+      { ic: 'next', l: t('a.nextp'), tap: () => { L.photo = (L.photo + 1) % 3; re(); } },
+      { ic: 'flag', l: t('a.pick'), c: L.pick ? 'k-amber' : '', tap: () => { L.pick = !L.pick; re(); } },
+    ].map((k) => (k.hz ? { ...k, snap } : k));
+  }
+  if (apSel === 'obs') {
+    const O = AP.obs;
+    return [
+      { ic: 'radio', l: O.live ? 'LIVE' : t('k.offline'), c: O.live ? 'k-purple' : '', tap: () => { O.live = !O.live; O.start = Date.now(); O.viewers = O.live ? 3 : 0; if (!O.live) O.chat = []; re(); } },
+      { ic: 'eye', l: String(O.viewers) },
+      { ic: O.mic ? 'mic' : 'micoff', l: O.mic ? t('k.mic') : t('k.muted'), c: O.mic ? 'k-green' : 'k-red', tap: () => { O.mic = !O.mic; re(); } },
+      { ic: 'scissors', l: t('k.clip'), tap: () => { awToast(t('t.clip')); } },
+      { ic: 'bookmark', l: t('k.marker'), tap: () => { awToast(t('t.marker')); } },
+      { ic: 'clapper', l: t('sc.' + SCENES[O.scene]), tap: () => { O.scene = (O.scene + 1) % SCENES.length; re(); } },
+      { ic: O.discord ? 'mic' : 'micoff', l: 'Discord', c: O.discord ? 'k-indigo' : 'k-red', tap: () => { O.discord = !O.discord; re(); } },
+      { txt: O.live ? fmtTime(Date.now() - O.start) : '00:00', l: t('aw.uptime'), id: 'uptime' },
+      { txt: clock },
+    ];
+  }
+  if (apSel === 'game') {
+    const G = AP.game;
+    return [
+      { txt: `${t('a.deaths')}\n${G.deaths}`, c: 'k-orange', tap: () => { G.deaths++; const f = $('#gm-flash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on'); re(); } },
+      { ic: G.mic ? 'mic' : 'micoff', l: 'Discord', c: G.mic ? 'k-green' : 'k-red', tap: () => { G.mic = !G.mic; re(); } },
+      { ic: 'scissors', l: t('k.clip'), tap: () => awToast(t('aw.clipsaved')) },
+      { ic: 'speaker', l: t('a.sound'), tap: () => { const r = $('#gm-rings'); r.classList.remove('on'); void r.offsetWidth; r.classList.add('on'); } },
+      { ic: 'camera', l: t('k.shot'), tap: () => { const f = $('#gm-flash'); f.classList.remove('on', 'white'); void f.offsetWidth; f.classList.add('on', 'white'); awToast(t('t.shot')); } },
+      { vs: 'vol' },
+      { ic: G.paused ? 'play' : 'pause', l: G.paused ? t('k.play') : t('k.pause'), tap: () => { G.paused = !G.paused; re(); } },
+      { txt: clock },
+      { txt: `CPU\n${D.cpu}%`, c: D.cpu > 80 ? 'k-red' : '' },
+    ];
+  }
+  const K = AP.desk;
+  return [
+    { ic: K.playing ? 'pause' : 'play', l: K.playing ? t('k.pause') : t('k.play'), c: K.playing ? 'k-indigo' : '', tap: () => { K.playing = !K.playing; re(); } },
+    { ic: 'next', l: t('a.nextp'), tap: () => { K.track = (K.track + 1) % TRACKS.length; K.pos = 0; re(); } },
+    { vs: 'deskvol' },
+    { ic: 'lock', l: t('a.lock'), tap: () => { K.locked = true; K.calc = false; re(); } },
+    { ic: 'calc', l: t('a.calc'), c: K.calc ? 'k-blue' : '', tap: () => { K.calc = !K.calc; re(); } },
+    { ic: 'moon', l: t('a.sleep'), tap: () => { K.sleep = true; re(); } },
+    { ic: 'bulb', l: t('aw.lamp'), c: K.lamp ? 'k-amber' : '', tap: () => { K.lamp = !K.lamp; re(); } },
+    { txt: '14°', l: t('a.weather') },
+    { txt: clock },
+  ];
+}
+function renderAPKeys() {
+  const g = document.getElementById('ap-grid'); g.innerHTML = '';
+  apKeys().forEach((k) => {
+    let el, opts = {};
+    if (k.hz) {
+      const L = AP.lr, key = k.hz;
+      el = keyEl('slider hz', `<span class="fill" style="width:${L[key]}%"></span><span>${t(LRF[key][0])}</span><span class="sub">${LRF[key][1](L[key])}</span>`);
+      opts.drag = { axis: 'x', start: k.snap, get: () => L[key], set: (v) => { L[key] = v; el.querySelector('.fill').style.width = v + '%'; el.querySelector('.sub').textContent = LRF[key][1](v); updWin(); } };
+      opts.tap = null;
+    } else if (k.vs) {
+      const obj = k.vs === 'vol' ? AP.game : AP.desk;
+      el = keyEl('slider', `<span class="fill" style="height:${obj.vol}%"></span>${icon('volume')}<span class="sub">${obj.vol}%</span>`);
+      opts.drag = { get: () => obj.vol, set: (v) => { obj.vol = v; el.querySelector('.fill').style.height = v + '%'; el.querySelector('.sub').textContent = v + '%'; updWin(); const o = $('#dk-osd'); if (o) { o.classList.add('show'); clearTimeout(renderAPKeys.o); renderAPKeys.o = setTimeout(() => o.classList.remove('show'), 1200); } } };
+    } else if (k.txt !== undefined) {
+      el = keyEl(k.c || '', `<span class="big" style="font-size:16px;white-space:pre-line">${k.txt}</span>${k.l ? `<span class="sub">${k.l}</span>` : ''}`);
+      if (k.id) el.dataset.id = k.id;
+    } else el = keyEl(k.c || '', icon(k.ic) + `<span>${k.l}</span>`);
+    if (!opts.drag) opts.tap = () => { flashKey(el); k.tap && k.tap(); };
+    bindKey(el, opts);
+    g.appendChild(el);
+  });
 }
 function renderAP(animate) {
   const bar = document.getElementById('ap-bar');
   bar.innerHTML = APPS.map(([id, ic]) => `<button aria-pressed="${id === apSel}" data-a="${id}">${icon(ic)}<span>${t('ap.' + id)}</span></button>`).join('');
   bar.querySelectorAll('button').forEach((b) => b.onclick = () => { if (apSel !== b.dataset.a) { apSel = b.dataset.a; renderAP(true); } });
   const app = APPS.find((a) => a[0] === apSel);
-  document.getElementById('ap-win').innerHTML = `<div class="wt">${icon(app[1])}<span>${t('ap.' + apSel)}</span><i></i><i></i><i></i></div><div style="text-align:center"><div class="big-ic">${icon(app[1])}</div><div>${t('ap.win.' + apSel)}</div></div>`;
   document.getElementById('ap-name').textContent = t('p.' + app[2]);
   document.getElementById('ap-auto').textContent = apSel === 'desktop' ? '' : t('ap.auto');
+  buildWin();
+  renderAPKeys();
   const g = document.getElementById('ap-grid');
-  g.innerHTML = '';
-  apKeys(app[2]).forEach((k) => {
-    let el;
-    if (k.c === 'slider-lr') {
-      const pct = 30 + Math.round(Math.random() * 40);
-      el = keyEl('slider', `<span class="fill" style="height:100%;width:${pct}%;right:auto;top:0"></span><span>${k.l}</span><span class="sub">${k.txt}</span>`);
-    } else if (k.txt !== undefined) {
-      el = keyEl(k.c, `<span class="${k.l ? 'sub' : 'big'}" style="${k.l ? '' : 'font-size:15px'};white-space:pre-line">${k.txt}</span>${k.l ? `<span>${k.l}</span>` : ''}`);
-    } else el = keyEl(k.c, icon(k.ic) + `<span>${k.l}</span>`);
-    bindKey(el, { tap: () => { if (k.id === 'deaths') { deaths++; renderAP(); return; } el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 600); } });
-    g.appendChild(el);
-  });
   if (animate) { g.classList.remove('swap'); void g.offsetWidth; g.classList.add('swap'); }
 }
+setInterval(() => {
+  const O = AP.obs;
+  if (O.live) {
+    O.viewers = Math.max(1, O.viewers + Math.round(Math.random() * 3 - 0.7));
+    if (Math.random() < 0.45) O.chat.push(CHAT[Math.floor(Math.random() * CHAT.length)]);
+    if (O.chat.length > 20) O.chat.shift();
+  }
+  if (AP.desk.playing) { AP.desk.pos += 2; if (AP.desk.pos > 100) { AP.desk.pos = 0; AP.desk.track = (AP.desk.track + 1) % TRACKS.length; } }
+  if (apSel === 'obs' || apSel === 'desktop') updWin();
+  if (apSel === 'obs') {
+    const u = document.querySelector('#ap-grid [data-id="uptime"] .big'); if (u && O.live) u.textContent = fmtTime(Date.now() - O.start);
+    const v = document.querySelectorAll('#ap-grid .key')[1]; if (v) v.querySelector('span').textContent = O.viewers;
+  }
+}, 1000);
 
 /* ---------- setup ---------- */
 let suSel = 0, suOS = /android/i.test(navigator.userAgent) ? 'android' : 'ios';
